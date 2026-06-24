@@ -1,0 +1,136 @@
+/* XBD Collective — Styling System */
+
+/* ==========================================
+   1. DESIGN TOKENS & VARIABLES
+   ========================================== */
+:root {
+  /* Color Palette */
+  --color-charcoal: #121212;     /* Matte dark background */
+  --color-limestone: #F5F2EB;    /* Warm stone background */
+  --color-champagne: #D4C5B3;    /* Utility/Metadata light gold */
+  --color-white: #FFFFFF;
+  
+  /* Typography */
+  --font-display: 'Playfair Display', serif;
+  --font-sans: 'Montserrat', sans-serif;
+  
+  /* Transitions */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================
+   2. GLOBAL RESET & BASE STYLES
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-charcoal);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  overflow: hidden; /* Prevent scrolling during loading */
+}
+
+/* ==========================================
+   3. SECTION 1: THE PRELOADER OVERLAY
+   ========================================== */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-charcoal);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 320px; /* Bounding box for visual alignment */
+  text-align: center;
+}
+
+/* Logo Symbol */
+.preloader-symbol {
+  width: 140px;
+  height: auto;
+  margin-bottom: 25px;
+}
+
+.symbol-path {
+  fill: rgba(255, 255, 255, 0); /* Invisible fill initially */
+  stroke: var(--color-white);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.8s var(--ease-premium);
+}
+
+/* Primary Text ("X B D") */
+.primary-brand-text {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--color-white);
+  letter-spacing: 0.6em;
+  margin-right: -0.6em; /* Offsets the right margin tracking for true center */
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+/* Secondary Text ("COLLECTIVE") */
+.secondary-brand-text {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--color-champagne);
+  letter-spacing: 1.05em;
+  margin-right: -1.05em; /* Offsets tracking for true center */
+  margin-top: 10px;
+  opacity: 0;
+}
+
+/* ==========================================
+   4. MAIN WEBSITE CONTENT (DEMO AREA)
+   ========================================== */
+#main-content {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-limestone);
+  color: var(--color-charcoal);
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 1.2s var(--ease-premium), visibility 1.2s var(--ease-premium);
+}
+
+.viewport-section {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.center-flex {
+  justify-content: center;
+  align-items: center;
+}
+
+.demo-heading {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
