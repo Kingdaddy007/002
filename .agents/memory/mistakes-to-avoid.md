@@ -18,3 +18,10 @@
 ### M4 — Do Not Over-Rely on AI Research for Live Social Data
 **What happened:** AI research for Instagram activity, follower quality, and post recency is unreliable without a live browser session.
 **Fix going forward:** For Instagram research, use Chrome DevTools MCP (live browser) or user-provided screen recordings. Do not trust AI-generated Instagram activity data without real-time verification.
+
+
+## Session: 2026-06-24
+- **Mistake:** Offering pre-packaged 'Options' (Option 1, Option 2, Option 3) to the user for design decisions.
+- **Correction:** The user hates this approach. Do NOT ask them to pick from a menu of abstract concepts. Instead, just write the code for the first section, let them see it live in the browser, and then iterate on it 'gradual, gradual'.
+- **Mistake:** Focusing only on motion and layout from reference sites while ignoring the words.
+- **Correction:** The user demands equal focus on the copywriting and expert positioning of the reference brands.

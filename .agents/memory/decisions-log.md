@@ -30,3 +30,13 @@
 - User: Screen record Instagram → send to Gemini with brand-strategy skill as system prompt
 - Anti-Gravity: Chrome DevTools MCP on xbdesign.com for site audit (technical gaps, sitemap dates, structure)
 - Combine both outputs to produce a single brand diagnostic document
+
+
+## Session: 2026-06-24
+- **Workflow Paradigm:** We abandoned the 'give 3 predefined options' paradigm. The user explicitly requires co-creation on the fly. The next agent must code/build components directly and iterate with the user visually.
+- **Hero & Opening Sequence:** We are rejecting the standard 'Reality Maker' wipe or standard architectural zoom. The user wants to invent a vastly superior, custom opening sequence combining the Entry and Hero section.
+- **Copywriting Primacy:** The next agent MUST deeply analyze the copywriting and positioning of the references (AIR, Haven, Zorgen, Normal is Boring), not just their layout. Copywriting is the missing key.
+- **Technical Progress:** 
+  - The 	argeted_scrape.js script is running to extract high-res images from xbdesign.com. 
+  - A Next.js app has been initialized in web/ with GSAP and Tailwind, ready for the next agent to use for live iteration.
+  - The site structure (contexts/spatial-story.md) is LOCKED.
