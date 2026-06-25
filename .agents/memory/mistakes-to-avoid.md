@@ -18,3 +18,10 @@
 ### M4 — Do Not Over-Rely on AI Research for Live Social Data
 **What happened:** AI research for Instagram activity, follower quality, and post recency is unreliable without a live browser session.
 **Fix going forward:** For Instagram research, use Chrome DevTools MCP (live browser) or user-provided screen recordings. Do not trust AI-generated Instagram activity data without real-time verification.
+
+## Session: 2026-06-25
+
+### M5 — Morphing Between Geometrically Discrepant Paths
+**What happened:** Morphing between a generic horizontal infinity sign and the custom, asymmetric XBD monogram caused a visual jump/"zoom back" effect during the transition.
+**Fix going forward:** Build visual drawings using trace segments matching the final path coordinates exactly. Do not morph from mismatched geometric placeholders.
+

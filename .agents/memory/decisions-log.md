@@ -30,3 +30,9 @@
 - User: Screen record Instagram → send to Gemini with brand-strategy skill as system prompt
 - Anti-Gravity: Chrome DevTools MCP on xbdesign.com for site audit (technical gaps, sitemap dates, structure)
 - Combine both outputs to produce a single brand diagnostic document
+
+## Session: 2026-06-25
+
+### D7 — Refined Preloader Outline Geometry
+**Decision:** Remove morphing from horizontal infinity loops to resolve the visual "zoom back" shift. Recreate the precise architectural grid lines and loops from the official brand intro: double diagonals bottom-left to top-right, single diagonal top-left to bottom-right, drafting shooter lines (three leftward, one bottom-right) scaling out and collapsing into center intersection `(3810.11px, 182.17px)`, and horizontal `clip-path` reveal for `"COLLECTIVE"`.
+

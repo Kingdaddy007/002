@@ -28,3 +28,12 @@
 - Track A: User screen-records Instagram → sends to Gemini with brand-strategy skill as system prompt → Gemini returns structured brand read
 - Track B: Anti-Gravity uses Chrome DevTools MCP on their website → inspects sitemap dates, page structure, technical gaps
 - Combine both tracks into a single brand-diagnostic document before proceeding to spatial concept
+
+## Session: 2026-06-25
+
+### P6 — Precise SVG Tracing Instead of Rough Morphing
+**Pattern:** For complex geometric brand marks, trace their exact skeletons using single-stroke paths matching the geometry of the final fill path. Do not use generic placeholders (e.g. standard infinity loops) to morph into custom asymmetric curves, as it introduces layout shifts ("zoom back").
+
+### P7 — Center-Point GSAP Scaling & Clip-Path Reveals
+**Pattern:** When animating construction lines shooting/collapsing, set `transformOrigin: "pXpx pYpx"` matching the center intersection. Use CSS `clip-path: inset(0 50%)` to reveal text horizontally from the center outward.
+

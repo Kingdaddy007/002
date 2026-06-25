@@ -1,48 +1,50 @@
-{
-  "workflow": "XBD Collective — Cinematic Concept Pitch",
-  "current_phase": "Phase 2 — Spatial Concept Direction",
-  "completion_pct": 20,
-  "last_updated": "2026-06-22T17:08:00+01:00",
+ï»¿{
+  "workflow": "XBD Collective - Cinematic Concept Pitch",
+  "current_phase": "Phase 2 - Spatial Concept Direction (Preloader Refinement)",
+  "completion_pct": 30,
+  "last_updated": "2026-06-25T02:07:00+01:00",
   "target_client": {
     "studio_name": "XBD Collective",
-    "founder": "Ellen Søhoel",
+    "founder": "Ellen Sohoel",
     "country": "UAE",
     "city": "Dubai",
     "segment": "Luxury Residential Interior Design & Architecture",
     "instagram": "https://www.instagram.com/xbdcollective/",
     "website": "https://xbdesign.com",
-    "website_status": "Static WordPress — Slider Revolution + Owl Carousel + Swiper.js. Zero cinematic motion.",
-    "prospect_score": "83/100 — Elite Tier",
+    "website_status": "Static WordPress - Slider Revolution + Owl Carousel + Swiper.js. Zero cinematic motion.",
+    "prospect_score": "83/100 - Elite Tier",
     "main_gap": "Tier 1 commissions (Rixos 76-storey, Bvlgari Villa, W Residences, St. Regis) presented in a 2014 template"
   },
   "sprint_goal": "Build a cinematic homepage concept as an open-book pitch. Trigger an Instagram outreach conversation.",
   "deliverables": [
     "DONE: Brand diagnostic document",
+    "DONE: Preloader animation refined frame-by-frame to match official asset",
     "Three distinct spatial concept directions (hero event, loading sequence, section flow)",
     "Homepage section map",
     "One selected concept direction developed into a buildable spatial concept"
   ],
   "phase_1_summary": {
     "status": "LOCKED",
-    "best_source": "Comet — 9.5/10",
+    "best_source": "Comet - 9.5/10",
     "key_findings": [
       "Gap: Tier 1 commissions, Tier 3 digital presentation",
       "Tech: WordPress + three deprecated carousel libraries",
       "Critical leaks: broken awards page 404, blank contact page, E8 footer credit",
-      "Hidden asset: Render vs. Reality Reel series — must become core brand pillar",
+      "Hidden asset: Render vs. Reality Reel series - must become core brand pillar",
       "Taste world: Late-Modernist Maximalism with Editorial Restraint",
       "Enemy: The Dubai Architecture Portfolio Site genre",
       "Palette: #F2EDE6 + #1C1C1C + dark teal accent",
-      "Founder Ellen Sohoel buried — must lead with spatial philosophy"
+      "Founder Ellen Sohoel buried - must lead with spatial philosophy"
     ]
   },
-  "notes": "Phase 1 LOCKED. Phase 2 begins. Skill chain: spatial-experience-design next. Key positioning anchor: Reality-Makers. Render vs. Reality is the brand pillar.",
+  "notes": "Preloader refined: diagonals, tracing loops, drafting shooters, center lines, and clip-path typography reveal. All code staged, committed, and pushed to branch `ai-2-vision`. Next session: User will preview the preloader locally to identify any layout or timing errors, then we will begin iterating on the Hero section, integrating copywriting from transcripts, and adding custom visualizations for Awards and News.",
   "key_decisions": [
     "XBD Collective sole target",
     "Open-book pitch concept only",
-    "Brand diagnosis locked — do not revisit",
+    "Brand diagnosis locked - do not revisit",
     "Motion posture: Calm. No hijacking. Fade-in + gentle parallax.",
-    "Signature claim: Reality-Makers — from structural frame to final object"
+    "Signature claim: Reality-Makers - from structural frame to final object",
+    "Preloader refined: Removed horizontal loop morph to fix 'zoom back' shift. Traced exact skeleton, center pivot scaling (3810.11px, 182.17px), center-out clip-path for 'COLLECTIVE'."
   ],
   "blockers": [],
   "skill_chain": [
