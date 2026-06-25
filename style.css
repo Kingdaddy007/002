@@ -74,7 +74,13 @@ html, body {
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: fill 0.8s var(--ease-premium);
+}
+
+.diag-line {
+  stroke: var(--color-white);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0;
 }
 
 /* Primary Text ("X B D") */
