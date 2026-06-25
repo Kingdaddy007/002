@@ -1,94 +1,73 @@
 document.addEventListener("DOMContentLoaded", () => {
   
-  // 1. Target the SVG elements
+  const infinityPath = document.querySelector(".infinity-path");
   const symbolPath = document.querySelector(".symbol-path");
-  const line1 = document.querySelector(".line-1");
-  const line2 = document.querySelector(".line-2");
   
-  if (symbolPath && line1 && line2) {
-    // 2. Measure the exact stroke lengths for animation
-    const pathLength = symbolPath.getTotalLength();
-    const len1 = line1.getTotalLength();
-    const len2 = line2.getTotalLength();
+  if (infinityPath && symbolPath) {
+    // 1. Measure stroke lengths
+    const lenInfinity = infinityPath.getTotalLength();
+    const lenSymbol = symbolPath.getTotalLength();
     
-    // 3. Configure initial stroke dash properties (hidden at start)
-    symbolPath.style.strokeDasharray = pathLength;
-    symbolPath.style.strokeDashoffset = pathLength;
+    // 2. Initial state (hidden stroke paths)
+    infinityPath.style.strokeDasharray = lenInfinity;
+    infinityPath.style.strokeDashoffset = lenInfinity;
     
-    line1.style.strokeDasharray = len1;
-    line1.style.strokeDashoffset = len1;
+    symbolPath.style.strokeDasharray = lenSymbol;
+    symbolPath.style.strokeDashoffset = lenSymbol;
     
-    line2.style.strokeDasharray = len2;
-    line2.style.strokeDashoffset = len2;
-    
-    // 4. Create the main GSAP preloader timeline
+    // 3. Build GSAP Timeline
     const tl = gsap.timeline({
       delay: 0.5
     });
     
-    // Step 1: Make diagonal lines visible and draw them sequentially
-    tl.set(".diag-line", { opacity: 1 })
-    
-    // Draw first diagonal line
-    .to(line1, {
+    // Step 1: Draw the starting horizontal infinity symbol
+    tl.set(infinityPath, { opacity: 1 })
+    .to(infinityPath, {
       strokeDashoffset: 0,
-      duration: 0.6,
+      duration: 1.4,
       ease: "power2.inOut"
     })
     
-    // Draw second diagonal line (forming the "X" cross)
-    .to(line2, {
-      strokeDashoffset: 0,
-      duration: 0.6,
+    // Step 2: Morph/Dissolve starting loop into the complex monogram
+    // The starting loop dissolves (fades & strokes out) while the monogram draws in
+    .to(infinityPath, {
+      strokeDashoffset: lenInfinity,
+      opacity: 0,
+      duration: 1.2,
       ease: "power2.inOut"
-    }, "-=0.3") // 0.3s overlap for fluid tracing
-    
-    // Step 2: Trace the curved infinity loops
+    })
     .to(symbolPath, {
       strokeDashoffset: 0,
       duration: 1.5,
       ease: "power2.inOut"
-    }, "-=0.2")
+    }, "-=1.2") // Overlaps exactly with the dissolve of the first shape
     
-    // Step 3: Contract the diagonal lines back into the center point
-    // Intersection point is exactly at (3810.11px, 182.17px) in the group space
-    .to(".diag-line", {
-      scale: 0,
-      transformOrigin: "3810.11px 182.17px",
-      duration: 0.6,
-      ease: "power2.in"
-    }, "-=0.8")
-    
-    // Step 4: Fill the loop symbol with solid white simultaneously
+    // Step 3: Solid white fill for the finished monogram
     .to(symbolPath, {
       fill: "rgba(255, 255, 255, 1)",
       duration: 0.8,
       ease: "power1.inOut"
-    }, "-=0.6")
+    }, "-=0.5")
     
-    // Step 5: Fade and slide up "X B D" text
+    // Step 4: Display typography reveals
     .to(".primary-brand-text", {
       opacity: 1,
       y: 0,
       duration: 0.8,
       ease: "power3.out"
     }, "-=0.4")
-    
-    // Step 6: Fade in the geometric "COLLECTIVE" text
     .to(".secondary-brand-text", {
       opacity: 1,
       duration: 0.8,
       ease: "power1.inOut"
     }, "-=0.3")
     
-    // Step 7: Pause, then fade out the preloader overlay
+    // Step 5: Fade out the preloader overlay to show page content
     .to("#preloader", {
       opacity: 0,
       duration: 1.0,
       ease: "power3.inOut"
     }, "+=1.0")
-    
-    // Step 8: Reveal the homepage content
     .to("#main-content", {
       opacity: 1,
       visibility: "visible",
