@@ -52,13 +52,39 @@ html, body {
   z-index: 9999;
 }
 
+/* Twilight Dubai Skyline Background (crossfades to black) */
+.preloader-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1600') no-repeat center center;
+  background-size: cover;
+  z-index: 1;
+  opacity: 1;
+}
+
+/* Semi-transparent dark overlay to keep the twilight background somber and luxurious */
+.preloader-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 18, 18, 0.45);
+}
+
 .preloader-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 320px; /* Bounding box for visual alignment */
   text-align: center;
+  z-index: 2; /* Sits above the background overlay */
 }
 
 /* Logo Symbol */
@@ -68,20 +94,33 @@ html, body {
   margin-bottom: 25px;
 }
 
+/* Final clean filled monogram - invisible at start */
 .symbol-path {
-  fill: rgba(255, 255, 255, 0); /* Invisible fill initially */
-  stroke: var(--color-white);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  fill: rgba(255, 255, 255, 0);
+  opacity: 0;
 }
 
-.infinity-path {
+/* Architectural diagonal construction lines */
+.diag-line {
   stroke: var(--color-white);
-  stroke-width: 1.5;
+  stroke-width: 0.8;
+  opacity: 0;
+}
+
+/* Shooting drafting alignment axes */
+.draft-line {
+  stroke: var(--color-champagne);
+  stroke-width: 0.6;
+  opacity: 0;
+}
+
+/* Precise thin trace paths representing architectural blueprint tracing loops */
+.trace-path {
+  fill: none;
+  stroke: var(--color-white);
+  stroke-width: 1.0;
   stroke-linecap: round;
   stroke-linejoin: round;
-  fill: rgba(255, 255, 255, 0);
   opacity: 0;
 }
 
@@ -97,6 +136,17 @@ html, body {
   transform: translateY(15px);
 }
 
+/* Divider Line */
+.divider-line {
+  width: 120px;
+  height: 0.8px;
+  background-color: var(--color-champagne);
+  margin-top: 14px;
+  margin-bottom: 12px;
+  opacity: 0;
+  transform: scaleX(0);
+}
+
 /* Secondary Text ("COLLECTIVE") */
 .secondary-brand-text {
   font-family: var(--font-sans);
@@ -105,8 +155,8 @@ html, body {
   color: var(--color-champagne);
   letter-spacing: 1.05em;
   margin-right: -1.05em; /* Offsets tracking for true center */
-  margin-top: 10px;
   opacity: 0;
+  clip-path: inset(0 50%); /* Enables mask expansion from the center outwards */
 }
 
 /* ==========================================
