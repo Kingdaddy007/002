@@ -10,11 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const draft3 = document.querySelector(".draft-3");
   const draft4 = document.querySelector(".draft-4");
   
-  const loopLeft = document.querySelector(".loop-left");
-  const loopRight = document.querySelector(".loop-right");
-  const centerVert = document.querySelector(".center-vert");
-  const leftHoriz = document.querySelector(".left-horiz");
-  
   const symbolPath = document.querySelector(".symbol-path");
   
   // Pivot point: coordinates of the center intersection inside SVG space
@@ -39,17 +34,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const lenD3 = preparePath(draft3);
   const lenD4 = preparePath(draft4);
   
-  const lenLoopL = preparePath(loopLeft);
-  const lenLoopR = preparePath(loopRight);
-  const lenVert = preparePath(centerVert);
-  const lenHoriz = preparePath(leftHoriz);
+  const lenSymbol = preparePath(symbolPath);
 
   // Initial scales and states
   gsap.set([diagLine1, diagLine2a, diagLine2b], { transformOrigin: `${pivotX}px ${pivotY}px` });
   gsap.set([draft1, draft2, draft3, draft4], { transformOrigin: `${pivotX}px ${pivotY}px` });
   
   // Set starting values
-  gsap.set([diagLine1, diagLine2a, diagLine2b, draft1, draft2, draft3, draft4, loopLeft, loopRight, centerVert, leftHoriz], { opacity: 0 });
+  gsap.set([diagLine1, diagLine2a, diagLine2b, draft1, draft2, draft3, draft4], { opacity: 0 });
+  gsap.set(symbolPath, { fill: "rgba(255, 255, 255, 0)", opacity: 0 });
 
   // 3. Build GSAP Timeline
   const tl = gsap.timeline({
@@ -71,11 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
     ease: "power3.out"
   }, "-=1.0")
 
-  // Step 3: Loops begin tracing from center (Frame 6)
-  .set([loopLeft, loopRight], { opacity: 1 }, "-=0.3")
-  .to([loopLeft, loopRight], {
+  // Step 3: Official monogram loop outline begins tracing (Frame 6)
+  .set(symbolPath, { opacity: 1 }, "-=0.3")
+  .to(symbolPath, {
     strokeDashoffset: 0,
-    duration: 1.4,
+    duration: 1.6,
     ease: "power2.inOut"
   }, "-=0.3")
 
@@ -84,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     scale: 0,
     duration: 0.8,
     ease: "power3.in"
-  }, "-=1.0")
+  }, "-=1.2")
 
   // Step 5: Horizontal drafting lines shoot out from center left/bottom-right
   .set([draft1, draft2, draft3, draft4], { opacity: 1 }, "-=0.2")
@@ -101,34 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
     ease: "power2.in"
   })
 
-  // Step 7: Draw center vertical and left horizontal segments
-  .set([centerVert, leftHoriz], { opacity: 1 })
-  .to([centerVert, leftHoriz], {
-    strokeDashoffset: 0,
+  // Step 7: Smoothly fade in the solid filled monogram (no layout jump/shifting)
+  .to(symbolPath, {
+    fill: "rgba(255, 255, 255, 1)",
     duration: 0.6,
     ease: "power1.inOut"
-  }, "-=0.2")
+  }, "-=0.3")
 
-  // Step 8: Fade in the solid filled monogram and hide trace lines (no layout jump/shifting)
-  .to(symbolPath, {
-    opacity: 1,
-    duration: 0.5,
-    ease: "power1.inOut"
-  })
-  .to([loopLeft, loopRight, centerVert, leftHoriz], {
-    opacity: 0,
-    duration: 0.1
-  }, "-=0.4")
-
-  // Step 9: Show "X B D" directly below symbol
+  // Step 8: Show "X B D" directly below symbol
   .to(".primary-brand-text", {
     opacity: 1,
     y: 0,
     duration: 0.8,
     ease: "power3.out"
-  }, "+=0.2")
+  }, "-=0.1")
 
-  // Step 10: Horizontal divider line scales outwards from center
+  // Step 9: Horizontal divider line scales outwards from center
   .to(".divider-line", {
     opacity: 1,
     scaleX: 1,
@@ -136,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ease: "power2.inOut"
   }, "-=0.2")
 
-  // Step 11: "COLLECTIVE" is revealed from center outwards
+  // Step 10: "COLLECTIVE" is revealed from center outwards
   .to(".secondary-brand-text", {
     opacity: 1,
     clipPath: "inset(0 0%)",
@@ -144,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ease: "power2.out"
   }, "-=0.1")
 
-  // Step 12: Palate cleanser finish: Fade out the preloader to reveal page
+  // Step 11: Palate cleanser finish: Fade out the preloader to reveal page
   .to("#preloader", {
     opacity: 0,
     duration: 0.8,
