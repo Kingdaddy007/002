@@ -25,3 +25,12 @@
 **What happened:** Morphing between a generic horizontal infinity sign and the custom, asymmetric XBD monogram caused a visual jump/"zoom back" effect during the transition.
 **Fix going forward:** Build visual drawings using trace segments matching the final path coordinates exactly. Do not morph from mismatched geometric placeholders.
 
+### M6 — WebGL Canvas Covering Lower Z-index Elements
+**What happened:** Setting target glass elements' z-indices lower than the maximum z-index of other target elements causes the WebGL canvas (rendered globally at `maxZ - 1`) to cover and obscure their content/text completely.
+**Fix going forward:** Ensure all WebGL glass lens elements have the same high z-index stacking context (e.g. `z-index: 1000`) and structure their inner text wrappers at a higher relative index (e.g. `z-index: 5` within the container).
+
+### M7 — Browser Caching on Local Server Development
+**What happened:** Running `http-server` with default caching (3600 seconds) causes the browser to stubbornly load old stylesheets, images, and HTML, masking layout edits.
+**Fix going forward:** Always run the development server with caching disabled (`-c-1`) and use query parameter versions (e.g. `style.css?v=2`) to bust browser cache when changing styles.
+
+

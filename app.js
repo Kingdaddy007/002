@@ -1,146 +1,435 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
-  // Select drawing paths
-  const diagLine1 = document.querySelector(".line-1");
-  const diagLine2a = document.querySelector(".line-2a");
-  const diagLine2b = document.querySelector(".line-2b");
-  
-  const draft1 = document.querySelector(".draft-1");
-  const draft2 = document.querySelector(".draft-2");
-  const draft3 = document.querySelector(".draft-3");
-  const draft4 = document.querySelector(".draft-4");
-  
-  const symbolPath = document.querySelector(".symbol-path");
-  
-  // Pivot point: coordinates of the center intersection inside SVG space
-  const pivotX = 3810.11;
-  const pivotY = 182.17;
 
-  // Set line-dash arrays and offsets for drawing animations
-  const preparePath = (el) => {
-    if (!el) return 0;
-    const len = el.getTotalLength ? el.getTotalLength() : (el.tagName === "line" ? Math.sqrt(Math.pow(el.x2.baseVal.value - el.x1.baseVal.value, 2) + Math.pow(el.y2.baseVal.value - el.y1.baseVal.value, 2)) : 500);
-    el.style.strokeDasharray = len;
-    el.style.strokeDashoffset = len;
-    return len;
-  };
+  // Bypass preloader immediately as requested
+  const mainContent = document.getElementById("main-content");
+  if (mainContent) {
+    mainContent.style.opacity = "1";
+    mainContent.style.visibility = "visible";
+  }
+  document.body.style.overflow = "auto";
+  document.documentElement.style.overflow = "auto";
 
-  const lenL1 = preparePath(diagLine1);
-  const lenL2a = preparePath(diagLine2a);
-  const lenL2b = preparePath(diagLine2b);
-  
-  const lenD1 = preparePath(draft1);
-  const lenD2 = preparePath(draft2);
-  const lenD3 = preparePath(draft3);
-  const lenD4 = preparePath(draft4);
-  
-  const lenSymbol = preparePath(symbolPath);
+  // Initialize header reveal
+  gsap.set("#main-header", { opacity: 1, y: 0 });
 
-  // Initial scales and states
-  gsap.set([diagLine1, diagLine2a, diagLine2b], { transformOrigin: `${pivotX}px ${pivotY}px` });
-  gsap.set([draft1, draft2, draft3, draft4], { transformOrigin: `${pivotX}px ${pivotY}px` });
-  
-  // Set starting values
-  gsap.set([diagLine1, diagLine2a, diagLine2b, draft1, draft2, draft3, draft4], { opacity: 0 });
-  gsap.set(symbolPath, { fill: "rgba(255, 255, 255, 0)", opacity: 0 });
+  // Initialize triptych pane states
+  gsap.set(".pane-card", { opacity: 1, y: 0 });
 
-  // 3. Build GSAP Timeline
-  const tl = gsap.timeline({
-    delay: 0.5
-  });
+  // Initialize interactive systems
+  initTriptychDrawer();
+  initScrollChoreography();
+  initLiquidGL();
 
-  // Step 1: Twilight backdrop slowly fades/crossfades to black background
-  tl.to(".preloader-bg", {
-    opacity: 0,
-    duration: 2.2,
-    ease: "power2.inOut"
-  })
+  // ==========================================
+  // TRIPTYCH DRAWER click-EXPANSION SYSTEM
+  // ==========================================
+  function initTriptychDrawer() {
+    const panes = document.querySelectorAll(".triptych-pane");
+    let activeDiscipline = null;
+    let isTransitioning = false;
 
-  // Step 2: Diagonal lines start forming from center intersection (Frame 1-6)
-  .set([diagLine1, diagLine2a, diagLine2b], { opacity: 1 }, "-=1.0")
-  .to([diagLine1, diagLine2a, diagLine2b], {
-    strokeDashoffset: 0,
-    duration: 1.2,
-    ease: "power3.out"
-  }, "-=1.0")
+    panes.forEach(pane => {
+      const disciplineName = pane.getAttribute("data-discipline");
+      const card = pane.querySelector(".pane-card");
+      const drawer = pane.querySelector(".drawer-content");
+      const closeBtn = pane.querySelector(".drawer-close-btn");
 
-  // Step 3: Official monogram loop outline begins tracing (Frame 6)
-  .set(symbolPath, { opacity: 1 }, "-=0.3")
-  .to(symbolPath, {
-    strokeDashoffset: 0,
-    duration: 1.6,
-    ease: "power2.inOut"
-  }, "-=0.3")
+      // Pane click expands the drawer
+      pane.addEventListener("click", (e) => {
+        // Prevent click if we are already expanded, transitioning, or if clicking close/nav buttons
+        if (activeDiscipline || isTransitioning || e.target.closest(".drawer-close-btn") || e.target.closest(".drawer-edge-nav")) {
+          return;
+        }
+        expandPane(pane);
+      });
 
-  // Step 4: Diagonals collapse/retract back to the center simultaneously (Frame 7-8)
-  .to([diagLine1, diagLine2a, diagLine2b], {
-    scale: 0,
-    duration: 0.8,
-    ease: "power3.in"
-  }, "-=1.2")
+      // Close button handler
+      if (closeBtn) {
+        closeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          collapsePane(pane);
+        });
+      }
 
-  // Step 5: Horizontal drafting lines shoot out from center left/bottom-right
-  .set([draft1, draft2, draft3, draft4], { opacity: 1 }, "-=0.2")
-  .to([draft1, draft2, draft3, draft4], {
-    strokeDashoffset: 0,
-    duration: 0.5,
-    ease: "power2.out"
-  }, "-=0.2")
+      // Edge prev/next navigation button click handlers
+      const edgeNavLinks = pane.querySelectorAll(".edge-nav-link");
+      edgeNavLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const targetDiscipline = link.getAttribute("data-target");
+          if (targetDiscipline) {
+            transitionToPane(targetDiscipline);
+          }
+        });
+      });
+    });
 
-  // Step 6: Drafting lines retract (collapse) back into the center
-  .to([draft1, draft2, draft3, draft4], {
-    scale: 0,
-    duration: 0.5,
-    ease: "power2.in"
-  })
+    // Expand pane function
+    function expandPane(targetPane) {
+      isTransitioning = true;
+      activeDiscipline = targetPane.getAttribute("data-discipline");
+      
+      // Lock scroll while drawer is open
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
 
-  // Step 7: Smoothly fade in the solid filled monogram (no layout jump/shifting)
-  .to(symbolPath, {
-    fill: "rgba(255, 255, 255, 1)",
-    duration: 0.6,
-    ease: "power1.inOut"
-  }, "-=0.3")
+      const otherPanes = Array.from(panes).filter(p => p !== targetPane);
+      const card = targetPane.querySelector(".pane-card");
+      const drawer = targetPane.querySelector(".drawer-content");
 
-  // Step 8: Show "X B D" directly below symbol
-  .to(".primary-brand-text", {
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  }, "-=0.1")
+      // Hide all pane title cards and fade backgrounds
+      gsap.to(".pane-card", { opacity: 0, y: -20, duration: 0.4 });
+      
+      const tl = gsap.timeline({
+        onComplete: () => {
+          isTransitioning = false;
+        }
+      });
 
-  // Step 9: Horizontal divider line scales outwards from center
-  .to(".divider-line", {
-    opacity: 1,
-    scaleX: 1,
-    duration: 0.6,
-    ease: "power2.inOut"
-  }, "-=0.2")
-
-  // Step 10: "COLLECTIVE" is revealed from center outwards
-  .to(".secondary-brand-text", {
-    opacity: 1,
-    clipPath: "inset(0 0%)",
-    duration: 0.8,
-    ease: "power2.out"
-  }, "-=0.1")
-
-  // Step 11: Palate cleanser finish: Fade out the preloader to reveal page
-  .to("#preloader", {
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.inOut"
-  }, "+=1.2")
-  
-  .to("#main-content", {
-    opacity: 1,
-    visibility: "visible",
-    duration: 1.0,
-    ease: "power2.out",
-    onComplete: () => {
-      document.getElementById("preloader").style.display = "none";
-      document.body.style.overflow = "auto";
+      // 1. Animate column widths (Target pane to 100%, others to 0%)
+      tl.to(targetPane, {
+        flex: "1 0 100%",
+        duration: 0.8,
+        ease: "power4.inOut"
+      }, 0)
+      .to(otherPanes, {
+        flex: "0 0 0%",
+        duration: 0.8,
+        ease: "power4.inOut"
+      }, 0)
+      
+      // 2. Open drawer content overlay
+      .set(drawer, { display: "block" }, 0.4)
+      .to(drawer, {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out"
+      }, 0.5)
+      
+      // 3. Stagger reveal inner text/elements
+      .fromTo(drawer.querySelectorAll(".drawer-left-col > *, .showcase-card, .drawer-edge-nav"), {
+        opacity: 0,
+        y: 30
+      }, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        duration: 0.6,
+        ease: "power3.out"
+      }, 0.6);
     }
-  }, "-=0.8");
+
+    // Collapse pane function
+    function collapsePane(targetPane) {
+      isTransitioning = true;
+      const otherPanes = Array.from(panes).filter(p => p !== targetPane);
+      const drawer = targetPane.querySelector(".drawer-content");
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          gsap.set(drawer, { display: "none" });
+          activeDiscipline = null;
+          isTransitioning = false;
+          // Unlock scroll
+          document.body.style.overflow = "auto";
+          document.documentElement.style.overflow = "auto";
+        }
+      });
+
+      // Fade out drawer content
+      tl.to(drawer, {
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.in"
+      }, 0)
+      // Restore columns to equal widths
+      .to(panes, {
+        flex: "1 1 0%",
+        duration: 0.8,
+        ease: "power3.inOut"
+      }, 0.2)
+      // Fade title cards back in
+      .to(".pane-card", {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power2.out"
+      }, 0.6);
+    }
+
+    // Transition directly from one open drawer to another
+    function transitionToPane(targetDisciplineName) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+
+      const currentPane = document.querySelector(`.triptych-pane[data-discipline="${activeDiscipline}"]`);
+      const targetPane = document.querySelector(`.triptych-pane[data-discipline="${targetDisciplineName}"]`);
+      const currentDrawer = currentPane.querySelector(".drawer-content");
+      const targetDrawer = targetPane.querySelector(".drawer-content");
+      const otherPanes = Array.from(panes).filter(p => p !== targetPane);
+
+      activeDiscipline = targetDisciplineName;
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          isTransitioning = false;
+        }
+      });
+
+      // 1. Fade out current drawer content
+      tl.to(currentDrawer, {
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: () => {
+          currentDrawer.style.display = "none";
+        }
+      }, 0)
+      
+      // 2. Animate column widths (swap 100% and 0% properties)
+      .to(targetPane, {
+        flex: "1 0 100%",
+        duration: 0.8,
+        ease: "power4.inOut"
+      }, 0.3)
+      .to(otherPanes, {
+        flex: "0 0 0%",
+        duration: 0.8,
+        ease: "power4.inOut"
+      }, 0.3)
+      
+      // 3. Open target drawer content overlay
+      .set(targetDrawer, { display: "block" }, 0.7)
+      .to(targetDrawer, {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out"
+      }, 0.8)
+      
+      // 4. Stagger reveal target content details
+      .fromTo(targetDrawer.querySelectorAll(".drawer-left-col > *, .showcase-card, .drawer-edge-nav"), {
+        opacity: 0,
+        y: 30
+      }, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.06,
+        duration: 0.6,
+        ease: "power3.out"
+      }, 0.9);
+    }
+
+    // Static Hover Zoom & Parallax listener (active only when NO drawer is open)
+    panes.forEach(pane => {
+      pane.addEventListener("mouseenter", () => {
+        if (activeDiscipline) return;
+        gsap.to(pane.querySelector(".pane-img"), {
+          scale: 1.08,
+          duration: 0.8,
+          ease: "power2.out"
+        });
+        gsap.to(pane.querySelector(".pane-card"), {
+          y: -12,
+          borderColor: "rgba(0, 0, 0, 0.15)",
+          duration: 0.6,
+          ease: "power2.out"
+        });
+      });
+
+      pane.addEventListener("mouseleave", () => {
+        if (activeDiscipline) return;
+        gsap.to(pane.querySelector(".pane-img"), {
+          scale: 1.02,
+          duration: 0.8,
+          ease: "power2.out"
+        });
+        gsap.to(pane.querySelector(".pane-card"), {
+          y: 0,
+          borderColor: "rgba(255, 255, 255, 0.2)",
+          duration: 0.6,
+          ease: "power2.out"
+        });
+      });
+    });
+  }
+
+  // ==========================================
+  // SCROLL CHOREOGRAPHY FOR LATER SECTIONS
+  // ==========================================
+  function initScrollChoreography() {
+    // 1. Triptych Curtain Reveal (slides off-screen on scroll to reveal Section rixos)
+    const triptychTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".hero-triptych",
+        start: "top top",
+        end: "+=120%",
+        scrub: 1.2,
+        pin: true,
+        invalidateOnRefresh: true
+      }
+    });
+
+    triptychTl
+      .to(".pane-left", {
+        yPercent: -105,
+        ease: "power2.inOut"
+      }, 0)
+      .to(".pane-right", {
+        yPercent: 105,
+        ease: "power2.inOut"
+      }, 0)
+      .to(".pane-center", {
+        scale: 0.92,
+        opacity: 0,
+        ease: "power2.inOut"
+      }, 0)
+      .to(".pane-card", {
+        opacity: 0,
+        yPercent: 50,
+        ease: "power1.inOut"
+      }, 0);
+
+    // 2. Section rixos background parallax
+    gsap.fromTo(".rixos-bg", {
+      yPercent: -20
+    }, {
+      yPercent: 20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#rixos-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // 3. Section 5: Execution Proof (Reveal paragraph and line under mask)
+    const execTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#execution-section",
+        start: "top 65%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    execTl
+      .to(".execution-paragraph", {
+        opacity: 1,
+        y: 0,
+        duration: 1.0,
+        ease: "power3.out"
+      })
+      .to(".execution-line", {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.6,
+        ease: "power2.inOut"
+      }, "-=0.6");
+
+    // 4. Section 6: Catalog Grid Opposing Scroll Parallax
+    gsap.fromTo(".col-left", {
+      y: 100
+    }, {
+      y: -100,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#catalog-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.0
+      }
+    });
+
+    gsap.fromTo(".col-center", {
+      y: -80
+    }, {
+      y: 80,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#catalog-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.0
+      }
+    });
+
+    gsap.fromTo(".col-right", {
+      y: 60
+    }, {
+      y: -60,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#catalog-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.0
+      }
+    });
+
+    // 5. Section 7: Concierge Exit (Reveal elements on entry)
+    const conciergeTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#concierge-section",
+        start: "top 75%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    conciergeTl
+      .from(".concierge-tag", {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        ease: "power3.out"
+      })
+      .from(".concierge-title", {
+        opacity: 0,
+        y: 30,
+        duration: 1.0,
+        ease: "power3.out"
+      }, "-=0.6")
+      .from(".form-group", {
+        opacity: 0,
+        y: 20,
+        stagger: 0.15,
+        duration: 0.8,
+        ease: "power2.out"
+      }, "-=0.6")
+      .from(".concierge-btn", {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        ease: "power2.out"
+      }, "-=0.4");
+  }
+
+  // ==========================================
+  // WebGL LIQUID GLASSMORPHISM INITIALIZER
+  // ==========================================
+  function initLiquidGL() {
+    try {
+      if (typeof liquidGL === "function") {
+        liquidGL({
+          target: ".glass-panel, #main-header",
+          snapshot: "body",
+          resolution: 2.0,
+          refraction: 0.04,
+          bevelDepth: 0.1,
+          bevelWidth: 0.18,
+          frost: 3.5,
+          shadow: true,
+          specular: true,
+          tilt: true,
+          tiltFactor: 10
+        });
+        console.log("WebGL liquidGL loaded successfully!");
+      } else {
+        console.warn("liquidGL function not found.");
+      }
+    } catch (e) {
+      console.warn("liquidGL initialization failed, falling back to CSS backdrop-filter:", e);
+    }
+  }
 
 });

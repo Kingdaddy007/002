@@ -1,8 +1,8 @@
-﻿{
+{
   "workflow": "XBD Collective - Cinematic Concept Pitch",
-  "current_phase": "Phase 2 - Spatial Concept Direction (Preloader Correction)",
-  "completion_pct": 35,
-  "last_updated": "2026-06-25T02:26:00+01:00",
+  "current_phase": "Phase 4 - Duality Drawers & Light Theme Alignment",
+  "completion_pct": 100,
+  "last_updated": "2026-06-25T19:45:00+01:00",
   "target_client": {
     "studio_name": "XBD Collective",
     "founder": "Ellen Sohoel",
@@ -18,10 +18,12 @@
   "sprint_goal": "Build a cinematic homepage concept as an open-book pitch. Trigger an Instagram outreach conversation.",
   "deliverables": [
     "DONE: Brand diagnostic document",
-    "DONE: Preloader animation refined frame-by-frame, tracing official monogram geometry directly with correct solid-fill visibility",
-    "Three distinct spatial concept directions (hero event, loading sequence, section flow)",
-    "Homepage section map",
-    "One selected concept direction developed into a buildable spatial concept"
+    "DONE: Preloader animation refined frame-by-frame to match official asset",
+    "DONE: Cinematic Triptych Hero section implemented with WebGL depth and cards",
+    "DONE: WebGL glassmorphism cards layered on top of refracting canvas",
+    "DONE: Three distinct spatial concept directions (hero event, loading sequence, section flow)",
+    "DONE: Homepage section map",
+    "DONE: One selected concept direction developed into a buildable spatial concept"
   ],
   "phase_1_summary": {
     "status": "LOCKED",
@@ -37,22 +39,29 @@
       "Founder Ellen Sohoel buried - must lead with spatial philosophy"
     ]
   },
-  "notes": "Preloader corrected: Removed generic placeholder loops. Tracing the official XBD monogram directly using SVG stroke-dash offset, followed by a smooth solid-white fill reveal. Verified that the final logo lockup remains fully visible and correct. Pushed to remote branch `ai-2-vision`. Next session: User will test this corrected preloader, and we will proceed to Hero section design, copywriting from transcripts, and visualizing Awards/News.",
+  "notes": "Successfully completed all sections of the XBD Collective cinematic homepage concept. Refined the hero column widener accordion to use static grid hovers (focusing interactions on image zooms, WebGL refraction, and card vertical shifts for a more tectonic feel). Integrated a Typographic Curtain that splits on scroll, the SVG text-masked Execution Proof section showing blueprint-to-object loops, asymmetric Masonry catalog grid with opposing scroll parallax, and a concierge email inquiry exit. Dev server is active on port 8080 with caching disabled.",
   "key_decisions": [
     "XBD Collective sole target",
     "Open-book pitch concept only",
     "Brand diagnosis locked - do not revisit",
     "Motion posture: Calm. No hijacking. Fade-in + gentle parallax.",
     "Signature claim: Reality-Makers - from structural frame to final object",
-    "Preloader correction: Traced official monogram path directly instead of using separate horizontal loops to eliminate layout jumps. Set SVG fill to solid white at timeline end."
+    "Pivoted from Day-to-Night timeline slider to Cinematic Triptych with hover accordion to showcase multi-disciplinary range (Architecture, Interiors, Details) on entry.",
+    "Mapped Option B entrance to 'Boutique Ethos, Global Perspective' tagline.",
+    "Set card z-index to 1000 to raise it above WebGL canvas (z-index 999).",
+    "Moved header to bottom of DOM body for stacking.",
+    "Disabled server caching (-c-1) and added query param to style.css link to prevent cached asset loading.",
+    "Pivoted hero accordion from flex-grow widening to static three-column grid with image zooms and vertical card shifts to prevent layout reflows and support tectonic weight.",
+    "Implemented scroll-bound split panels for the Typographic Curtain.",
+    "Used an SVG mask overlay for the Section 5 video-cutout text masking to ensure robust cross-browser playback."
   ],
   "blockers": [],
   "skill_chain": [
     "brand-strategy COMPLETE",
-    "spatial-experience-design",
-    "storytelling",
-    "scroll-storyboard",
-    "cinematic-motion",
-    "color-system"
+    "spatial-experience-design COMPLETE",
+    "storytelling COMPLETE",
+    "scroll-storyboard COMPLETE",
+    "cinematic-motion COMPLETE",
+    "color-system COMPLETE"
   ]
 }

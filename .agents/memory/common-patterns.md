@@ -37,3 +37,10 @@
 ### P7 — Center-Point GSAP Scaling & Clip-Path Reveals
 **Pattern:** When animating construction lines shooting/collapsing, set `transformOrigin: "pXpx pYpx"` matching the center intersection. Use CSS `clip-path: inset(0 50%)` to reveal text horizontally from the center outward.
 
+### P8 — Stacking Context & WebGL Layering
+**Pattern:** When working with WebGL overlays like `liquidGL` which inject a global fullscreen canvas at `maxZ - 1`, set all target glass containers to the same maximum z-index (e.g. `z-index: 1000`) and structure their inner text wrappers at a higher relative index (e.g. `z-index: 5` within the container). Move absolute/fixed elements like headers later in the DOM body to control vertical scroll overlap.
+
+### P9 — Cache-Busting Stylesheets
+**Pattern:** Always append a query string parameter (e.g. `?v=2`) to `<link rel="stylesheet">` elements in the HTML head when editing styles under active caching, ensuring browser-level caches reload the stylesheet immediately.
+
+

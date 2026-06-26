@@ -1,0 +1,36 @@
+{
+  "theme": {
+    "colors": {
+      "limestone_bg": "#F9F8F6",
+      "charcoal_text": "#1A1A1A",
+      "champagne_gold": "#C5A880",
+      "white_overlay": "rgba(255, 255, 255, 0.95)",
+      "glass_bg": "rgba(255, 255, 255, 0.45)",
+      "glass_border": "rgba(255, 255, 255, 0.25)"
+    },
+    "fonts": {
+      "display": "'Cormorant Garamond', serif",
+      "sans": "'Montserrat', sans-serif"
+    },
+    "transitions": {
+      "ease_premium": "cubic-bezier(0.16, 1, 0.3, 1)"
+    }
+  },
+  "hero_triptych": {
+    "left": {
+      "title": "ARCHITECTURE",
+      "subtitle": "THE MONUMENTAL FRAME",
+      "video_url": "https://assets.mixkit.co/videos/preview/mixkit-high-rise-buildings-in-a-modern-city-43187-large.mp4"
+    },
+    "center": {
+      "title": "INTERIORS",
+      "subtitle": "THE ATELIERS SANCTUARY",
+      "video_url": "https://assets.mixkit.co/videos/preview/mixkit-luxury-home-interior-43288-large.mp4"
+    },
+    "right": {
+      "title": "DETAILS",
+      "subtitle": "THE TECTONIC TOUCH",
+      "video_url": "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-marble-slab-texture-43896-large.mp4"
+    }
+  }
+}
