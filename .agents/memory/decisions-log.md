@@ -37,6 +37,14 @@
 - **Hero & Opening Sequence:** We are rejecting the standard 'Reality Maker' wipe or standard architectural zoom. The user wants to invent a vastly superior, custom opening sequence combining the Entry and Hero section.
 - **Copywriting Primacy:** The next agent MUST deeply analyze the copywriting and positioning of the references (AIR, Haven, Zorgen, Normal is Boring), not just their layout. Copywriting is the missing key.
 - **Technical Progress:** 
-  - The 	argeted_scrape.js script is running to extract high-res images from xbdesign.com. 
+  - The targeted_scrape.js script is running to extract high-res images from xbdesign.com. 
   - A Next.js app has been initialized in web/ with GSAP and Tailwind, ready for the next agent to use for live iteration.
   - The site structure (contexts/spatial-story.md) is LOCKED.
+
+## Session: 2026-06-25
+- **WWP Structural Alignment:** Locked the 6-section Information Architecture for the one-page pitch, strictly aligned with Blair Enns's "Win Without Pitching" (WWP) framework.
+- **Removed Defensive Vendor Traps:** Replaced the proposed "Render vs Reality" section with "The Methodology" (Process Proof). Defending the ability to build is a vendor posture; explaining the control of scale is a practitioner posture.
+- **Hero Lock:** Selected Concept 2 (The Continuous Push / Macro to Micro) as the Hero event to establish massive architectural scale instantly.
+
+## 2026-06-25 - Hero Transition Pivot
+* **Decision:** Used Staggered Vertical Columns (via GSAP and mask-image) for the Hero transition instead of Radial/Z-Axis wipes to maintain architectural structural aesthetic.

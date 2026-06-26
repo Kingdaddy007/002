@@ -25,3 +25,11 @@
 - **Correction:** The user hates this approach. Do NOT ask them to pick from a menu of abstract concepts. Instead, just write the code for the first section, let them see it live in the browser, and then iterate on it 'gradual, gradual'.
 - **Mistake:** Focusing only on motion and layout from reference sites while ignoring the words.
 - **Correction:** The user demands equal focus on the copywriting and expert positioning of the reference brands.
+
+## Session: 2026-06-25
+- **The Scale Imitation Trap:** Attempted to force-fit the Information Architecture of boutique reference sites (like Normal is Boring) onto a Tier-1 global powerhouse (XBD). *Fix:* Always filter reference patterns through the specific scale, capacity, and niche of the target brand.
+- **The Defensive Vendor Trap:** Proposed highlighting "Render to Reality." *Fix:* For Tier-1 firms, building what you design is a baseline expectation. Bragging about it lowers posture. Never prescribe sections that defend baseline expectations.
+- **The Gimmick Trap:** Focusing on GSAP technicalities before defining the brand-aligned meaning behind the motion.
+
+## Hero Wipe Transitions
+- **Horizontal Wipes over Text:** Do NOT wipe horizontally over text. If slicing vertically (columns), wipe vertically (bottom to top). Wiping horizontally across text creates a broken 'bar chart' look and destroys legibility.

@@ -28,3 +28,9 @@
 - Track A: User screen-records Instagram → sends to Gemini with brand-strategy skill as system prompt → Gemini returns structured brand read
 - Track B: Anti-Gravity uses Chrome DevTools MCP on their website → inspects sitemap dates, page structure, technical gaps
 - Combine both tracks into a single brand-diagnostic document before proceeding to spatial concept
+
+### P6 — WWP (Win Without Pitching) Spatial Alignment
+**Pattern:** Apply expert positioning to all architectural decisions.
+- **The Diagnostic Gate:** Never use generic "Contact Us" or "Free Consultation" buttons. Always use selective gates like "Discuss a Commission" or "Apply for a Diagnostic."
+- **Outcome Proof over Grids:** Do not use massive 50-item portfolio grids. Curate 3-4 heavy hitters and label them with authority (Client, Scale, Outcome).
+- **Artisans over HR:** Replace standard "Meet the Team" headshot grids with cinematic, behind-the-scenes footage of the collective at work.

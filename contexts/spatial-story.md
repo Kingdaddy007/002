@@ -1,51 +1,29 @@
 # The Pitch Roadmap (Spatial Story)
-**Status:** Active working document for structural mapping.
-**Rule:** This is a map of *what* each section must achieve and *what* content lives there. We are NOT locking in the exact design or animations. We will figure out the exact design little by little as we build and look at the actual code.
+**Status:** DRAFT / WWP-ALIGNED
+**Rule:** Focus on the Hero Section first. The sections below are mapped to Blair Enns's Expert Positioning (Win Without Pitching) framework.
 
 ---
 
-## SECTION 1: The Entry & Hero (Positioning)
-**The Goal:** Stop the noise. Assert authority immediately. Make them look at words before they look at pictures. 
-**The Vibe:** Heavy, quiet, highly confident.
-**Draft Copy:** 
-- Headline: "THE REALITY MAKER." (Or just "X B D")
-- Sub-copy: (Optional quiet text setting the stage).
+## SECTION 1: The Expertise Claim (Hero)
+**The Concept:** The Continuous Push (Macro to Micro).
+**The Goal:** A seamless, slow forward push through the z-axis that proves they master every scale of a project. Typography-first opening, background architecture pushes forward from behind the text.
 
-## SECTION 2: Intimate Scale (Solar House)
-**The Goal:** Prove that XBD understands the quiet, bespoke intimacy required to sell to UHNWI (Ultra High Net Worth Individuals) private clients.
-**The Visual Focus:** Solar House at night. Deep, rich, private.
-**Draft Copy:**
-- Label: PRIVATE RESIDENCES
-- Specs: EMIRATES HILLS | 800,000 SQ FT (Verify exact specs)
-- Micro-copy: "Spaces designed for the individual." (Placeholder)
+## SECTION 2: Focus Proof (The Duality)
+**The Concept:** Total spatial control requires singular authorship. 
+**The Goal:** A section dedicated to the tension between Architecture (Macro) and Interior Design (Micro). We define what a "Collective" actually means.
 
-## SECTION 3: Developer Scale (Rixos Residences)
-**The Goal:** A massive shift in scale. We just showed intimacy; now we must prove they can handle massive commercial/hospitality developer logic.
-**The Visual Focus:** Rixos Residences (bright, massive, daylight).
-**Draft Copy:**
-- Label: HOSPITALITY & MASTERPLANS
-- Specs: (Insert Rixos specs)
-- Micro-copy: "Architecture built for the horizon." (Placeholder)
+## SECTION 3: Process Proof (The Methodology)
+**The Concept:** The Control of Scale (Replaces defensive "Render vs Reality").
+**The Goal:** Instead of defending *if* they can build it, we explain *how* they control outcomes at massive scale. Highly technical, engineered layout showing blueprints overlapping with physical material samples.
 
-## SECTION 4: The Proof (Render vs. Reality)
-**The Goal:** Address the elephant in the room. Erase the assumption that XBD is just a 3D rendering farm by proving they actually execute real-world construction and materials.
-**The Visual Focus:** A transition from a sketch/wireframe to raw construction to polished stone.
-**Draft Copy:**
-- Headline: FROM RENDER TO REALITY
-- Micro-copy: "We don't just draw pictures. We build worlds." (Placeholder)
+## SECTION 4: Outcome Proof (The Range)
+**The Concept:** The Heavy Hitters.
+**The Goal:** Asymmetrical parallax grid (or horizontal track) showing 3-4 massive curated case studies (e.g., Rixos, Solar House). Labeled with authority (Client, Scale, Outcome).
 
-## SECTION 5: The Range (Portfolio Breadth)
-**The Goal:** Show that Kata Restaurant, Opus Tower, and Althuraya Island exist without shrinking them into a tiny, cheap carousel. Give the user a sense of massive scale.
-**The Visual Focus:** Multiple high-resolution images existing in the same space.
-**Draft Copy:**
-- Minimal labels on the images (e.g., KATA | THE OPUS | ALTHURAYA).
+## SECTION 5: Process Proof II (The Artisans)
+**The Concept:** Redefining the Team.
+**The Goal:** No HR directory grids of 50 faces. Quiet, cinematic, behind-the-scenes imagery of the studio at work. The founder as visionary, the team as artisans.
 
-## SECTION 6: The Exit (Footer)
-**The Goal:** Do not beg for a meeting. Drop the mic and leave a heavy, undeniable conclusion that forces them to reach out.
-**The Visual Focus:** Stark, clean, minimal.
-**Draft Copy:**
-- Headline: "Architecture of this scale deserves a digital presence of equal weight."
-- Call to Action: "Let's build it." / Contact info.
-
----
-**Execution Note:** We build this one section at a time. We start with Section 1. If it doesn't look like a 10X improvement, we change it until it does. Only then do we move to Section 2.
+## SECTION 6: The Diagnostic Gate (The Exit)
+**The Concept:** Timeless Authority & The Application.
+**The Goal:** Strip dates from all media. Show logos of prestigious press with massive pull-quotes. The CTA is a selective gate (e.g., "Discuss a Commission"), not a submissive "Contact Us."

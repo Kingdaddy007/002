@@ -1,0 +1,32 @@
+{
+  "brand": "XBD Collective",
+  "theme": "light_gallery",
+  "colors": {
+    "background": "#FFFFFF",
+    "text_primary": "#111111",
+    "text_secondary": "#757575",
+    "accent_gold": "#B89970",
+    "glass_surface": "rgba(255, 255, 255, 0.6)",
+    "glass_border": "rgba(255, 255, 255, 0.2)"
+  },
+  "typography": {
+    "display": {
+      "family": "Gambetta, serif",
+      "weight": "400",
+      "usage": "Hero headlines, Section titles"
+    },
+    "body": {
+      "family": "Satoshi, sans-serif",
+      "weight": "400",
+      "usage": "Paragraphs, Navigation, Metadata"
+    }
+  },
+  "effects": {
+    "glassmorphism": {
+      "backdrop_filter": "blur(24px)",
+      "background": "rgba(255, 255, 255, 0.4)",
+      "border": "1px solid rgba(255, 255, 255, 0.2)",
+      "usage": "Navigation bar, floating project cards, UI overlays"
+    }
+  }
+}
