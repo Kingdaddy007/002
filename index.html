@@ -33,6 +33,9 @@
   <!-- Main Website Container -->
   <main id="main-content">
     
+    <!-- GSAP Top-Edge Freeze Bypass -->
+    <div style="position: absolute; top: 0; width: 100%; height: 1px; pointer-events: none; opacity: 0;"></div>
+
     <!-- Section 2: Focus Proof (The Duality) -->
     <section class="hero-triptych" id="triptych-section">
       
@@ -324,10 +327,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   
-  <!-- liquidGL WebGL and html2canvas scripts -->
-  <script src="html2canvas.min.js"></script>
-  <script src="liquidGL.js"></script>
-  
+
   <script src="app.js"></script>
 </body>
 </html>

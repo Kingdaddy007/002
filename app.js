@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger);
 
   // Bypass preloader immediately as requested
   const mainContent = document.getElementById("main-content");
@@ -48,6 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
         closeBtn.addEventListener("click", (e) => {
           e.stopPropagation();
           collapsePane(pane);
+        });
+      }
+
+      // Click empty space (background) to close
+      if (drawer) {
+        drawer.addEventListener("click", (e) => {
+          if (e.target === drawer) {
+            e.stopPropagation();
+            collapsePane(pane);
+          }
         });
       }
 
@@ -219,44 +230,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 0.9);
     }
 
-    // Static Hover Zoom & Parallax listener (active only when NO drawer is open)
-    panes.forEach(pane => {
-      pane.addEventListener("mouseenter", () => {
-        if (activeDiscipline) return;
-        gsap.to(pane.querySelector(".pane-img"), {
-          scale: 1.08,
-          duration: 0.8,
-          ease: "power2.out"
-        });
-        gsap.to(pane.querySelector(".pane-card"), {
-          y: -12,
-          borderColor: "rgba(0, 0, 0, 0.15)",
-          duration: 0.6,
-          ease: "power2.out"
-        });
-      });
-
-      pane.addEventListener("mouseleave", () => {
-        if (activeDiscipline) return;
-        gsap.to(pane.querySelector(".pane-img"), {
-          scale: 1.02,
-          duration: 0.8,
-          ease: "power2.out"
-        });
-        gsap.to(pane.querySelector(".pane-card"), {
-          y: 0,
-          borderColor: "rgba(255, 255, 255, 0.2)",
-          duration: 0.6,
-          ease: "power2.out"
-        });
-      });
-    });
+    // Hover effects are better handled by CSS to avoid overwriting GSAP ScrollTrigger timelines.
   }
 
   // ==========================================
   // SCROLL CHOREOGRAPHY FOR LATER SECTIONS
   // ==========================================
   function initScrollChoreography() {
+    ScrollTrigger.normalizeScroll(true); // Bypass native touch/wheel freeze bugs
+
     // 1. Triptych Curtain Reveal (slides off-screen on scroll to reveal Section rixos)
     const triptychTl = gsap.timeline({
       scrollTrigger: {
@@ -265,6 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
         end: "+=120%",
         scrub: 1.2,
         pin: true,
+        anticipatePin: 1, // Helps prevent visual jumping on pin start
         invalidateOnRefresh: true
       }
     });
@@ -288,6 +271,11 @@ document.addEventListener("DOMContentLoaded", () => {
         yPercent: 50,
         ease: "power1.inOut"
       }, 0);
+
+    // Call refresh immediately after setup
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
 
     // 2. Section rixos background parallax
     gsap.fromTo(".rixos-bg", {
@@ -408,6 +396,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // WebGL LIQUID GLASSMORPHISM INITIALIZER
   // ==========================================
   function initLiquidGL() {
+    console.log("liquidGL temporarily disabled to fix scroll and performance issues.");
+    /*
     try {
       if (typeof liquidGL === "function") {
         liquidGL({
@@ -430,6 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) {
       console.warn("liquidGL initialization failed, falling back to CSS backdrop-filter:", e);
     }
+    */
   }
 
 });
