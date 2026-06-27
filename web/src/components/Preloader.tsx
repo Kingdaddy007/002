@@ -59,16 +59,15 @@ export default function Preloader() {
       {/* The Blueprint Logo Mark */}
       <svg 
         ref={logoMarkRef}
-        viewBox="0 0 100 60" 
+        viewBox="0 0 48 48" 
         fill="none" 
         stroke="currentColor" 
         strokeWidth="1.5" 
-        className="w-28 h-auto mb-8"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        className="w-16 h-auto mb-4"
       >
-        <path d="M 30 10 A 20 20 0 0 0 30 50" className="logo-path" />
-        <path d="M 70 10 A 20 20 0 0 1 70 50" className="logo-path" />
-        <line x1="30" y1="10" x2="70" y2="50" className="logo-path" />
-        <line x1="30" y1="50" x2="70" y2="10" className="logo-path" />
+        <path d="M 8 24 L 16 14 L 32 34 L 40 24 L 32 14 L 16 34 Z" className="logo-path" />
       </svg>
       
       {/* The Typography */}

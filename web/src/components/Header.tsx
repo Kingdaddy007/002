@@ -1,59 +1,59 @@
 import React from "react";
 import Link from "next/link";
 
-const Logo = () => (
-  <svg width="64" height="48" viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Infinity Symbol */}
-    <path
-      d="M20 18C15.5817 18 12 14.4183 12 10C12 5.58172 15.5817 2 20 2C24.4183 2 28 5.58172 28 10C28 12.3905 26.9537 14.5367 25.2933 16"
-      stroke="currentColor"
-      strokeWidth="1.5"
+const FullLogo = () => (
+  <div className="flex flex-col items-center justify-center text-current">
+    {/* 
+      We apply brightness-0 and invert to turn the original black logo 
+      into pure white so it stands out against the dark video background 
+    */}
+    <img 
+      src="/xbd-logo.png" 
+      alt="XBD Logo Mark" 
+      className="w-12 h-12 mb-0.5 object-contain filter brightness-0 invert" 
     />
-    <path
-      d="M44 2C48.4183 2 52 5.58172 52 10C52 14.4183 48.4183 18 44 18C39.5817 18 36 14.4183 36 10C36 7.60948 37.0463 5.46328 38.7067 4"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    <path
-      d="M25.2933 16L38.7067 4M25.2933 4L38.7067 16"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    {/* Text Below */}
-    <text x="32" y="32" fontSize="10" letterSpacing="4" textAnchor="middle" fill="currentColor" className="font-display font-medium">
-      X B D
-    </text>
-    <text x="32" y="44" fontSize="5" letterSpacing="2" textAnchor="middle" fill="currentColor" className="font-body opacity-60">
-      C O L L E C T I V E
-    </text>
-  </svg>
+    <span className="font-display text-[22px] tracking-[0.25em] leading-none mb-1.5 ml-1">X B D</span>
+    <div className="flex flex-col items-center w-full">
+      <span className="font-body text-[8px] tracking-[0.5em] leading-none mb-1 ml-[0.3em]">COLLECTIVE</span>
+      <div className="h-[1px] w-full bg-current opacity-40"></div>
+    </div>
+  </div>
 );
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-xl bg-white/40 border-b border-white/20">
-      <div className="max-w-[1440px] mx-auto px-8 md:px-12 h-24 flex items-center justify-between">
-        <Link href="/" className="text-xbd-text hover:opacity-80 transition-opacity">
-          <Logo />
+    <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 h-32 flex items-center justify-between text-white">
+        
+        {/* Left: Full Logo */}
+        <Link href="/" className="hover:opacity-80 transition-opacity">
+          <FullLogo />
         </Link>
         
-        <nav className="hidden md:flex items-center gap-12 text-sm tracking-wide font-medium">
-          <Link href="#architecture" className="text-xbd-text hover:text-xbd-gold transition-colors">
-            ARCHITECTURE
+        {/* Center: Navigation (Placeholder until we decide on the new structure) */}
+        <nav className="hidden md:flex items-center gap-12 text-xs tracking-widest font-body uppercase">
+          <Link href="#portfolio" className="hover:text-white/60 transition-colors">
+            Portfolio
           </Link>
-          <Link href="#interiors" className="text-xbd-text hover:text-xbd-gold transition-colors">
-            INTERIOR DESIGN
+          <Link href="#studio" className="hover:text-white/60 transition-colors">
+            Studio
           </Link>
-          <Link href="#media" className="text-xbd-text hover:text-xbd-gold transition-colors">
-            MEDIA
+          <Link href="#journal" className="hover:text-white/60 transition-colors">
+            Journal
           </Link>
-          <Link href="#awards" className="text-xbd-text hover:text-xbd-gold transition-colors">
-            AWARDS
-          </Link>
-          <Link href="#contact" className="text-xbd-text hover:text-xbd-gold transition-colors">
-            CONTACT
+          <Link href="#contact" className="hover:text-white/60 transition-colors">
+            Contact
           </Link>
         </nav>
+
+        {/* Right: Hamburger / Menu for the new reference later */}
+        <button className="hidden md:flex items-center gap-3 hover:opacity-70 transition-opacity">
+          <span className="font-body text-xs tracking-widest uppercase">Menu</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M4 8H20M4 16H20" strokeLinecap="round"/>
+          </svg>
+        </button>
+
       </div>
     </header>
   );
