@@ -1,0 +1,870 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #FFFFFF;
+  --color-text-primary: #111111;
+  --color-text-secondary: #757575;
+  --color-accent-gold: #B89970;
+  --color-glass-surface: rgba(255, 255, 255, 0.6);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+
+  /* XBD Light Gallery Theme */
+  --background: #FFFFFF;
+  --foreground: #111111;
+  --text-secondary: #757575;
+  --accent-gold: #B89970;
+  
+  /* Typography Variables */
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Satoshi", sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
+}
+
+@theme inline {
+  --color-xbd-bg: var(--background);
+  --color-xbd-text: var(--foreground);
+  --color-xbd-muted: var(--text-secondary);
+  --color-xbd-gold: var(--accent-gold);
+  
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-space: var(--font-space);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  /* Hide scrollbar for a cleaner cinematic feel */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ==========================================
+   4. SECTION 2: TRIPTYCH PANE LAYOUT
+   ========================================== */
+.hero-triptych {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+  background-color: var(--color-bg);
+}
+
+.triptych-pane {
+  flex: 1; /* Equal 33.33vw initially */
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 50px 25px;
+  cursor: pointer;
+}
+
+/* Vertical borders separating the panes */
+.triptych-pane:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.08); /* Dark subtle border for light theme */
+  z-index: 4;
+}
+
+.pane-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+  transform: scale(1.02);
+  transition: transform 1.2s var(--ease-premium);
+}
+
+.pane-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.0) 40%,
+    rgba(255, 255, 255, 0.5) 100%
+  ); /* Light overlay gradient for light theme */
+  z-index: 2;
+  transition: opacity 0.8s var(--ease-premium);
+}
+
+/* Glassmorphism pane cards floating at the bottom of each column */
+.pane-card {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 320px;
+  padding: 32px 28px;
+  text-align: center;
+  color: var(--color-text-primary);
+  margin-bottom: 40px;
+  transition: margin-bottom 0.6s var(--ease-premium), border-color 0.6s var(--ease-premium);
+}
+
+.triptych-pane:hover .pane-img {
+  transform: scale(1.08);
+}
+
+.triptych-pane:hover .pane-card {
+  margin-bottom: 52px;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.45); /* Light glassmorphism */
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.card-subtitle {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--color-accent-gold);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.card-desc {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: max-height 0.8s var(--ease-premium), opacity 0.8s var(--ease-premium), margin-top 0.8s var(--ease-premium);
+}
+
+.triptych-pane:hover .pane-card .card-desc {
+  max-height: 120px;
+  opacity: 1;
+  margin-top: 15px;
+}
+
+/* ==========================================
+   5. FULL-BLEED DRAWER STYLING
+   ========================================== */
+.drawer-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Keep it full screen width */
+  height: 100vh;
+  background-color: var(--color-bg);
+  z-index: 100;
+  display: none; /* Toggled by GSAP */
+  opacity: 0;
+  padding: 120px 8% 80px 8%;
+  color: var(--color-text-primary);
+  overflow-y: auto;
+}
+
+.drawer-close-btn {
+  position: absolute;
+  top: 110px;
+  right: 6%;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 30px;
+  padding: 12px 24px;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  z-index: 105;
+  transition: all 0.3s ease;
+}
+
+.drawer-close-btn:hover {
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+  border-color: var(--color-text-primary);
+}
+
+.drawer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 8%;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.drawer-left-col {
+  flex: 1;
+  max-width: 400px;
+  text-align: left;
+}
+
+.drawer-meta {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.25em;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.drawer-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  margin-bottom: 30px;
+}
+
+.drawer-philosophy {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+  margin-bottom: 40px;
+}
+
+.drawer-stats {
+  display: flex;
+  gap: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-top: 30px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  margin-bottom: 5px;
+}
+
+.stat-lbl {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.drawer-right-col {
+  flex: 1.5;
+}
+
+.drawer-showcase {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+.showcase-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.showcase-img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  background-color: #F5F5F5;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.showcase-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  display: block;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.showcase-desc {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+}
+
+/* Edge navigation */
+.drawer-edge-nav {
+  position: absolute;
+  bottom: 50px;
+  left: 6%;
+  right: 6%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 102;
+  pointer-events: none;
+}
+
+.edge-nav-link {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--color-text-primary);
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.edge-nav-link:disabled {
+  opacity: 0.15;
+  cursor: default;
+  pointer-events: none;
+}
+
+.edge-nav-link:hover {
+  color: var(--color-accent-gold);
+}
+
+/* ==========================================
+   6. MAIN WEBSITE CONTENT
+   ========================================== */
+#main-content {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+/* ==========================================
+   7. SCROLL SECTION: RIXOS RESIDENCES
+   ========================================== */
+.scroll-section {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-rixos {
+  z-index: 5;
+  background: var(--color-bg);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.rixos-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1600') no-repeat center center;
+  background-size: cover;
+  opacity: 0.08; /* Lighter background architectural context */
+  filter: grayscale(100%);
+  pointer-events: none;
+}
+
+.rixos-content {
+  position: relative;
+  z-index: 6;
+  text-align: center;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+.rixos-subtitle {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.25em;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.rixos-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  margin-bottom: 25px;
+}
+
+.rixos-desc {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================
+   8. SECTION 5: THE EXECUTION PROOF
+   ========================================== */
+.section-execution {
+  z-index: 6;
+  background-color: var(--color-bg);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.execution-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.execution-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.15) brightness(0.95);
+  z-index: 1;
+}
+
+.execution-mask-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.mask-text-bold {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 80px;
+  letter-spacing: 0.08em;
+  fill: black; /* Black cuts holes in mask */
+}
+
+.execution-content {
+  position: relative;
+  z-index: 3;
+  max-width: 600px;
+  text-align: center;
+  padding: 0 20px;
+  margin-top: 25vh;
+}
+
+.execution-paragraph {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-text-primary);
+  letter-spacing: 0.06em;
+  margin-bottom: 25px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.execution-line {
+  width: 60px;
+  height: 1px;
+  background-color: var(--color-accent-gold);
+  margin: 0 auto;
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+/* ==========================================
+   9. SECTION 6: THE CATALOG GRID
+   ========================================== */
+.section-catalog {
+  min-height: 160vh;
+  height: auto;
+  background-color: #F7F5F2; /* Lighter champagne-limestone gallery background */
+  padding: 140px 6% 180px 6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 7;
+  border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.catalog-header {
+  text-align: center;
+  margin-bottom: 90px;
+  max-width: 500px;
+}
+
+.catalog-subtitle {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.catalog-title {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--color-text-primary);
+}
+
+.catalog-grid {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  gap: 40px;
+}
+
+.catalog-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Asymmetric offsets */
+.col-left {
+  margin-top: 100px;
+}
+
+.col-center {
+  margin-top: 0;
+}
+
+.col-right {
+  margin-top: 50px;
+}
+
+.catalog-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.item-img-wrap {
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  position: relative;
+  background-color: #F0F0F0;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-premium);
+}
+
+.catalog-item:hover .item-img {
+  transform: scale(1.05);
+}
+
+.item-meta {
+  padding-top: 25px;
+  text-align: left;
+}
+
+.item-category {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.item-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+}
+
+.item-specs {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================
+   10. SECTION 7: THE CONCIERGE EXIT & FOOTER
+   ========================================== */
+.section-concierge {
+  z-index: 8;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  padding: 120px 8% 40px 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.concierge-wrap {
+  width: 100%;
+  max-width: 800px;
+  margin: auto 0;
+}
+
+.concierge-tag {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.25em;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.concierge-title {
+  font-family: var(--font-display);
+  font-size: 3.5vw;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  margin-bottom: 60px;
+}
+
+.concierge-form {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 60px;
+}
+
+.form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group label {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--color-accent-gold);
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.form-group input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 8px 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  width: 100%;
+  transition: padding-left 0.4s var(--ease-premium);
+}
+
+.form-group input:focus {
+  padding-left: 5px;
+}
+
+.input-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.08);
+  transition: background-color 0.4s var(--ease-premium);
+}
+
+.form-group input:focus ~ .input-line {
+  background-color: var(--color-accent-gold);
+}
+
+.concierge-btn {
+  background: transparent;
+  border: 1px solid var(--color-accent-gold);
+  color: var(--color-accent-gold);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  padding: 18px 38px;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.5s var(--ease-premium);
+}
+
+.concierge-btn:hover {
+  background-color: var(--color-accent-gold);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+}
+
+.concierge-btn .btn-arrow {
+  transition: transform 0.4s var(--ease-premium);
+}
+
+.concierge-btn:hover .btn-arrow {
+  transform: translateX(5px);
+}
+
+.main-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.15em;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 30px;
+}
+
+/* Responsiveness overrides */
+@media (max-width: 900px) {
+  .hero-triptych {
+    flex-direction: column;
+    height: auto;
+  }
+  .triptych-pane {
+    height: 33.33vh;
+    width: 100%;
+  }
+  .triptych-pane:not(:last-child)::after {
+    width: 100%;
+    height: 1px;
+    top: auto;
+    bottom: 0;
+    right: 0;
+  }
+  .drawer-content {
+    padding: 100px 6% 60px 6%;
+  }
+  .drawer-inner {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .drawer-left-col {
+    max-width: 100%;
+  }
+  .drawer-showcase {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .showcase-img {
+    height: 250px;
+  }
+  .catalog-grid {
+    flex-direction: column;
+    gap: 60px;
+  }
+  .col-left, .col-center, .col-right {
+    margin-top: 0;
+  }
+  .item-img-wrap {
+    height: 380px;
+  }
+  .concierge-title {
+    font-size: 6vw;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .mask-text-bold {
+    font-size: 55px;
+  }
+}
