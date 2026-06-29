@@ -1,9 +1,9 @@
-# Mistakes & Anti-Patterns to Avoid
+# Mistakes and Failed Approaches to Avoid
 
-- **Anti-pattern:** Using generic 3D sliders, standard templates, or loose margins. 
-- **Mistake:** Implementing UI mechanics simply because they "look cool" without a firm brand positioning backup. Every animation must serve the "Reality-Maker" spatial thesis.
-- **Anti-pattern:** Uniform vertical fade-ups. We explicitly rejected this in favor of precise opposing vertical columns.
-- **Mistake:** Using soft, theatrical animations like a "cotton/curtain split" for an architectural firm. Animations must feel structural, heavy, and use friction (e.g., Z-Axis push).
-- **Mistake:** Using literal copywriting like "An invitation to experience..." when the interface interaction itself can serve as the invitation. Show, don't tell.
-- **Performance Anti-Pattern:** Applying `filter: blur()` to DOM elements that are simultaneously undergoing massive `scale` transformations (e.g., `scale: 18`). This causes severe GPU thrashing and lag. Rely on pure opacity/scale fades instead.
-- **Mistake:** Assuming placeholder images (e.g., `bg-1.webp`) were the final generated AI assets and replacing approved background videos with them without confirmation. Always verify that final assets are generated before executing structural file replacements.
+## GSAP Pinning Collisions and `clip-path`
+- **The Mistake:** Attempting to control the `clip-path` of a previous sibling component (`#triptych-section`) from within a downstream component (`PhilosophyBridge`). 
+- **The Impact:** When GSAP pins a container (like `TriptychHero`), it wraps it in a `.pin-spacer` which defaults to `z-index: 9999`. The subsequent component sliding over the pinned hero while simultaneously manipulating the hero's `clip-path` caused the high z-index hero text/elements to bleed right over the dark background of the next section, resulting in visual clashing and broken immersion.
+
+## Sarcasm and Direct Instructions
+- **The Mistake:** Assuming the user did not want `Scroll Choreography and Timeline Architecture` referenced because they said "We don't need a reference. That is not important" in a sarcastic tone.
+- **The Lesson:** Always read the subtext. In luxury/premium architecture, the macro-choreography is the *most* important part of the layout. Never skip a folder in the `motion-library` skill.

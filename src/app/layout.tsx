@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import GsapProvider from "@/components/GsapProvider";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
+import "../utils/transition.min.css";
 
 export const metadata: Metadata = {
   title: "XBD Collective",
