@@ -64,20 +64,29 @@ export default function Preloader() {
   useGSAP(() => {
     const tl = gsap.timeline();
 
-    // Logo snaps/fades into alignment
+    // 1. Fluid video background softly fades and scales in (the "z-axis" feel)
+    // Removed the blur() filter because blurring an actively playing video causes massive GPU lag/stuttering
     tl.fromTo(
-      logoRef.current,
-      { opacity: 0, scale: 0.9, y: 10 },
-      { opacity: 0.9, scale: 1, y: 0, duration: 1.2, ease: "back.out(1.5)" },
-      "+=0.5"
+      lightVideoRef.current,
+      { opacity: 0, scale: 1.15 },
+      { opacity: 1, scale: 1, duration: 2.5, ease: "power2.out" },
+      0
     );
 
-    // Enter button fades in
+    // 2. Logo emerges with "The Wipe" (reveals from top to bottom like a curtain, not a fade)
+    tl.fromTo(
+      logoRef.current,
+      { clipPath: "inset(0% 0 100% 0)", opacity: 0, y: 10 },
+      { clipPath: "inset(0% 0 0% 0)", opacity: 0.9, y: 0, duration: 4.0, ease: "power2.inOut" },
+      3.0 // Let the fluid video play alone for a full 3 seconds
+    );
+
+    // 3. Enter button fades in
     tl.fromTo(
       enterBtnRef.current,
       { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-      "-=0.5"
+      { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" },
+      "-=1.0" // Start near the end of the logo animation
     );
 
   }, { scope: containerRef });
@@ -150,7 +159,7 @@ export default function Preloader() {
       duration: 1.5,
       ease: "power3.inOut",
       force3D: true
-    }, 4.2);
+    }, 6.0);
 
     // Fade out the dark slab to reveal the VideoHero
     tl.to(slabRef.current, {
@@ -165,7 +174,7 @@ export default function Preloader() {
         }
         setIsLoaded(true);
       }
-    }, 4.2);
+    }, 6.0);
   };
 
   return (
@@ -181,23 +190,21 @@ export default function Preloader() {
         <div className="absolute top-1/2 left-1/2 w-[1px] h-12 bg-[#121212] opacity-35 -translate-x-1/2 -translate-y-1/2"></div>
       </div>
 
-      {/* The Solid Slab & Video Backgrounds */}
       <div ref={slabRef} className="absolute inset-0 bg-[#000000] origin-top z-0 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden">
         <video 
           ref={lightVideoRef}
           src="/videos/bg-light-fluid.mp4.mp4" 
           autoPlay 
           muted 
-          loop 
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-100"
+          className="absolute inset-0 w-full h-full object-cover opacity-0"
         />
         <video 
           ref={darkVideoRef}
           src="/videos/bg-dark-fluid.mp4.mp4" 
           autoPlay 
           muted 
-          loop 
+          loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-0"
         />

@@ -97,7 +97,7 @@ export default function VideoHero() {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=650%",
+        end: "+=350%",
         scrub: 1,
         pin: true,
         onUpdate: (self) => {
@@ -241,6 +241,9 @@ export default function VideoHero() {
           />
         </div>
       </div>
+
+      {/* Seamless Bottom Gradient Blend into PhilosophyBridge */}
+      <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-[#121212] to-transparent z-[100] pointer-events-none"></div>
     </section>
   );
 }

@@ -156,7 +156,10 @@ export default function TriptychHero() {
   };
 
   return (
-    <section className="hero-triptych" id="triptych-section" ref={containerRef}>
+    <section className="hero-triptych relative" id="triptych-section" ref={containerRef}>
+      {/* Seamless Top Gradient Blend */}
+      <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-[#121212] to-transparent z-[100] pointer-events-none"></div>
+
       {/* Column 1: Architecture */}
       <div 
         className="triptych-pane pane-left" 
