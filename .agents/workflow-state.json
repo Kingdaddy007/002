@@ -22,7 +22,10 @@
     "DONE: Opening Sequence (Fluid Preloader -> Typography Scatter -> Pinned VideoHero)",
     "DONE: Fix GSAP Pin-Spacer collisions between Hero and PhilosophyBridge",
     "DONE: Restructure VideoHero -> PhilosophyBridge as Single Pinned Deck-of-Cards Architecture",
-    "PENDING: Restructure TriptychHero (4 Disciplines) based on new skeletal concept"
+    "PENDING: Restructure TriptychHero (4 Disciplines) based on new skeletal concept",
+    "PENDING: Iterate on the Philosophy section design/layout",
+    "PENDING: Change backgrounds in designated sections across the site",
+    "PENDING: Plan and build the section immediately following the Philosophy section"
   ],
   "phase_5_summary": {
     "status": "COMPLETED",
