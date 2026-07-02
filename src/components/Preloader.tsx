@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
+import { useLenis } from 'lenis/react';
 
 // ─────────────────────────────────────────────────────────────
 // GLSL: Simplex Noise Displacement Shader
@@ -117,7 +117,16 @@ export default function Preloader() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const scrollCueRef = useRef<HTMLDivElement>(null);
-  const spacerRef = useRef<HTMLDivElement>(null);
+
+  const [isGone, setIsGone] = useState(false);
+  const dissolveTriggered = useRef(false);
+  const isUnlockedRef = useRef(false);
+  const lenis = useLenis();
+  const lenisRef = useRef(lenis);
+
+  useEffect(() => {
+    lenisRef.current = lenis;
+  }, [lenis]);
 
   // WebGL state stored in refs to persist across renders
   const glRef = useRef<WebGLRenderingContext | null>(null);
@@ -265,18 +274,25 @@ export default function Preloader() {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
+    
+    // Hard lock native scrolling
     document.body.style.overflow = "hidden";
-
+    
+    // Hard lock Lenis smooth scrolling (preventing ScrollTrigger bleed)
+    if (lenis) {
+      lenis.stop();
+    }
+    
     return () => {
       document.body.style.overflow = "";
+      if (lenis) lenis.start();
     };
-  }, []);
+  }, [lenis]);
 
   // ─── Init WebGL on mount ───
   useEffect(() => {
     initWebGL();
 
-    // Handle resize
     const handleResize = () => {
       const canvas = canvasRef.current;
       if (canvas && !isDestroyedRef.current) {
@@ -292,7 +308,7 @@ export default function Preloader() {
     };
   }, [initWebGL, destroyWebGL]);
 
-  // ─── Logo Sequence + Scroll Unlock + Dissolve ───
+  // ─── Animations ───
   useGSAP(() => {
     const container = containerRef.current;
     const scrollCue = scrollCueRef.current;
@@ -303,10 +319,9 @@ export default function Preloader() {
     // ═══════════════════════════════════════════════
     const introTl = gsap.timeline();
 
-    // Logo wipes in from top (clip-path curtain reveal)
     introTl.fromTo(
       logoRef.current,
-      { clipPath: "inset(0% 0 100% 0)", opacity: 0, y: 10 },
+      { clipPath: "inset(0% 0 100% 0)", opacity: 0, y: 15 },
       {
         clipPath: "inset(0% 0 0% 0)",
         opacity: 0.95,
@@ -314,16 +329,14 @@ export default function Preloader() {
         duration: 2.5,
         ease: "power2.inOut",
       },
-      0.8 // Let the glass breathe alone for 0.8s
+      0.8
     );
 
-    // At 4.5s: Unlock scroll + show scroll cue
+    // At 4.5s: Unlock scroll logic + show scroll cue
     introTl.call(() => {
-      document.body.style.overflow = "";
-      ScrollTrigger.refresh();
+      isUnlockedRef.current = true;
     }, [], 4.5);
 
-    // Fade in the scroll cue
     introTl.fromTo(
       scrollCue,
       { opacity: 0, y: -5 },
@@ -336,153 +349,166 @@ export default function Preloader() {
       4.5
     );
 
-    // Subtle floating animation on the scroll cue (loops)
-    introTl.to(
-      scrollCue,
-      {
-        y: 6,
-        duration: 2.0,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-      },
-      5.5
-    );
-
-    // ═══════════════════════════════════════════════
-    // PHASE 2: Scroll-Driven Dissolve
-    // ═══════════════════════════════════════════════
-    // The spacer div creates scrollable distance behind the fixed preloader.
-    // As user scrolls, the threshold dissolves away.
-
-    const dissolveTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: spacerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 0.8,
-        onLeave: () => {
-          // One-shot: remove preloader from DOM flow
-          if (container) {
-            container.style.display = "none";
-            container.style.pointerEvents = "none";
-          }
-          destroyWebGL();
-        },
-      },
-    });
-
-    // Fade out the logo
-    dissolveTl.to(logoRef.current, {
-      opacity: 0,
-      y: -30,
-      duration: 0.3,
-      ease: "power2.in",
-    }, 0);
-
-    // Fade out scroll cue
-    dissolveTl.to(scrollCue, {
-      opacity: 0,
-      duration: 0.2,
-      ease: "power2.in",
-    }, 0);
-
-    // Dissolve the entire preloader container
-    dissolveTl.to(container, {
-      opacity: 0,
-      duration: 1.0,
-      ease: "power2.inOut",
-    }, 0.1);
-
-    // Ramp up shader amplitude during dissolve (glass "unfreezes")
-    dissolveTl.to(amplitudeRef, {
-      current: 0.035,
-      duration: 1.0,
-      ease: "power2.in",
-    }, 0);
-
-    // Ramp down shader opacity
-    dissolveTl.to(opacityRef, {
-      current: 0,
-      duration: 1.0,
-      ease: "power2.inOut",
-    }, 0.1);
-
   }, { scope: containerRef });
 
+  // ═══════════════════════════════════════════════
+  // PHASE 2: Event-Driven Dissolve (No Spacer Void)
+  // ═══════════════════════════════════════════════
+  useEffect(() => {
+    const triggerDissolve = () => {
+      if (!isUnlockedRef.current || dissolveTriggered.current) return;
+      dissolveTriggered.current = true;
+
+      // Play the dissolve timeline
+      const dissolveTl = gsap.timeline({
+        onComplete: () => {
+          setIsGone(true);
+          destroyWebGL();
+          // ONLY unlock the body once the preloader is fully gone
+          document.body.style.overflow = "";
+          if (lenisRef.current) lenisRef.current.start();
+        }
+      });
+
+      // Fade out logo and cue quickly
+      dissolveTl.to([logoRef.current, scrollCueRef.current], {
+        opacity: 0,
+        y: -20,
+        duration: 0.4,
+        ease: "power2.in",
+      }, 0);
+
+      // Container fades out
+      dissolveTl.to(containerRef.current, {
+        opacity: 0,
+        duration: 3.2,
+        ease: "power2.inOut",
+      }, 0.2);
+
+      // Shader unfreezes and distorts
+      dissolveTl.to(amplitudeRef, {
+        current: 0.05,
+        duration: 3.2,
+        ease: "power2.in",
+      }, 0);
+
+      dissolveTl.to(opacityRef, {
+        current: 0,
+        duration: 3.2,
+        ease: "power2.inOut",
+      }, 0.2);
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY > 0) triggerDissolve();
+    };
+    
+    const handleTouch = () => triggerDissolve();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (["ArrowDown", "PageDown", " ", "Spacebar"].includes(e.key)) {
+        triggerDissolve();
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("touchmove", handleTouch, { passive: true });
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchmove", handleTouch);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [destroyWebGL]);
+
+  if (isGone) return null;
+
   return (
-    <>
-      {/* ─── The Threshold ─── */}
-      <div
-        ref={containerRef}
-        className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
-        style={{ backgroundColor: "#181615" }}
-      >
-        {/* WebGL Canvas — simplex noise displacement on fluted glass */}
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 w-full h-full"
-          style={{ objectFit: "cover" }}
-        />
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
+      style={{ backgroundColor: "#181615" }}
+    >
+      {/* WebGL Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{ objectFit: "cover" }}
+      />
 
-        {/* Fallback static image (behind canvas, visible if WebGL fails) */}
-        <Image
-          src="/assets/fluted_glass.jpg.png"
-          alt="Fluted glass threshold"
-          fill
-          className="object-cover opacity-90"
-          style={{ zIndex: -1 }}
-          priority
-        />
+      {/* Fallback Image */}
+      <Image
+        src="/assets/fluted_glass.jpg.png"
+        alt="Fluted glass threshold"
+        fill
+        className="object-cover opacity-90 pointer-events-none"
+        style={{ zIndex: -1 }}
+        priority
+      />
 
-        {/* Logo Sequence */}
-        <div className="relative z-10 flex flex-col items-center text-center">
-          <div
-            ref={logoRef}
-            className="opacity-0 flex flex-col items-center justify-center px-8 pt-2 pb-4"
-            style={{ filter: "drop-shadow(0 0 30px rgba(229, 224, 218, 0.25))" }}
-          >
-            <Image
-              src="/xbd-fav-icon.png"
-              alt="XBD Monogram"
-              width={75}
-              height={75}
-              className="opacity-95 mb-4 invert brightness-200"
-              priority
-            />
-            <div className="flex flex-col items-center text-[#E5E0DA]">
-              <span className="font-display text-[2.2rem] tracking-[0.4em] ml-[0.4em] leading-none">
-                XBD
-              </span>
-              <span className="font-space text-[10px] tracking-[0.5em] uppercase mt-4 font-bold ml-[0.5em] opacity-80">
-                Collective
-              </span>
-              <div className="w-[140%] h-[1px] bg-[#E5E0DA] opacity-30 mt-5" />
-            </div>
-          </div>
-
-          {/* Scroll Cue */}
-          <div
-            ref={scrollCueRef}
-            className="opacity-0 flex flex-col items-center mt-16 text-[#E5E0DA]"
-          >
-            <span className="font-space text-[9px] tracking-[0.4em] uppercase opacity-60 mb-3">
-              Scroll
+      {/* 
+        Logo Sequence 
+        We use a negative margin-top (-10vh) to pull it slightly above 
+        mathematical center for correct optical weighting.
+      */}
+      <div className="relative z-10 flex flex-col items-center text-center -mt-[10vh]">
+        <div
+          ref={logoRef}
+          className="opacity-0 flex flex-col items-center justify-center px-8 pt-2 pb-4"
+          style={{ filter: "drop-shadow(0 4px 30px rgba(0, 0, 0, 0.35))" }}
+        >
+          <Image
+            src="/xbd-fav-icon.png"
+            alt="XBD Monogram"
+            width={75}
+            height={75}
+            className="opacity-95 mb-4 invert brightness-200"
+            priority
+          />
+          <div className="flex flex-col items-center text-white">
+            <span className="font-display text-[2.2rem] tracking-[0.4em] ml-[0.4em] leading-none">
+              XBD
             </span>
-            <span className="text-[18px] opacity-40 leading-none">↓</span>
+            <span className="font-space text-[10px] tracking-[0.5em] uppercase mt-4 font-bold ml-[0.5em] opacity-80">
+              Collective
+            </span>
+            <div className="w-[140%] h-[1px] bg-[#E5E0DA] opacity-30 mt-5" />
           </div>
         </div>
       </div>
 
-      {/* ─── Scroll Spacer ───
-          Creates scrollable distance for the dissolve ScrollTrigger.
-          Height = 80vh gives a comfortable scroll distance for the fade. */}
+      {/* 
+        Scroll Cue 
+        Pinned to the bottom. We replaced the unicode arrow with a bespoke, razor-thin SVG line.
+      */}
       <div
-        ref={spacerRef}
-        className="relative w-full pointer-events-none"
-        style={{ height: "80vh" }}
-        aria-hidden="true"
-      />
-    </>
+        ref={scrollCueRef}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center text-[#E5E0DA]"
+      >
+        <span className="font-space text-[9px] tracking-[0.4em] uppercase opacity-60 mb-4 ml-[0.4em]">
+          Scroll
+        </span>
+        <div className="w-[1px] h-10 bg-gradient-to-b from-[#E5E0DA]/60 to-transparent relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-[#E5E0DA] animate-[scrollLine_2s_ease-in-out_infinite]" />
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes scrollLine {
+          0% {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100%);
+            opacity: 0;
+          }
+        }
+      `}</style>
+    </div>
   );
 }
