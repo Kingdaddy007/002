@@ -144,7 +144,7 @@ const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
         },
         { 
           // Symmetrical shrink for cinematic floating card effect
-          clipPath: "inset(20vh 12vw 20vh 12vw round 40px)", 
+          clipPath: "inset(20vh 12vw 20vh 12vw round 0px)", 
           filter: "brightness(0.3)",
           duration: 2.0,
           ease: "power2.inOut"
@@ -191,7 +191,7 @@ const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
   } as React.CSSProperties;
 
   return (
-    <section ref={containerRef} id="video-hero" className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-black z-20">
+    <section ref={containerRef} id="video-hero" className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-[#181615] z-20">
       <div ref={mediaContainerRef} className="absolute inset-0 z-0">
         <div ref={proj1Ref} className="absolute inset-0 z-10 w-full h-full overflow-hidden">
           <SceneMedia scene={SCENES[0]} />
@@ -236,7 +236,7 @@ const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
       </div>
 
       {/* Seamless Bottom Gradient Blend into PhilosophyBridge */}
-      <div ref={bottomGradientRef} className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-[#121212] to-transparent z-[100] pointer-events-none"></div>
+      <div ref={bottomGradientRef} className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-[#181615] to-transparent z-[100] pointer-events-none"></div>
     </section>
   );
 });

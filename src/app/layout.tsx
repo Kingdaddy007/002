@@ -22,7 +22,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
         <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=gambetta@300,400,500&display=swap" rel="stylesheet" />
       </head>
-      <body className="min-h-full flex flex-col font-body bg-xbd-bg text-xbd-text">
+      <body className="min-h-full flex flex-col font-body bg-[#181615] text-[var(--foreground)]">
         <SmoothScroll>
           <GsapProvider>
             {children}

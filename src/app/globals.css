@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #FFFFFF;
-  --color-text-primary: #111111;
-  --color-text-secondary: #757575;
-  --color-accent-gold: #B89970;
-  --color-glass-surface: rgba(255, 255, 255, 0.6);
-  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-bg: #181615; /* Deep Espresso Plaster */
+  --color-text-primary: #E5E0DA; /* Unbleached Linen */
+  --color-text-secondary: #8E8A86; /* Muted Warm Gray */
+  --color-accent-gold: #C2A478; /* Brushed Brass */
+  --color-glass-surface: rgba(38, 35, 32, 0.45); /* Smoked Bronze transparent */
+  --color-glass-border: rgba(255, 255, 255, 0.04);
+  --color-limestone: var(--color-bg); /* Matches dark base to seamlessly frame mask text */
 
-  /* XBD Light Gallery Theme */
-  --background: #FFFFFF;
-  --foreground: #111111;
-  --text-secondary: #757575;
-  --accent-gold: #B89970;
+  /* XBD Night Museum Theme */
+  --background: #181615;
+  --foreground: #E5E0DA;
+  --text-secondary: #8E8A86;
+  --accent-gold: #C2A478;
   
   /* Typography Variables */
   --font-display: "Cormorant Garamond", serif;
@@ -20,7 +21,7 @@
   --font-space: "Space Grotesk", sans-serif;
 }
 
-@theme inline {
+@theme {
   --color-xbd-bg: var(--background);
   --color-xbd-text: var(--foreground);
   --color-xbd-muted: var(--text-secondary);
@@ -31,9 +32,9 @@
   --font-space: var(--font-space);
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
+html, body {
+  background-color: #181615;
+  color: #E5E0DA;
   font-family: var(--font-body);
   /* Hide scrollbar for a cleaner cinematic feel */
   scrollbar-width: none;
@@ -542,7 +543,7 @@ body::-webkit-scrollbar {
 .section-catalog {
   min-height: 160vh;
   height: auto;
-  background-color: #F7F5F2; /* Lighter champagne-limestone gallery background */
+  background-color: var(--color-bg);
   padding: 140px 6% 180px 6%;
   display: flex;
   flex-direction: column;

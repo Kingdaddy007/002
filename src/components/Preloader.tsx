@@ -190,7 +190,7 @@ export default function Preloader() {
         <div className="absolute top-1/2 left-1/2 w-[1px] h-12 bg-[#121212] opacity-35 -translate-x-1/2 -translate-y-1/2"></div>
       </div>
 
-      <div ref={slabRef} className="absolute inset-0 bg-[#000000] origin-top z-0 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden">
+      <div ref={slabRef} className="absolute inset-0 bg-[#181615] origin-top z-0 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden">
         <video 
           ref={lightVideoRef}
           src="/videos/bg-light-fluid.mp4.mp4" 

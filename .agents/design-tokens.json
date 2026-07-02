@@ -1,16 +1,16 @@
 {
   "theme": {
     "colors": {
-      "limestone_bg": "#F9F8F6",
-      "charcoal_text": "#1A1A1A",
-      "champagne_gold": "#C5A880",
-      "white_overlay": "rgba(255, 255, 255, 0.95)",
-      "glass_bg": "rgba(255, 255, 255, 0.45)",
-      "glass_border": "rgba(255, 255, 255, 0.25)"
+      "espresso_base": "#181615",
+      "smoked_bronze_surface": "#262320",
+      "unbleached_linen_text": "#E5E0DA",
+      "brushed_brass_accent": "#C2A478",
+      "glass_bg": "rgba(38, 35, 32, 0.45)",
+      "glass_border": "rgba(255, 255, 255, 0.04)"
     },
     "fonts": {
       "display": "'Cormorant Garamond', serif",
-      "sans": "'Montserrat', sans-serif"
+      "sans": "'Satoshi', sans-serif"
     },
     "transitions": {
       "ease_premium": "cubic-bezier(0.16, 1, 0.3, 1)"

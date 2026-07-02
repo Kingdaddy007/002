@@ -1,57 +1,48 @@
 {
   "workflow": "XBD Collective - Cinematic Concept Pitch",
-  "current_phase": "Phase 5 - Deck Transition Architecture Complete",
-  "completion_pct": 80,
-  "last_updated": "2026-06-29T17:05:00+01:00",
+  "current_phase": "Phase 7 - Architecture Overhaul & Master Plan Execution",
+  "completion_pct": 10,
+  "last_updated": "2026-07-01T22:30:00+01:00",
   "target_client": {
     "studio_name": "XBD Collective",
     "founder": "Ellen Sohoel",
     "country": "UAE",
     "city": "Dubai",
     "segment": "Luxury Residential Interior Design & Architecture",
-    "instagram": "https://www.instagram.com/xbdcollective/",
-    "website": "https://xbdesign.com",
     "website_status": "Static WordPress - Slider Revolution + Owl Carousel + Swiper.js. Zero cinematic motion.",
-    "prospect_score": "83/100 - Elite Tier",
-    "main_gap": "Tier 1 commissions (Rixos 76-storey, Bvlgari Villa, W Residences, St. Regis) presented in a 2014 template"
+    "prospect_score": "83/100 - Elite Tier"
   },
-  "sprint_goal": "Build a cinematic homepage concept as an open-book pitch. Trigger an Instagram outreach conversation.",
+  "sprint_goal": "Build a cinematic homepage concept as an open-book pitch.",
   "deliverables": [
-    "DONE: Brand diagnostic document",
-    "DONE: Homepage section map (spatial-story.md locked)",
-    "DONE: Opening Sequence (Fluid Preloader -> Typography Scatter -> Pinned VideoHero)",
-    "DONE: Fix GSAP Pin-Spacer collisions between Hero and PhilosophyBridge",
-    "DONE: Restructure VideoHero -> PhilosophyBridge as Single Pinned Deck-of-Cards Architecture",
-    "PENDING: Restructure TriptychHero (4 Disciplines) based on new skeletal concept",
-    "PENDING: Iterate on the Philosophy section design/layout",
-    "PENDING: Change backgrounds in designated sections across the site",
-    "PENDING: Plan and build the section immediately following the Philosophy section"
+    "DONE: Brand diagnostic document (brand-diagnostics.md)",
+    "DONE: xbd_homepage_architecture.md established as the Master Plan",
+    "DONE: Implementation Plan generated based on Architecture document",
+    "PENDING: Section 1 - The Threshold (Preloader rework: Light Spill Reveal + Vertical Slab Lift)",
+    "PENDING: Section 2 - The Hero (Update Scene 1 text)",
+    "PENDING: Section 3 - Philosophy Bridge (Fix monumental text and transition threshold)",
+    "PENDING: Section 4 - The Disciplines (New asymmetric layout)",
+    "PENDING: Section 5 - The Team (New intimate portrait layout)",
+    "PENDING: Section 6 - The Concierge (Update CTA text)"
   ],
-  "phase_5_summary": {
-    "status": "COMPLETED",
-    "architecture": "Single pinned DeckTransition wrapper containing VideoHero + PhilosophyBridge with shared master timeline",
-    "key_findings": [
-      "Two independent GSAP pin:true ScrollTriggers create uncollapsible pin-spacer gaps — architectural fix required, not CSS hack.",
-      "Implemented forwardRef + useImperativeHandle pattern: children export buildTimeline() functions, parent composes them into a single master timeline.",
-      "Total timeline: ~14 units across 750% viewport scroll. Phase 1-4 video scenes -> Phase 5 squeeze+overlap -> Phase 6-8 philosophy text assembly.",
-      "Fixed broken lock/hold phase: empty to({}) does NOT extend timeline duration. bg parallax tween now provides real timeline duration across the hold range.",
-      "Added immediateRender: false on roll-out tweens to prevent GSAP initial value recording conflicts."
-    ]
+  "phase_6_summary": {
+    "status": "DISCARDED/OVERWRITTEN",
+    "notes": "Component-driven development without a master scroll storyboard led to disjointed pacing. User brought in a complete structural Master Design Director critique."
   },
-  "notes": "Deck transition architecture complete and audited. Next: restructure TriptychHero.",
+  "notes": "CONTEXT HYGIENE APPLIED. We are executing the new xbd_homepage_architecture.md plan. ALL other past context files (except brand-diagnostics.md and the new storyboard/plan) are officially DISCARDED to prevent context degradation. The next session begins fresh, focusing ONLY on Section 1: The Threshold.",
   "key_decisions": [
-    "Shifted from generic gradients to structural 'Macro-Choreography'.",
-    "Selected the 'Cinematic Aspect Ratio Squeeze' (clip-path inset) for the hero transition.",
-    "Selected the 'CSS 3D Cylinder Projection' for the Epigraphy text hook.",
-    "ARCHITECTURE: Unified VideoHero + PhilosophyBridge into a single pinned DeckTransition wrapper (forwardRef/useImperativeHandle pattern).",
-    "Scoped .cylinder-text queries to containerRef to prevent cross-component selector leaking."
+    "Adopted a new 6-section emotional arc architecture (xbd_homepage_architecture.md) as the absolute source of truth.",
+    "Discarded previous fragmented plans and context files.",
+    "Transition format changed from Graphic Wipe to spatial Light Spill Reveal + Vertical Lift."
   ],
-  "blockers": [],
+  "blockers": [
+    "Awaiting travertine macro photo for the threshold image.",
+    "Awaiting project photographs for Disciplines and Team portraits."
+  ],
   "skill_chain": [
-    "brand-strategy COMPLETE",
+    "brand-strategy ACTIVE",
     "cinematic-motion ACTIVE",
     "spatial-experience-design ACTIVE",
-    "debugging COMPLETE",
-    "code-review COMPLETE"
+    "master-design-director ACTIVE",
+    "scroll-storyboard ACTIVE"
   ]
 }

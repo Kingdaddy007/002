@@ -28,7 +28,7 @@ export default function DeckTransition() {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=750%",
+        end: "+=600%",
         scrub: 1,
         pin: true,
         anticipatePin: 1
@@ -62,7 +62,7 @@ export default function DeckTransition() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-black">
+    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-[#181615]">
       <VideoHero ref={videoHeroRef} />
       
       {/* 

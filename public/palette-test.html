@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Night Museum - Luxury Palette Studio</title>
+  <!-- Google Fonts for premium editorial feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* OKLCH Theme Declarations */
+    :root {
+      --espresso-base: oklch(14% 0.01 45);
+      --espresso-surface: oklch(22% 0.02 50);
+      --espresso-text: oklch(88% 0.015 70);
+      --espresso-accent: oklch(68% 0.08 85);
+
+      --basalt-base: oklch(13% 0.005 240);
+      --basalt-surface: oklch(20% 0.005 240);
+      --basalt-text: oklch(90% 0.005 240);
+      --basalt-accent: oklch(65% 0.04 160);
+
+      --charcoal-base: oklch(11% 0.0 0);
+      --charcoal-surface: oklch(18% 0.0 0);
+      --charcoal-text: oklch(92% 0.005 90);
+      --charcoal-accent: oklch(62% 0.12 70);
+
+      /* Initial host variables (neutral grey-dark) */
+      --bg: oklch(15% 0.01 250);
+      --surf: oklch(20% 0.01 250);
+      --txt: oklch(90% 0.005 250);
+      --acc: oklch(75% 0.02 80);
+      
+      transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                  color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--txt);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 4rem 2rem;
+    }
+
+    /* Ambient glow elements */
+    .glow-radial {
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 60vh;
+      background: radial-gradient(circle, var(--acc) 0%, transparent 70%);
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 0;
+      transition: background 0.8s ease;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 4rem auto;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .brand-eyebrow {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--acc);
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+      transition: color 0.8s ease;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      font-weight: 300;
+      max-width: 600px;
+      line-height: 1.6;
+      opacity: 0.7;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      z-index: 1;
+    }
+
+    @media (max-width: 1024px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Palette Columns */
+    .palette-card {
+      background-color: var(--card-surf);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .palette-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--card-acc-half);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Assigning dynamic properties for the cards */
+    .card-espresso {
+      --card-base: var(--espresso-base);
+      --card-surf: var(--espresso-surface);
+      --card-txt: var(--espresso-text);
+      --card-acc: var(--espresso-accent);
+      --card-acc-half: rgba(194, 164, 120, 0.2);
+    }
+
+    .card-basalt {
+      --card-base: var(--basalt-base);
+      --card-surf: var(--basalt-surface);
+      --card-txt: var(--basalt-text);
+      --card-acc: var(--basalt-accent);
+      --card-acc-half: rgba(143, 166, 152, 0.2);
+    }
+
+    .card-charcoal {
+      --card-base: var(--charcoal-base);
+      --card-surf: var(--charcoal-surface);
+      --card-txt: var(--charcoal-text);
+      --card-acc: var(--charcoal-accent);
+      --card-acc-half: rgba(212, 140, 69, 0.2);
+    }
+
+    .palette-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: var(--card-txt);
+    }
+
+    .palette-sensation {
+      font-size: 0.9rem;
+      font-weight: 300;
+      opacity: 0.6;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Render Preview Block */
+    .render-block {
+      background-color: var(--card-base);
+      border-radius: 12px;
+      padding: 1.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      margin-bottom: 2rem;
+      color: var(--card-txt);
+    }
+
+    .render-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+      font-weight: 400;
+    }
+
+    .render-para {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      opacity: 0.8;
+      margin-bottom: 1.25rem;
+    }
+
+    .render-btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background-color: transparent;
+      border: 1px solid var(--card-acc);
+      color: var(--card-acc);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .render-btn:hover {
+      background-color: var(--card-acc);
+      color: var(--card-base);
+    }
+
+    /* Color Swatches & Tags */
+    .color-spec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .spec-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .spec-swatch {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .spec-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .spec-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .spec-name {
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    .spec-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background-color: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .spec-tag.role-action {
+      background-color: rgba(212, 140, 69, 0.15);
+      color: #e99e56;
+    }
+    .spec-tag.role-communicator {
+      background-color: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .spec-tag.role-neutral {
+      background-color: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .spec-code {
+      font-family: monospace;
+      font-size: 0.7rem;
+      opacity: 0.4;
+    }
+
+    /* Psychological Target Section */
+    .psy-section {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 1.5rem;
+      margin-top: auto;
+    }
+
+    .psy-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--card-acc);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .psy-content {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      opacity: 0.7;
+    }
+
+    /* Apply button */
+    .apply-theme-btn {
+      width: 100%;
+      padding: 1rem;
+      margin-top: 2rem;
+      background-color: transparent;
+      border: 1px dashed rgba(255,255,255,0.15);
+      color: var(--card-txt);
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      border-radius: 8px;
+    }
+
+    .apply-theme-btn:hover {
+      background-color: rgba(255,255,255,0.03);
+      border-color: var(--card-acc);
+    }
+
+    .active-theme-indicator {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--card-acc);
+      border: 1px solid var(--card-acc);
+      padding: 0.25rem 0.5rem;
+      border-radius: 30px;
+      display: none;
+    }
+
+    /* Selection animation effects */
+    .selected .active-theme-indicator {
+      display: block;
+    }
+    .selected {
+      border-color: var(--card-acc) !important;
+      box-shadow: 0 10px 30px var(--card-acc-half) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-radial" id="radial-glow"></div>
+
+  <header>
+    <div class="brand-eyebrow" id="host-eyebrow">XBD Collective</div>
+    <h1>The Night Museum</h1>
+    <div class="subtitle">
+      A collection of three dark, highly-sculptural visual states designed to act as physical materials. 
+      Click <strong>"Immerse Environment"</strong> on any palette to transform the master website's backdrop.
+    </div>
+  </header>
+
+  <main>
+    
+    <!-- Option A -->
+    <div class="palette-card card-espresso" id="card-espresso">
+      <div class="active-theme-indicator">Immersed</div>
+      <div>
+        <div class="palette-title">Espresso Salon</div>
+        <div class="palette-sensation">Warm, Seductive, Tactile</div>
+        
+        <!-- Render Block -->
+        <div class="render-block">
+          <div class="render-tagline">Ellen Sohoel</div>
+          <p class="render-para">Every corner must hold tension. Design is the intersection of raw material weight and spatial lighting.</p>
+          <div class="render-btn">Portfolio</div>
+        </div>
+
+        <!-- Color Specs -->
+        <div class="color-spec-list">
+          
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--espresso-base);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Deep Espresso</span>
+                <span class="spec-tag role-neutral">Neutral (Base)</span>
+              </div>
+              <span class="spec-code">oklch(14% 0.01 45) / #181615</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--espresso-surface);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Smoked Bronze</span>
+                <span class="spec-tag role-neutral">Support (Surface)</span>
+              </div>
+              <span class="spec-code">oklch(22% 0.02 50) / #262320</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--espresso-text);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Unbleached Linen</span>
+                <span class="spec-tag role-communicator">Communicator (Text)</span>
+              </div>
+              <span class="spec-code">oklch(88% 0.015 70) / #E5E0DA</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--espresso-accent);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Brushed Brass</span>
+                <span class="spec-tag role-action">Action (Accent)</span>
+              </div>
+              <span class="spec-code">oklch(68% 0.08 85) / #C2A478</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="psy-section">
+        <div class="psy-title">Feeling & Psychology</div>
+        <div class="psy-content">
+          Emulates tungsten warm lighting striking dark wood paneling and bronze plaster. It is luxurious, inviting, and highly intimate. Perfect for absorbing the gold/warm highlights of cinematic real-estate videos seamlessly.
+        </div>
+        <button class="apply-theme-btn" onclick="applyTheme('espresso')">Immerse Environment</button>
+      </div>
+    </div>
+
+    <!-- Option B -->
+    <div class="palette-card card-basalt" id="card-basalt">
+      <div class="active-theme-indicator">Immersed</div>
+      <div>
+        <div class="palette-title">Basalt Quarry</div>
+        <div class="palette-sensation">Cool, Architectural, Silent</div>
+        
+        <!-- Render Block -->
+        <div class="render-block">
+          <div class="render-tagline">Ellen Sohoel</div>
+          <p class="render-para">Every corner must hold tension. Design is the intersection of raw material weight and spatial lighting.</p>
+          <div class="render-btn">Portfolio</div>
+        </div>
+
+        <!-- Color Specs -->
+        <div class="color-spec-list">
+          
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--basalt-base);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Raw Basalt</span>
+                <span class="spec-tag role-neutral">Neutral (Base)</span>
+              </div>
+              <span class="spec-code">oklch(13% 0.005 240) / #131516</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--basalt-surface);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Burnished Iron</span>
+                <span class="spec-tag role-neutral">Support (Surface)</span>
+              </div>
+              <span class="spec-code">oklch(20% 0.005 240) / #1D1F21</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--basalt-text);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Bleached Clay</span>
+                <span class="spec-tag role-communicator">Communicator (Text)</span>
+              </div>
+              <span class="spec-code">oklch(90% 0.005 240) / #E1E4E6</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--basalt-accent);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Oxidized Sage</span>
+                <span class="spec-tag role-action">Action (Accent)</span>
+              </div>
+              <span class="spec-code">oklch(65% 0.04 160) / #8FA698</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="psy-section">
+        <div class="psy-title">Feeling & Psychology</div>
+        <div class="psy-content">
+          A cold, monumental quarry vibe. Sage-green acts as a subtle mineral highlight. Gives off an aura of clean, quiet architectural precision and modern slate-rock materiality. Makes warm interior footage stand out with temperature contrast.
+        </div>
+        <button class="apply-theme-btn" onclick="applyTheme('basalt')">Immerse Environment</button>
+      </div>
+    </div>
+
+    <!-- Option C -->
+    <div class="palette-card card-charcoal" id="card-charcoal">
+      <div class="active-theme-indicator">Immersed</div>
+      <div>
+        <div class="palette-title">Charcoal Crypt</div>
+        <div class="palette-sensation">High-Contrast, Monolithic</div>
+        
+        <!-- Render Block -->
+        <div class="render-block">
+          <div class="render-tagline">Ellen Sohoel</div>
+          <p class="render-para">Every corner must hold tension. Design is the intersection of raw material weight and spatial lighting.</p>
+          <div class="render-btn">Portfolio</div>
+        </div>
+
+        <!-- Color Specs -->
+        <div class="color-spec-list">
+          
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--charcoal-base);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Charcoal Travertine</span>
+                <span class="spec-tag role-neutral">Neutral (Base)</span>
+              </div>
+              <span class="spec-code">oklch(11% 0 0) / #111111</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--charcoal-surface);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Matte Carbon</span>
+                <span class="spec-tag role-neutral">Support (Surface)</span>
+              </div>
+              <span class="spec-code">oklch(18% 0 0) / #1C1C1C</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--charcoal-text);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Bone White</span>
+                <span class="spec-tag role-communicator">Communicator (Text)</span>
+              </div>
+              <span class="spec-code">oklch(92% 0.005 90) / #ECEBE8</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-swatch" style="background-color: var(--charcoal-accent);"></div>
+            <div class="spec-details">
+              <div class="spec-meta">
+                <span class="spec-name">Warm Amber</span>
+                <span class="spec-tag role-action">Action (Accent)</span>
+              </div>
+              <span class="spec-code">oklch(62% 0.12 70) / #D48C45</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="psy-section">
+        <div class="psy-title">Feeling & Psychology</div>
+        <div class="psy-content">
+          Absolute zero-color neutrality. Bone-white and dark slate mimic an unvarnished gallery space. The amber accent flashes like a sudden flame, creating intense visual focus on key micro-interactions while the layout acts as an invisible frame.
+        </div>
+        <button class="apply-theme-btn" onclick="applyTheme('charcoal')">Immerse Environment</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      const glow = document.getElementById('radial-glow');
+      const eyebrow = document.getElementById('host-eyebrow');
+
+      // Clear previous active states
+      document.querySelectorAll('.palette-card').forEach(card => card.classList.remove('selected'));
+
+      if (theme === 'espresso') {
+        root.style.setProperty('--bg', 'var(--espresso-base)');
+        root.style.setProperty('--surf', 'var(--espresso-surface)');
+        root.style.setProperty('--txt', 'var(--espresso-text)');
+        root.style.setProperty('--acc', 'var(--espresso-accent)');
+        document.getElementById('card-espresso').classList.add('selected');
+      } else if (theme === 'basalt') {
+        root.style.setProperty('--bg', 'var(--basalt-base)');
+        root.style.setProperty('--surf', 'var(--basalt-surface)');
+        root.style.setProperty('--txt', 'var(--basalt-text)');
+        root.style.setProperty('--acc', 'var(--basalt-accent)');
+        document.getElementById('card-basalt').classList.add('selected');
+      } else if (theme === 'charcoal') {
+        root.style.setProperty('--bg', 'var(--charcoal-base)');
+        root.style.setProperty('--surf', 'var(--charcoal-surface)');
+        root.style.setProperty('--txt', 'var(--charcoal-text)');
+        root.style.setProperty('--acc', 'var(--charcoal-accent)');
+        document.getElementById('card-charcoal').classList.add('selected');
+      }
+    }
+    
+    // Default to Espresso initially so they see it previewed
+    applyTheme('espresso');
+  </script>
+</body>
+</html>

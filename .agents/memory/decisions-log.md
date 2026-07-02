@@ -1,15 +1,7 @@
-# Architectural Decisions Log
+# Master Design Director - Architectural Decisions
 
-## Spatial Motion Overhaul
-- **Decision:** Shifted the project from standard web layouts to "Macro-Choreography" based on the `cinematic-motion` library.
-- **Components Affected:** `TriptychHero.tsx` and `PhilosophyBridge.tsx`.
-- **Selected Mechanics:** 
-  1. `clip-path-cinematic-squeeze.md` (for the video transition).
-  2. `scroll-driven-css-3d-cylinder-text-projection.md` (for the monumental typography).
-  3. `assembly-layout-construction-pinning.md` (for the Philosophy section assembly).
-- **Reasoning:** Standard fades and gradients fail the 100x premium test. The site requires physical, tactile, and spatial transitions to achieve an Awwwards-tier architectural feel.
+## Date: 2026-07-01
 
-## Transition Alignment & Pin Consolidation (June 2026)
-- **Decision:** Moved the "Cinematic Aspect Ratio Squeeze" ScrollTrigger and timeline animations from `PhilosophyBridge.tsx` directly into the `VideoHero.tsx` component, extending its pinning by `100vh` and adding a negative margin-top (`-100vh`) on `PhilosophyBridge` to handle the scroll overlap.
-- **Components Affected:** `VideoHero.tsx` and `PhilosophyBridge.tsx`.
-- **Reasoning:** Cross-component ScrollTrigger targets resulted in z-index collision and timing mismatches because of GSAP's pin-spacer mechanics. Unifying the pinning and squeeze inside the parent component and adjusting the layout flow via CSS margin-top resolves all clashing and bleeding text issues cleanly.
+- **Decision:** Adopted a new 6-section emotional arc architecture based on the Master Design Director critique.
+- **Decision:** Discarded all previous isolated design plans and context files. The ONLY active context files for the next build are `brand-diagnostics.md` and the new Master Implementation Plan / Storyboard.
+- **Decision:** Transition format changed from a graphic Diagonal Wipe to a spatial Light Spill Reveal + Vertical Slab Lift, directly reflecting the physical, architectural nature of the brand.
