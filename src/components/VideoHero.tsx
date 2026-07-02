@@ -18,7 +18,7 @@ const SceneMedia = ({ scene }: { scene: Scene }) => {
 };
 
 const SCENES: Scene[] = [
-  { id: "scene-1", title: "Architecture that challenges gravity and convention.", video: "/videos/scene1.mp4" },
+  { id: "scene-1", title: "THE REALITY OF THE EXTRAORDINARY", video: "/videos/scene1.mp4" },
   { id: "scene-2", title: "Sanctuaries of uncompromising private luxury.", video: "/videos/scene2.mp4" },
   { id: "scene-3", title: "From singular estates to visionary coastal masterplans.", video: "/videos/scene3.mp4" },
   { id: "scene-4", title: "Curating mood, texture, and light.", video: "/videos/scene4.mp4" },
