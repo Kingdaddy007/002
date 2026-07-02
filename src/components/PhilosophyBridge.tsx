@@ -19,32 +19,33 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
   useImperativeHandle(ref, () => ({
     buildTimeline: (masterTl: gsap.core.Timeline, startTime: number) => {
       // 1. Cinematic Left Typography Reveal
+      // We start this at (startTime - 1.5) so it bleeds in WHILE the section is sliding up.
+      const entranceStart = startTime - 1.5;
+      
       const leftLines = containerRef.current 
         ? gsap.utils.toArray<HTMLElement>(containerRef.current.querySelectorAll(".reveal-left"))
         : [];
       
       masterTl.fromTo(leftLines, 
         { 
-          opacity: 0, 
-          y: 60,
-          clipPath: "inset(100% 0% 0% 0%)",
+          yPercent: 100,
+          opacity: 0
         }, 
         {
+          yPercent: 0,
           opacity: 1,
-          y: 0,
-          clipPath: "inset(0% 0% 0% 0%)",
           stagger: 0.15,
           ease: "power3.out",
           duration: 2.0
         },
-        startTime
+        entranceStart
       );
 
       // 2. Vertical Anchor Divider
       masterTl.fromTo(dividerRef.current,
         { scaleY: 0, transformOrigin: "top" },
         { scaleY: 1, duration: 1.5, ease: "power2.inOut" },
-        startTime + 0.5
+        entranceStart + 0.5
       );
 
       // 3. Right Typography "SplitText" Stagger Effect (The Scroll Typography Effect)
@@ -52,44 +53,61 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
         ? gsap.utils.toArray<HTMLElement>(containerRef.current.querySelectorAll(".split-word"))
         : [];
       
-      const rightStatic = containerRef.current
-        ? gsap.utils.toArray<HTMLElement>(containerRef.current.querySelectorAll(".reveal-right-static"))
+      const eyebrow = containerRef.current?.querySelector(".reveal-eyebrow");
+      
+      const signatureElements = containerRef.current
+        ? gsap.utils.toArray<HTMLElement>(containerRef.current.querySelectorAll(".reveal-signature"))
         : [];
 
-      // Fade in the static elements (eyebrow, signature)
-      masterTl.fromTo(rightStatic,
-        { opacity: 0, x: -10 },
-        { opacity: 1, x: 0, stagger: 0.2, duration: 1.5, ease: "power2.out" },
-        startTime + 1.0
-      );
+      // Eyebrow appears quietly as context
+      if (eyebrow) {
+        masterTl.fromTo(eyebrow,
+          { opacity: 0, x: -10 },
+          { opacity: 1, x: 0, duration: 1.5, ease: "power2.out" },
+          entranceStart + 1.0
+        );
+      }
 
-      // Stagger the body words (this provides the scrubbed typography effect the user requested)
+      // Body text scrubs in (starts right after eyebrow)
       masterTl.fromTo(rightWords,
         { opacity: 0, yPercent: 100 },
         { opacity: 1, yPercent: 0, stagger: 0.03, duration: 1.5, ease: "power3.out" },
-        startTime + 1.2
+        entranceStart + 1.2
+      );
+
+      // Closing hook and signature appear after the text finishes scrubbing
+      masterTl.fromTo(signatureElements,
+        { opacity: 0, x: -10 },
+        { opacity: 1, x: 0, stagger: 0.2, duration: 1.5, ease: "power2.out" },
+        entranceStart + 3.0
       );
 
       // 4. Lock Phase (Holding text so it can be read)
       // Master timeline manages the scrub, so we give it 2 units of reading time before rollout.
       
-      // 5. Roll Out Sequence
-      const rolloutStart = startTime + 4.0;
+      // 5. Roll Out Sequence (Slow, structural fade out)
+      const rolloutStart = startTime + 2.0;
       
       masterTl.to(leftLines, {
-        opacity: 0, y: -40, clipPath: "inset(0% 0% 100% 0%)", stagger: 0.1, duration: 1.5, ease: "power3.in", immediateRender: false
+        opacity: 0, y: -20, stagger: 0.1, duration: 1.5, ease: "power2.inOut", immediateRender: false
       }, rolloutStart);
 
       masterTl.to(dividerRef.current, {
-        scaleY: 0, transformOrigin: "bottom", duration: 1.0, ease: "power2.in", immediateRender: false
+        opacity: 0, duration: 1.5, ease: "power2.inOut", immediateRender: false
       }, rolloutStart + 0.2);
 
       masterTl.to(rightWords, {
-        opacity: 0, yPercent: -50, stagger: 0.01, duration: 1.0, ease: "power2.in", immediateRender: false
+        opacity: 0, stagger: 0.01, duration: 1.0, ease: "power2.inOut", immediateRender: false
       }, rolloutStart + 0.2);
 
-      masterTl.to(rightStatic, {
-        opacity: 0, x: -10, stagger: 0.1, duration: 1.0, ease: "power2.in", immediateRender: false
+      if (eyebrow) {
+        masterTl.to(eyebrow, {
+          opacity: 0, duration: 1.0, ease: "power2.inOut", immediateRender: false
+        }, rolloutStart + 0.4);
+      }
+
+      masterTl.to(signatureElements, {
+        opacity: 0, stagger: 0.1, duration: 1.0, ease: "power2.inOut", immediateRender: false
       }, rolloutStart + 0.4);
     }
   }));
@@ -97,7 +115,7 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full h-screen bg-[#181615] text-[#E5E0DA] overflow-hidden flex items-center shadow-[0_-30px_60px_rgba(0,0,0,0.8)]"
+      className="relative w-full h-screen bg-[#1E1A17] text-[#E5E0DA] overflow-hidden flex items-center shadow-[0_-30px_60px_rgba(0,0,0,0.8)]"
     >
       {/* 
         Using items-center to ensure vertical centering.
@@ -110,18 +128,12 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
           ref={leftColRef}
           className="md:col-span-7 flex flex-col justify-center gap-8 lg:gap-16 pt-16 md:pt-0"
         >
-          {/* Hook 1: Architecture */}
-          <h2 className="font-display text-[2rem] md:text-[3rem] lg:text-[4rem] xl:text-[4.5rem] leading-[1.05] tracking-[-0.03em] text-[#E5E0DA]">
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">Architecture that</div></div>
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">commands</div></div>
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">the skyline.</div></div>
-          </h2>
-          
-          {/* Hook 2: Interiors (Equal weight, proper spacing so it doesn't overflow) */}
-          <h2 className="font-display text-[2rem] md:text-[3rem] lg:text-[4rem] xl:text-[4.5rem] leading-[1.05] tracking-[-0.03em] text-[#E5E0DA] md:ml-12 lg:ml-20">
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">Interiors that</div></div>
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">curate</div></div>
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">the silence.</div></div>
+          {/* Monumental Scope */}
+          <h2 className="font-display text-[2rem] md:text-[4rem] lg:text-[5rem] xl:text-[6.5rem] leading-[1.0] tracking-[-0.03em] text-[#E5E0DA]">
+            <div className="overflow-hidden"><div className="reveal-left transform-gpu">FROM</div></div>
+            <div className="overflow-hidden"><div className="reveal-left transform-gpu">CONCEPT</div></div>
+            <div className="overflow-hidden"><div className="reveal-left transform-gpu">TO</div></div>
+            <div className="overflow-hidden"><div className="reveal-left transform-gpu">REALITY.</div></div>
           </h2>
         </div>
 
@@ -138,7 +150,7 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
 
           <div className="flex flex-col gap-10 lg:gap-14">
             <div>
-              <p className="reveal-right-static text-[10px] tracking-[0.2em] text-[#E5E0DA]/40 mb-6 uppercase">
+              <p className="reveal-eyebrow text-[10px] tracking-[0.2em] text-[#E5E0DA]/40 mb-6 uppercase">
                 THE XBD STANDARD
               </p>
               
@@ -151,14 +163,14 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
                 ))}
               </p>
 
-              <div className="reveal-right-static mt-6">
+              <div className="reveal-signature mt-6">
                 <strong className="text-[#E5E0DA] font-normal text-base lg:text-[1.1rem] xl:text-[1.25rem]">
                   What we design is exactly what we build.
                 </strong>
               </div>
             </div>
             
-            <div className="reveal-right-static">
+            <div className="reveal-signature">
               <p className="font-display text-2xl lg:text-[1.75rem] tracking-tight text-[#E5E0DA] mb-1">ELLEN SØHOEL</p>
               <p className="text-[10px] tracking-[0.2em] text-[#E5E0DA]/40">FOUNDER / DESIGN DIRECTOR</p>
             </div>

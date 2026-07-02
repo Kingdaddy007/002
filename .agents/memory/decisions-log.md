@@ -13,3 +13,7 @@
 - **Decision:** WebGL simplex noise displacement chosen over CSS filter for the breathing effect — CSS cannot produce time-varying organic noise.
 - **Decision:** "THE REALITY OF THE EXTRAORDINARY" moved from Preloader typography curtain to Hero Scene 1 title.
 - **Implementation:** Preloader fully rewritten — old fluid videos, enter button, cursor, curtain all removed. New: WebGL canvas + simplex shader, 80vh scroll spacer, GSAP ScrollTrigger dissolve.
+- **Decision:** Structural void removed. Preloader changed to a `fixed` overlay that completely unmounts after an event-triggered GSAP timeline, rather than a scroll-scrubbed document element.
+- **Decision:** Logo contrast fixed: changed to pure white and replaced the glowing shadow with an ambient charcoal shadow (`rgba(0, 0, 0, 0.35)`) to achieve optical separation from the bright copper background.
+- **Decision:** Logo positioned at optical center (`-mt-[10vh]`) rather than mathematical center.
+- **Decision:** Implemented a hard lock on `ReactLenis` via `useLenis()` during the Preloader dissolve to prevent scroll event bleeding into the Hero section.

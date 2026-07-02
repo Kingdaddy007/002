@@ -28,7 +28,7 @@ export default function DeckTransition() {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=600%",
+        end: "+=450%",
         scrub: 1,
         pin: true,
         anticipatePin: 1

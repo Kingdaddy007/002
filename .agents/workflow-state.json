@@ -1,8 +1,8 @@
 {
   "workflow": "XBD Collective - Cinematic Concept Pitch",
   "current_phase": "Phase 7 - Architecture Overhaul & Master Plan Execution",
-  "completion_pct": 10,
-  "last_updated": "2026-07-01T22:30:00+01:00",
+  "completion_pct": 30,
+  "last_updated": "2026-07-02T13:54:00+01:00",
   "target_client": {
     "studio_name": "XBD Collective",
     "founder": "Ellen Sohoel",
@@ -17,8 +17,8 @@
     "DONE: Brand diagnostic document (brand-diagnostics.md)",
     "DONE: xbd_homepage_architecture.md established as the Master Plan",
     "DONE: Implementation Plan generated based on Architecture document",
-    "PENDING: Section 1 - The Threshold (Preloader rework: Light Spill Reveal + Vertical Slab Lift)",
-    "PENDING: Section 2 - The Hero (Update Scene 1 text)",
+    "DONE: Section 1 - The Threshold (WebGL shader Preloader, GSAP dissolve, Lenis lock)",
+    "DONE: Section 2 - The Hero (Update Scene 1 text)",
     "PENDING: Section 3 - Philosophy Bridge (Fix monumental text and transition threshold)",
     "PENDING: Section 4 - The Disciplines (New asymmetric layout)",
     "PENDING: Section 5 - The Team (New intimate portrait layout)",
@@ -28,14 +28,15 @@
     "status": "DISCARDED/OVERWRITTEN",
     "notes": "Component-driven development without a master scroll storyboard led to disjointed pacing. User brought in a complete structural Master Design Director critique."
   },
-  "notes": "CONTEXT HYGIENE APPLIED. We are executing the new xbd_homepage_architecture.md plan. ALL other past context files (except brand-diagnostics.md and the new storyboard/plan) are officially DISCARDED to prevent context degradation. The next session begins fresh, focusing ONLY on Section 1: The Threshold.",
+  "notes": "CONTEXT HYGIENE APPLIED. Sections 1 and 2 are complete and verified. The structural GSAP/Lenis issues with the Preloader have been fixed. The next session MUST focus exclusively on Section 3: The Philosophy Bridge.",
   "key_decisions": [
     "Adopted a new 6-section emotional arc architecture (xbd_homepage_architecture.md) as the absolute source of truth.",
     "Discarded previous fragmented plans and context files.",
-    "Transition format changed from Graphic Wipe to spatial Light Spill Reveal + Vertical Lift."
+    "Transition format changed to a fixed WebGL simplex shader overlay that unmounts completely after an event-triggered GSAP dissolve timeline.",
+    "Implemented optical centering for logo and pure white text with dark charcoal shadow for optimal contrast against bright assets.",
+    "Implemented a hard lock on ReactLenis during the Preloader dissolve to prevent scroll event bleeding into the Hero section."
   ],
   "blockers": [
-    "Awaiting travertine macro photo for the threshold image.",
     "Awaiting project photographs for Disciplines and Team portraits."
   ],
   "skill_chain": [
@@ -43,6 +44,7 @@
     "cinematic-motion ACTIVE",
     "spatial-experience-design ACTIVE",
     "master-design-director ACTIVE",
-    "scroll-storyboard ACTIVE"
+    "scroll-storyboard ACTIVE",
+    "color-system ACTIVE"
   ]
 }
