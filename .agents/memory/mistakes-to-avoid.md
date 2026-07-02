@@ -19,3 +19,7 @@
 ## Smooth Scroll Event Bleed (ReactLenis)
 - **The Mistake:** Setting `document.body.style.overflow = "hidden"` during a full-screen transition, but failing to explicitly stop the `ReactLenis` instance.
 - **The Impact:** Lenis intercepts wheel events regardless of CSS overflow settings. While the preloader was dissolving (which took 3.2 seconds), Lenis was secretly scrubbing the `ScrollTrigger` timelines of the hidden Hero section underneath. By the time the preloader finished, the user had already scrubbed past the intro text of the first video. Always use `lenis.stop()` during full-page overlays, and ensure the `lenis.start()` callback doesn't suffer from a stale closure (use a `useRef` to track the active Lenis instance).
+
+## [Session 2026-07-02] Tailwind v4 Variables Failure
+- **Mistake:** Attempting to use var(--background) in the Tailwind @theme block when migrating colors via a script, which caused the variables to not resolve properly in production and fallback to pure white.
+- **Fix/Avoidance:** In Tailwind v4, hardcode the hex values directly into the @theme block (e.g., --color-xbd-bg: #F7F5F2;) to ensure stable compilation and prevent visual failure during color migrations.

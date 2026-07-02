@@ -7,7 +7,7 @@ import ConciergeSection from "@/components/ConciergeSection";
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen bg-[#181615]">
+    <main className="w-full min-h-screen bg-xbd-bg">
       <Preloader />
       <Header />
       <DeckTransition />

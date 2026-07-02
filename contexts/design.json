@@ -1,22 +1,22 @@
 {
   "brand": "XBD Collective",
-  "theme": "light_gallery",
+  "theme": "desert_luxury_light",
   "colors": {
-    "background": "#FFFFFF",
-    "text_primary": "#111111",
-    "text_secondary": "#757575",
-    "accent_gold": "#B89970",
-    "glass_surface": "rgba(255, 255, 255, 0.6)",
-    "glass_border": "rgba(255, 255, 255, 0.2)"
+    "background": "#F7F5F2",
+    "text_primary": "#2C2621",
+    "text_secondary": "#8C857B",
+    "accent_gold": "#C2A478",
+    "glass_surface": "rgba(247, 245, 242, 0.6)",
+    "glass_border": "rgba(44, 38, 33, 0.1)"
   },
   "typography": {
     "display": {
-      "family": "Gambetta, serif",
+      "family": "'Cormorant Garamond', serif",
       "weight": "400",
       "usage": "Hero headlines, Section titles"
     },
     "body": {
-      "family": "Satoshi, sans-serif",
+      "family": "'Satoshi', sans-serif",
       "weight": "400",
       "usage": "Paragraphs, Navigation, Metadata"
     }
@@ -24,8 +24,8 @@
   "effects": {
     "glassmorphism": {
       "backdrop_filter": "blur(24px)",
-      "background": "rgba(255, 255, 255, 0.4)",
-      "border": "1px solid rgba(255, 255, 255, 0.2)",
+      "background": "rgba(247, 245, 242, 0.4)",
+      "border": "1px solid rgba(44, 38, 33, 0.1)",
       "usage": "Navigation bar, floating project cards, UI overlays"
     }
   }

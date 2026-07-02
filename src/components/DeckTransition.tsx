@@ -62,7 +62,7 @@ export default function DeckTransition() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-[#181615]">
+    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-xbd-bg">
       <VideoHero ref={videoHeroRef} />
       
       {/* 

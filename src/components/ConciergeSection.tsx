@@ -48,7 +48,7 @@ export default function ConciergeSection() {
               <span className="input-line"></span>
             </div>
           </div>
-          <button type="submit" className="concierge-btn">
+          <button type="submit" aria-label="Submit Inquiry" className="concierge-btn">
             <span className="btn-text">COMMISSION THE INVISIBLE</span>
             <span className="btn-arrow">➔</span>
           </button>

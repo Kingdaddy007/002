@@ -17,3 +17,8 @@
 - **Decision:** Logo contrast fixed: changed to pure white and replaced the glowing shadow with an ambient charcoal shadow (`rgba(0, 0, 0, 0.35)`) to achieve optical separation from the bright copper background.
 - **Decision:** Logo positioned at optical center (`-mt-[10vh]`) rather than mathematical center.
 - **Decision:** Implemented a hard lock on `ReactLenis` via `useLenis()` during the Preloader dissolve to prevent scroll event bleeding into the Hero section.
+
+## [Session 2026-07-02] Light Theme Pivot & Hero Cut
+- **Decision:** Pivoted the overarching color scheme from Dark (Espresso Plaster #181615) to Light (Limestone #F7F5F2 & Espresso typography #2C2621). This better matches the luxury, airy aesthetic the brand desires.
+- **Decision:** Removed the bottom fade gradient from the VideoHero for a hard cut into the PhilosophyBridge per user instruction.
+- **Decision:** Confirmed 3 disciplines (Masterplan, Architecture, Interiors) using an asymmetric scrolling layout.

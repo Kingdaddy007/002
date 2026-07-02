@@ -47,7 +47,7 @@ export default function Header() {
         </nav>
 
         {/* Right: Hamburger / Menu for the new reference later */}
-        <button className="hidden md:flex items-center gap-3 hover:opacity-70 transition-opacity">
+        <button aria-label="Open Navigation Menu" className="hidden md:flex items-center gap-3 hover:opacity-70 transition-opacity">
           <span className="font-body text-xs tracking-widest uppercase">Menu</span>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M4 8H20M4 16H20" strokeLinecap="round"/>

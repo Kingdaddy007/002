@@ -211,7 +211,7 @@ export default function Preloader() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     // Placeholder pixel while image loads
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-      new Uint8Array([24, 22, 21, 255])); // #181615
+      new Uint8Array([247, 245, 242, 255])); // var(--background)
 
     const img = new window.Image();
     img.crossOrigin = "anonymous";
@@ -428,7 +428,7 @@ export default function Preloader() {
     <div
       ref={containerRef}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
-      style={{ backgroundColor: "#181615" }}
+      style={{ backgroundColor: "var(--background)" }}
     >
       {/* WebGL Canvas */}
       <canvas
@@ -463,17 +463,17 @@ export default function Preloader() {
             alt="XBD Monogram"
             width={75}
             height={75}
-            className="opacity-95 mb-4 invert brightness-200"
+            className="opacity-95 mb-4"
             priority
           />
-          <div className="flex flex-col items-center text-white">
+          <div className="flex flex-col items-center text-xbd-text">
             <span className="font-display text-[2.2rem] tracking-[0.4em] ml-[0.4em] leading-none">
               XBD
             </span>
             <span className="font-space text-[10px] tracking-[0.5em] uppercase mt-4 font-bold ml-[0.5em] opacity-80">
               Collective
             </span>
-            <div className="w-[140%] h-[1px] bg-[#E5E0DA] opacity-30 mt-5" />
+            <div className="w-[140%] h-[1px] bg-xbd-text opacity-30 mt-5" />
           </div>
         </div>
       </div>
@@ -484,13 +484,13 @@ export default function Preloader() {
       */}
       <div
         ref={scrollCueRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center text-[#E5E0DA]"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center text-xbd-text"
       >
         <span className="font-space text-[9px] tracking-[0.4em] uppercase opacity-60 mb-4 ml-[0.4em]">
           Scroll
         </span>
-        <div className="w-[1px] h-10 bg-gradient-to-b from-[#E5E0DA]/60 to-transparent relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-[#E5E0DA] animate-[scrollLine_2s_ease-in-out_infinite]" />
+        <div className="w-[1px] h-10 bg-gradient-to-b from-xbd-text/60 to-transparent relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-xbd-text animate-[scrollLine_2s_ease-in-out_infinite]" />
         </div>
       </div>
 

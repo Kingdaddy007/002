@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #181615; /* Deep Espresso Plaster */
-  --color-text-primary: #E5E0DA; /* Unbleached Linen */
-  --color-text-secondary: #8E8A86; /* Muted Warm Gray */
+  --color-bg: #F7F5F2; /* Limestone */
+  --color-text-primary: #2C2621; /* Espresso Brown */
+  --color-text-secondary: #8C857B; /* Muted Taupe */
   --color-accent-gold: #C2A478; /* Brushed Brass */
-  --color-glass-surface: rgba(38, 35, 32, 0.45); /* Smoked Bronze transparent */
-  --color-glass-border: rgba(255, 255, 255, 0.04);
-  --color-limestone: var(--color-bg); /* Matches dark base to seamlessly frame mask text */
+  --color-glass-surface: rgba(255, 255, 255, 0.45);
+  --color-glass-border: rgba(0, 0, 0, 0.04);
+  --color-limestone: var(--color-bg);
 
-  /* XBD Night Museum Theme */
-  --background: #181615;
-  --foreground: #E5E0DA;
-  --text-secondary: #8E8A86;
+  /* XBD Light Museum Theme */
+  --background: #F7F5F2;
+  --foreground: #2C2621;
+  --text-secondary: #8C857B;
   --accent-gold: #C2A478;
   
   /* Typography Variables */
@@ -22,10 +22,10 @@
 }
 
 @theme {
-  --color-xbd-bg: var(--background);
-  --color-xbd-text: var(--foreground);
-  --color-xbd-muted: var(--text-secondary);
-  --color-xbd-gold: var(--accent-gold);
+  --color-xbd-bg: #F7F5F2;
+  --color-xbd-text: #2C2621;
+  --color-xbd-muted: #8C857B;
+  --color-xbd-gold: #C2A478;
   
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -33,8 +33,8 @@
 }
 
 html, body {
-  background-color: #181615;
-  color: #E5E0DA;
+  background-color: #F7F5F2;
+  color: #2C2621;
   font-family: var(--font-body);
   /* Hide scrollbar for a cleaner cinematic feel */
   scrollbar-width: none;

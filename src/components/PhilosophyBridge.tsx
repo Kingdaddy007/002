@@ -115,7 +115,7 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full h-screen bg-[#1E1A17] text-[#E5E0DA] overflow-hidden flex items-center shadow-[0_-30px_60px_rgba(0,0,0,0.8)]"
+      className="relative w-full h-screen bg-xbd-bg text-xbd-text overflow-hidden flex items-center shadow-[0_-30px_60px_rgba(0,0,0,0.8)]"
     >
       {/* 
         Using items-center to ensure vertical centering.
@@ -129,7 +129,7 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
           className="md:col-span-7 flex flex-col justify-center gap-8 lg:gap-16 pt-16 md:pt-0"
         >
           {/* Monumental Scope */}
-          <h2 className="font-display text-[2rem] md:text-[4rem] lg:text-[5rem] xl:text-[6.5rem] leading-[1.0] tracking-[-0.03em] text-[#E5E0DA]">
+          <h2 className="font-display text-[2rem] md:text-[4rem] lg:text-[5rem] xl:text-[6.5rem] leading-[1.0] tracking-[-0.03em] text-xbd-text">
             <div className="overflow-hidden"><div className="reveal-left transform-gpu">FROM</div></div>
             <div className="overflow-hidden"><div className="reveal-left transform-gpu">CONCEPT</div></div>
             <div className="overflow-hidden"><div className="reveal-left transform-gpu">TO</div></div>
@@ -150,12 +150,12 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
 
           <div className="flex flex-col gap-10 lg:gap-14">
             <div>
-              <p className="reveal-eyebrow text-[10px] tracking-[0.2em] text-[#E5E0DA]/40 mb-6 uppercase">
+              <p className="reveal-eyebrow text-[10px] tracking-[0.2em] text-xbd-text/60 mb-6 uppercase">
                 THE XBD STANDARD
               </p>
               
               {/* Staggered Word Reveal */}
-              <p className="font-body text-base lg:text-[1.1rem] xl:text-[1.25rem] leading-relaxed text-[#E5E0DA]/70 max-w-[440px] flex flex-wrap">
+              <p className="font-body text-base lg:text-[1.1rem] xl:text-[1.25rem] leading-relaxed text-xbd-text/70 max-w-[440px] flex flex-wrap">
                 {philosophyWords.map((word, i) => (
                   <span key={i} className="overflow-hidden inline-block mr-[0.25em] mb-[0.2em]">
                     <span className="split-word inline-block transform-gpu">{word}</span>
@@ -164,15 +164,15 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
               </p>
 
               <div className="reveal-signature mt-6">
-                <strong className="text-[#E5E0DA] font-normal text-base lg:text-[1.1rem] xl:text-[1.25rem]">
+                <strong className="text-xbd-text font-normal text-base lg:text-[1.1rem] xl:text-[1.25rem]">
                   What we design is exactly what we build.
                 </strong>
               </div>
             </div>
             
             <div className="reveal-signature">
-              <p className="font-display text-2xl lg:text-[1.75rem] tracking-tight text-[#E5E0DA] mb-1">ELLEN SØHOEL</p>
-              <p className="text-[10px] tracking-[0.2em] text-[#E5E0DA]/40">FOUNDER / DESIGN DIRECTOR</p>
+              <p className="font-display text-2xl lg:text-[1.75rem] tracking-tight text-xbd-text mb-1">ELLEN SØHOEL</p>
+              <p className="text-[10px] tracking-[0.2em] text-xbd-text/60">FOUNDER / DESIGN DIRECTOR</p>
             </div>
           </div>
         </div>

@@ -9,3 +9,7 @@
   - *To lighten:* Increase Lightness, DECREASE Saturation, and shift Hue toward yellow/warm (simulating natural sunlight).
   - *To darken:* Decrease Lightness, INCREASE Saturation, and shift Hue toward blue/purple/cool (simulating natural shadows).
   - Use semantic variables mapped to functional roles (Base, Surface, Text, Accent, Neutral) to ensure consistency across views.
+
+## [Session 2026-07-02] GSAP & Next.js Image Optimization
+- **Pattern:** When applying object-cover scale-[1.15] to images for GSAP parallax effects, avoid complex Next.js <Image layout='fill'> wrappers if they break the scaling math. Instead, use standard HTML <img> or Next <Image fill> combined with loading='lazy' to safely optimize without breaking the pin logic.
+- **Pattern:** Preloader WebGL Canvas fallback RGB array must match the --color-xbd-bg hex exactly (e.g., new Uint8Array([247, 245, 242, 255]) for Limestone) so the preloader doesnt jar the user before fading out.
