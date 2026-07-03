@@ -31,3 +31,7 @@
   **Correction**: This causes the section to aggressively hide itself when the user hits the bottom limit. Use "play none none reverse" instead.
 - **Mistake**: Using pb-2 on overflow-hidden text masks.
   **Correction**: It leaks the hidden text below the mask. Remove padding and ensure opacity: 0 is applied to the starting state of the animated elements.
+- **Mistake**: Keeping a fixed transparent header visible on scroll up in a one-page site with alternating light/dark sections.
+  **Correction**: The header text and logo will clash violently with content underneath it if the user scrolls backwards. If building a tightly choreographed pitch without a solid header background, make the header disappear completely on scroll down and only reappear at `scrollY === 0`.
+- **Mistake**: Leaving broken or unimplemented UI elements (like a hamburger menu) in a concept pitch.
+  **Correction**: The pitch must feel flawless. If an element doesn't work, remove it entirely. A dead click ruins the illusion of a finished product.

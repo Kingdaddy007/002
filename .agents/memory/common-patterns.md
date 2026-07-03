@@ -17,3 +17,4 @@
 ## [2026-07-03] UI Layout Patterns
 - **Compact Forms:** When creating form sections that must be visually compact to avoid scrolling, group inputs using grid grid-cols-2 rather than lex-col gap-X, which drastically cuts vertical height.
 - **Floor Pinning:** Use mt-auto on a bottom flex container inside a min-h or fixed h-vh block to dynamically push the final row (like logos and social links) to the exact floor of the container without absolute positioning.
+- **Single Page Smooth Scrolling:** For one-page pitches, replace Next.js `<Link>` components with standard `<a>` tags and an `onClick` handler that calls `element.scrollIntoView({ behavior: 'smooth' })`. This prevents route pushing and guarantees exact section targeting.
