@@ -105,8 +105,8 @@ export default function ConciergeSection() {
                 
                 <div className="form-group relative flex flex-col group col-span-2">
                   <label htmlFor="project-budget" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Project Budget</label>
-                  <select id="project-budget" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2 appearance-none">
-                    <option value="" disabled selected hidden>Select Range</option>
+                  <select id="project-budget" required defaultValue="" className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2 appearance-none">
+                    <option value="" disabled hidden>Select Range</option>
                     <option value="250k-500k" className="bg-[#F0EBE3]">$250k - $500k</option>
                     <option value="500k-2m" className="bg-[#F0EBE3]">$500k - $2M</option>
                     <option value="2m+" className="bg-[#F0EBE3]">$2M+</option>
