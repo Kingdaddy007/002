@@ -84,39 +84,36 @@ export default function ConciergeSection() {
   return (
     <div ref={containerRef} className="relative w-full bg-[#0A0A0A] flex flex-col z-10">
       
-      {/* 1. The Cinematic Split Screen Locations Section */}
-      <section id="concierge" className="relative w-full min-h-screen flex flex-col lg:flex-row z-20">
+      {/* 1. The Cinematic Locations Section */}
+      <section id="concierge" className="relative w-full min-h-screen flex justify-center items-center py-24 px-6 md:px-12 z-20 bg-[#0A0A0A] overflow-hidden">
         
-        {/* Left Panel: The Interactive Imagery */}
-        <div className="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-screen overflow-hidden bg-[#111]">
-          {/* Base Layer: Dark Background */}
-          <div className="absolute inset-0 w-full h-full bg-[#111]"></div>
-          
+        {/* Full-bleed Interactive Background Layers */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
           {/* London Layer (Hidden by default) */}
-          <div ref={londonImgRef} className="absolute inset-0 w-full h-full opacity-0 pointer-events-none">
+          <div ref={londonImgRef} className="absolute inset-0 w-full h-full opacity-0">
             <img 
               src="/images/london_mayfair_facade_1783053217126.jpg" 
               alt="Mayfair London Atelier" 
               className="w-full h-full object-cover" 
             />
-            {/* Subtle dark overlay for mood */}
-            <div className="absolute inset-0 bg-black/20" />
+            {/* Dark overlay to ensure form remains readable */}
+            <div className="absolute inset-0 bg-[#0A0A0A]/80 backdrop-blur-[2px]" />
           </div>
 
           {/* Dubai Layer (Hidden by default) */}
-          <div ref={dubaiImgRef} className="absolute inset-0 w-full h-full opacity-0 pointer-events-none">
+          <div ref={dubaiImgRef} className="absolute inset-0 w-full h-full opacity-0">
             <img 
               src="/images/dubai_d3_facade_1783053226216.jpg" 
               alt="Dubai Design District Atelier" 
               className="w-full h-full object-cover" 
             />
-            {/* Subtle dark overlay for mood */}
-            <div className="absolute inset-0 bg-black/20" />
+            {/* Dark overlay to ensure form remains readable */}
+            <div className="absolute inset-0 bg-[#0A0A0A]/80 backdrop-blur-[2px]" />
           </div>
         </div>
 
-        {/* Right Panel: The Private Ledger Form */}
-        <div ref={formSectionRef} className="w-full lg:w-1/2 bg-[#0A0A0A] text-white flex flex-col justify-between py-16 lg:py-24 px-8 md:px-16 lg:px-24">
+        {/* The Private Ledger Form (Centered) */}
+        <div ref={formSectionRef} className="relative z-10 w-full max-w-4xl text-white flex flex-col justify-between py-16">
           
           {/* Top: Header */}
           <div className="ledger-item mb-16">
