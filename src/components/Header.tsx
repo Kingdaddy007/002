@@ -87,38 +87,41 @@ export default function Header() {
     };
   }, []);
 
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
+    e.preventDefault();
+    const el = document.querySelector(target);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isLightText ? "text-white" : "text-xbd-text"} ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 h-32 flex items-center justify-between">
         
         {/* Left: Full Logo */}
-        <Link href="/" className="hover:opacity-80 transition-opacity">
+        <div className="hover:opacity-80 transition-opacity cursor-pointer" onClick={(e) => handleScrollTo(e as any, 'body')}>
           <FullLogo isLightText={isLightText} />
-        </Link>
+        </div>
         
         {/* Center: Navigation */}
         <nav className="hidden md:flex items-center gap-12 text-xs tracking-widest font-body uppercase">
-          <Link href="#philosophy" className="hover:opacity-60 transition-opacity">
-            Concept
-          </Link>
-          <Link href="#disciplines" className="hover:opacity-60 transition-opacity">
+          <a href="#philosophy" onClick={(e) => handleScrollTo(e, '#philosophy')} className="hover:opacity-60 transition-opacity cursor-pointer">
+            Philosophy
+          </a>
+          <a href="#disciplines" onClick={(e) => handleScrollTo(e, '#disciplines')} className="hover:opacity-60 transition-opacity cursor-pointer">
             Expertise
-          </Link>
-          <Link href="#team" className="hover:opacity-60 transition-opacity">
+          </a>
+          <a href="#team" onClick={(e) => handleScrollTo(e, '#team')} className="hover:opacity-60 transition-opacity cursor-pointer">
             People
-          </Link>
-          <Link href="#concierge" className="hover:opacity-60 transition-opacity">
+          </a>
+          <a href="#concierge" onClick={(e) => handleScrollTo(e, '#concierge')} className="hover:opacity-60 transition-opacity cursor-pointer">
             Inquire
-          </Link>
+          </a>
         </nav>
 
-        {/* Right: Hamburger / Menu */}
-        <button aria-label="Open Navigation Menu" className="flex items-center gap-3 hover:opacity-70 transition-opacity">
-          <span className="hidden md:inline-block font-body text-xs tracking-widest uppercase">Menu</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M4 8H20M4 16H20" strokeLinecap="round"/>
-          </svg>
-        </button>
+        {/* Right: Invisible Spacer (to keep center nav perfectly balanced) */}
+        <div className="hidden md:block w-[80px]"></div>
 
       </div>
     </header>
