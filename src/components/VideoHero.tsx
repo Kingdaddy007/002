@@ -25,11 +25,12 @@ const SCENES: Scene[] = [
   { id: "scene-5", title: "Commanding the skyline.", video: "/videos/scene5.mp4" }
 ];
 
-export interface VideoHeroHandle {
-  buildTimeline: (tl: gsap.core.Timeline) => void;
-}
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
+gsap.registerPlugin(ScrollTrigger);
+
+const VideoHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
 
@@ -44,10 +45,9 @@ const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const bottomGradientRef = useRef<HTMLDivElement>(null);
 
-  useImperativeHandle(ref, () => ({
-    buildTimeline: (tl: gsap.core.Timeline) => {
+  useGSAP(() => {
       const textContainer = textContainerRef.current;
-      if (!textContainer) return;
+      if (!textContainer || !containerRef.current) return;
 
       const getTextNodes = (): HTMLElement[] =>
         Array.from(textContainer.querySelectorAll<HTMLElement>(".scene-text-wrapper"));
@@ -76,8 +76,19 @@ const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
 
       const hiddenVars = { "--s1": "0%", "--s2": "0%", "--s3": "0%", "--s4": "0%", "--s5": "0%" };
 
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=400%", // 400vh pin duration for 4 transitions
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1
+        }
+      });
+
       // Phase 1
-      tl.to(proj1Ref.current, { scale: 1.1, duration: 1, ease: "none" }, 0)
+      tl.fromTo(proj1Ref.current, { scale: 1 }, { scale: 1.1, duration: 1, ease: "none", immediateRender: false }, 0)
         .fromTo(proj2Ref.current, { scale: 1.1 }, { scale: 1, duration: 1, ease: "none" }, 0)
         .fromTo(proj2Ref.current, { ...hiddenVars }, { "--s1": "100%", duration: 0.6, ease: "power2.inOut" }, 0)
         .to(proj2Ref.current, { "--s2": "100%", duration: 0.6, ease: "power2.inOut" }, 0.1)
@@ -132,39 +143,11 @@ const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
       if (textNodes[4]) tl.fromTo(textNodes[4], { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.inOut" }, 5.0);
       tl.to(sidebarProgressRef.current, { yPercent: 400, duration: 0.2, ease: "power2.inOut" }, 5.0);
 
-      // Phase 5: Cinematic Aspect Ratio Squeeze & Handoff
       if (textNodes[4]) tl.to(textNodes[4], { autoAlpha: 0, y: -50, duration: 0.5, ease: "power2.inOut" }, 6.0);
       if (sidebarRef.current) tl.to(sidebarRef.current, { autoAlpha: 0, duration: 0.5, ease: "power2.inOut" }, 6.0);
-      if (bottomGradientRef.current) tl.to(bottomGradientRef.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 6.0);
-
-      tl.fromTo(containerRef.current,
-        { 
-          clipPath: "inset(0% 0% 0% 0% round 0px)",
-          filter: "brightness(1)"
-        },
-        { 
-          // Symmetrical shrink for cinematic floating card effect
-          clipPath: "inset(20vh 12vw 20vh 12vw round 0px)", 
-          filter: "brightness(0.3)",
-          duration: 2.0,
-          ease: "power2.inOut"
-        },
-        6.0
-      );
-
-      if (mediaContainerRef.current) {
-        tl.fromTo(mediaContainerRef.current,
-          { scale: 1 },
-          { 
-            scale: 0.85, 
-            duration: 2.0, 
-            ease: "power2.inOut" 
-          },
-          6.0
-        );
-      }
-    }
-  }));
+      
+      // Removed Phase 5 squeeze and brightness changes as VideoHero now completes naturally.
+  }, { scope: containerRef });
 
   const stripsMaskStyle = {
     "--s1": "0%", "--s2": "0%", "--s3": "0%", "--s4": "0%", "--s5": "0%",
@@ -238,7 +221,6 @@ const VideoHero = forwardRef<VideoHeroHandle>((props, ref) => {
       {/* Removed Bottom Gradient per user request */}
     </section>
   );
-});
-
+};
 VideoHero.displayName = "VideoHero";
 export default VideoHero;

@@ -1,32 +1,37 @@
 "use client";
 
-import React, { useRef, forwardRef, useImperativeHandle } from "react";
+import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export interface PhilosophyBridgeHandle {
-  buildTimeline: (tl: gsap.core.Timeline, startTime: number) => void;
-}
+gsap.registerPlugin(ScrollTrigger);
+
 
 const philosophyText = "True luxury is proven in physical execution. Whether we are engineering a 76-story architectural landmark or detailing the millimeter-precise joinery of a private interior, our discipline remains the same: we eliminate the drift between concept and reality.";
 const philosophyWords = philosophyText.split(" ");
 
-const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
+const PhilosophyBridge = () => {
   const containerRef = useRef<HTMLElement>(null);
   const leftColRef = useRef<HTMLDivElement>(null);
   const rightColRef = useRef<HTMLDivElement>(null);
   const dividerRef = useRef<HTMLDivElement>(null);
 
-  useImperativeHandle(ref, () => ({
-    buildTimeline: (masterTl: gsap.core.Timeline, startTime: number) => {
-      // 1. Cinematic Left Typography Reveal
-      // We start this at (startTime - 1.5) so it bleeds in WHILE the section is sliding up.
-      const entranceStart = startTime - 1.5;
-      
+  useGSAP(() => {
       const leftLines = containerRef.current 
         ? gsap.utils.toArray<HTMLElement>(containerRef.current.querySelectorAll(".reveal-left"))
         : [];
+        
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 75%",
+          toggleActions: "play reverse play reverse"
+        }
+      });
       
-      masterTl.fromTo(leftLines, 
+      // 1. Cinematic Left Typography Reveal
+      tl.fromTo(leftLines, 
         { 
           yPercent: 100,
           opacity: 0
@@ -36,19 +41,19 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
           opacity: 1,
           stagger: 0.15,
           ease: "power3.out",
-          duration: 2.0
+          duration: 1.5
         },
-        entranceStart
+        0
       );
 
       // 2. Vertical Anchor Divider
-      masterTl.fromTo(dividerRef.current,
+      tl.fromTo(dividerRef.current,
         { scaleY: 0, transformOrigin: "top" },
         { scaleY: 1, duration: 1.5, ease: "power2.inOut" },
-        entranceStart + 0.5
+        0.5
       );
 
-      // 3. Right Typography "SplitText" Stagger Effect (The Scroll Typography Effect)
+      // 3. Right Typography "SplitText" Stagger Effect
       const rightWords = containerRef.current
         ? gsap.utils.toArray<HTMLElement>(containerRef.current.querySelectorAll(".split-word"))
         : [];
@@ -61,61 +66,34 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
 
       // Eyebrow appears quietly as context
       if (eyebrow) {
-        masterTl.fromTo(eyebrow,
+        tl.fromTo(eyebrow,
           { opacity: 0, x: -10 },
-          { opacity: 1, x: 0, duration: 1.5, ease: "power2.out" },
-          entranceStart + 1.0
+          { opacity: 1, x: 0, duration: 1.0, ease: "power2.out" },
+          1.0
         );
       }
 
-      // Body text scrubs in (starts right after eyebrow)
-      masterTl.fromTo(rightWords,
+      // Body text scrubs in
+      tl.fromTo(rightWords,
         { opacity: 0, yPercent: 100 },
-        { opacity: 1, yPercent: 0, stagger: 0.03, duration: 1.5, ease: "power3.out" },
-        entranceStart + 1.2
+        { opacity: 1, yPercent: 0, stagger: 0.03, duration: 1.0, ease: "power3.out" },
+        1.2
       );
 
-      // Closing hook and signature appear after the text finishes scrubbing
-      masterTl.fromTo(signatureElements,
+      // Closing hook and signature appear after the text
+      tl.fromTo(signatureElements,
         { opacity: 0, x: -10 },
-        { opacity: 1, x: 0, stagger: 0.2, duration: 1.5, ease: "power2.out" },
-        entranceStart + 3.0
+        { opacity: 1, x: 0, stagger: 0.2, duration: 1.0, ease: "power2.out" },
+        2.5
       );
 
-      // 4. Lock Phase (Holding text so it can be read)
-      // Master timeline manages the scrub, so we give it 2 units of reading time before rollout.
-      
-      // 5. Roll Out Sequence (Slow, structural fade out)
-      const rolloutStart = startTime + 2.0;
-      
-      masterTl.to(leftLines, {
-        opacity: 0, y: -20, stagger: 0.1, duration: 1.5, ease: "power2.inOut", immediateRender: false
-      }, rolloutStart);
-
-      masterTl.to(dividerRef.current, {
-        opacity: 0, duration: 1.5, ease: "power2.inOut", immediateRender: false
-      }, rolloutStart + 0.2);
-
-      masterTl.to(rightWords, {
-        opacity: 0, stagger: 0.01, duration: 1.0, ease: "power2.inOut", immediateRender: false
-      }, rolloutStart + 0.2);
-
-      if (eyebrow) {
-        masterTl.to(eyebrow, {
-          opacity: 0, duration: 1.0, ease: "power2.inOut", immediateRender: false
-        }, rolloutStart + 0.4);
-      }
-
-      masterTl.to(signatureElements, {
-        opacity: 0, stagger: 0.1, duration: 1.0, ease: "power2.inOut", immediateRender: false
-      }, rolloutStart + 0.4);
-    }
-  }));
+  }, { scope: containerRef });
 
   return (
     <section 
+      id="philosophy"
       ref={containerRef}
-      className="relative w-full h-screen bg-xbd-bg text-xbd-text overflow-hidden flex items-center shadow-[0_-30px_60px_rgba(0,0,0,0.8)]"
+      className="relative z-30 w-full h-screen bg-xbd-bg-alt text-xbd-text overflow-hidden flex items-center"
     >
       {/* 
         Using items-center to ensure vertical centering.
@@ -131,9 +109,9 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
           {/* Monumental Scope */}
           <h2 className="font-display text-[2rem] md:text-[4rem] lg:text-[5rem] xl:text-[6.5rem] leading-[1.0] tracking-[-0.03em] text-xbd-text">
             <div className="overflow-hidden"><div className="reveal-left transform-gpu">FROM</div></div>
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">CONCEPT</div></div>
+            <div className="overflow-hidden"><div className="reveal-left transform-gpu"><span className="text-xbd-gold italic">CONCEPT</span></div></div>
             <div className="overflow-hidden"><div className="reveal-left transform-gpu">TO</div></div>
-            <div className="overflow-hidden"><div className="reveal-left transform-gpu">REALITY.</div></div>
+            <div className="overflow-hidden"><div className="reveal-left transform-gpu"><span className="text-xbd-gold italic">REALITY.</span></div></div>
           </h2>
         </div>
 
@@ -179,7 +157,6 @@ const PhilosophyBridge = forwardRef<PhilosophyBridgeHandle>((props, ref) => {
       </div>
     </section>
   );
-});
-
+};
 PhilosophyBridge.displayName = "PhilosophyBridge";
 export default PhilosophyBridge;

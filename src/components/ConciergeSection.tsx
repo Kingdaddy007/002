@@ -23,7 +23,7 @@ export default function ConciergeSection() {
   }, { scope: containerRef });
 
   return (
-    <section className="scroll-section section-concierge" id="concierge-section" ref={containerRef}>
+    <section className="scroll-section section-concierge" id="concierge" ref={containerRef}>
       <div className="concierge-wrap">
         <span className="concierge-tag">INQUIRY</span>
         <h2 className="concierge-title">A DIGITAL PRESENCE OF EQUAL WEIGHT.</h2>

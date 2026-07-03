@@ -1,8 +1,9 @@
 import Header from "@/components/Header";
 import Preloader from "@/components/Preloader";
-import DeckTransition from "@/components/DeckTransition";
+import VideoHero from "@/components/VideoHero";
+import PhilosophyBridge from "@/components/PhilosophyBridge";
 import DisciplinesSection from "@/components/DisciplinesSection";
-
+import TeamSection from "@/components/TeamSection";
 import ConciergeSection from "@/components/ConciergeSection";
 
 export default function Home() {
@@ -10,12 +11,14 @@ export default function Home() {
     <main className="w-full min-h-screen bg-xbd-bg">
       <Preloader />
       <Header />
-      <DeckTransition />
+      <VideoHero />
+      <PhilosophyBridge />
       <div id="main-content">
         {/* GSAP Top-Edge Freeze Bypass */}
         <div style={{ position: "absolute", top: 0, width: "100%", height: "1px", pointerEvents: "none", opacity: 0 }}></div>
 
         <DisciplinesSection />
+        <TeamSection />
         <ConciergeSection />
       </div>
     </main>
