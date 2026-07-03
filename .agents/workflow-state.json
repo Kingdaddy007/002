@@ -1,8 +1,8 @@
 {
   "workflow": "XBD Collective - Cinematic Concept Pitch",
   "current_phase": "Phase 8 - Final Review & Polish",
-  "completion_pct": 92,
-  "last_updated": "2026-07-03T04:36:00+01:00",
+  "completion_pct": 100,
+  "last_updated": "2026-07-03T05:01:00+01:00",
   "target_client": {
     "studio_name": "XBD Collective",
     "founder": "Ellen Sohoel",
@@ -23,19 +23,21 @@
     "DONE: Section 5 - The Team (Populated with transparent PNGs, refined layout)",
     "DONE: Section 6 - The Concierge (2-column compact form, animated typography, unified cream background)",
     "DONE: Footer (Compact Sub-footer, optimized spacing, correct GSAP triggers)",
-    "DONE: Section 7 - Proof Moment (Middle Path: Inline Video between Disciplines and Team)"
+    "DONE: Section 7 - Proof Moment (Middle Path: Inline Video between Disciplines and Team)",
+    "DONE: Phase 8 - Technical Audit & Code Refinements (Autoplay, Caching, ScrollTrigger menu, form alignment)"
   ],
-  "notes": "DECISION MADE: Phase 7 'Middle Path' implemented with the solar house inline video moment. Now moving to Phase 8 Final Review & Polish.",
+  "notes": "All Phase 8 final review and polish tasks are complete. The project compiles successfully and runs smoothly with active scene playback controls.",
   "key_decisions": [
     "Adopted a new 6-section emotional arc architecture (xbd_homepage_architecture.md) as the absolute source of truth.",
     "Pivoted entirely to a Light Theme (Limestone #F7F5F2 & Espresso #2C2621).",
     "Used unconditional `grid grid-cols-2` for the Concierge form to guarantee short vertical height across all viewport sizes, solving user frustration with 'two screenshot' mobile flex stacking.",
     "Tied the Concierge background to the Philosophy background (`bg-xbd-bg-alt`) for brand cohesion.",
-    "Phase 7 Decision: Opted for the 'Middle Path' — one inline silent video moment instead of a full gallery, preserving the scalpel-like focus of the pitch."
+    "Phase 7 Decision: Opted for the 'Middle Path' — one inline silent video moment instead of a full gallery, preserving the scalpel-like focus of the pitch.",
+    "Phase 8 Decision: Optimized VideoHero to cache DOM elements and programmatically play only 2 concurrent videos based on scroll, reducing CPU/GPU overhead.",
+    "Phase 8 Decision: Refactored Header.tsx to use ScrollTrigger for color toggles, preventing layout thrashing and scroll jank.",
+    "Phase 8 Decision: Redesigned the Concierge intake grid to col-span-2 for budget, aligning the fields cleanly."
   ],
-  "blockers": [
-    "Need to design the entrance/exit transitions and layout for the Phase 7 inline video."
-  ],
+  "blockers": [],
   "skill_chain": [
     "brand-strategy ACTIVE",
     "cinematic-motion ACTIVE",

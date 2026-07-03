@@ -2,6 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const FullLogo = ({ isLightText }: { isLightText: boolean }) => (
   <div className="flex flex-col items-center justify-center text-current transform scale-75 md:scale-100 origin-left md:origin-center transition-transform">
@@ -39,39 +45,46 @@ export default function Header() {
         setIsVisible(true);
       }
       lastScrollY.current = scrollY;
-
-      // Check if Philosophy section has reached the header
-      const philosophyEl = document.getElementById("philosophy");
-      if (philosophyEl) {
-        const rect = philosophyEl.getBoundingClientRect();
-        if (rect.top <= 100) {
-          setIsLightText(false); // Dark text for limestone sections
-          return;
-        }
-      }
-
-      // Check VideoHero internal scroll progress
-      const pinSpacer = document.querySelector(".pin-spacer") as HTMLElement;
-      if (pinSpacer) {
-        const rect = pinSpacer.getBoundingClientRect();
-        // Calculate how far we've scrolled through the pinned area
-        const progress = Math.max(0, -rect.top) / (rect.height - window.innerHeight || 1);
-        
-        // Scene 2 and 3 are light backgrounds (roughly 0.15 to 0.6 progress)
-        if (progress > 0.15 && progress < 0.6) {
-          setIsLightText(false);
-        } else {
-          setIsLightText(true);
-        }
-      } else {
-        setIsLightText(true);
-      }
     };
     
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // initialize on mount
     
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Toggle dark text when entering Philosophy through the bottom of the page
+    const t1 = ScrollTrigger.create({
+      trigger: "#philosophy",
+      start: "top 80px",
+      endTrigger: "#concierge",
+      end: "bottom top",
+      onEnter: () => setIsLightText(false),
+      onLeave: () => setIsLightText(true),
+      onEnterBack: () => setIsLightText(false),
+      onLeaveBack: () => setIsLightText(true),
+    });
+
+    // Toggle text color based on VideoHero pinned progress
+    const t2 = ScrollTrigger.create({
+      trigger: "#video-hero",
+      start: "top top",
+      end: "+=400%",
+      onUpdate: (self) => {
+        if (self.isActive) {
+          const progress = self.progress;
+          // Scene 2 and 3 are light backgrounds (roughly 0.15 to 0.6 progress)
+          if (progress > 0.15 && progress < 0.6) {
+            setIsLightText(false);
+          } else {
+            setIsLightText(true);
+          }
+        }
+      }
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      t1.kill();
+      t2.kill();
+    };
   }, []);
 
   return (

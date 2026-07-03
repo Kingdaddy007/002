@@ -29,3 +29,11 @@
 - **GSAP Animation Fix:** Fixed the text clipping animation by setting starting opacity: 0 in GSAP .fromTo() so it doesn't leak out of the clipping mask before the scroll trigger fires.
 - **Sub-Footer Layout:** Refactored the sub-footer to remove the redundant "Connect" column and bound the social icons to the floor using mt-auto.
 - **Trigger Stability:** Removed play reverse play reverse from the footer scroll trigger because it caused the footer to actively vanish when scrolling to the absolute bottom.
+
+## Date: 2026-07-03 (Phase 8 - Final Review & Polish)
+
+- **TypeScript Ref Correction:** Fixed compilation error in `ConciergeSection.tsx` by correcting `containerRef` type from `HTMLElement` to `HTMLDivElement` to align with the rendered tag.
+- **Video Playback Optimization:** Caged video playback inside `VideoHero.tsx` using `useRef` caching (`vidsRef.current`) to query video elements once on mount. This avoids doing five `document.getElementById` calls at 60fps inside the ScrollTrigger `onUpdate` loop.
+- **Autoplay Safeguard:** Resolved autoplay freeze on load by passing `autoPlay={true}` to Scene 1 video inside `SceneMedia` and programmatically calling `play()` on initial mount, ensuring the threshold scene is active immediately.
+- **Header Performance Refactoring:** Eliminated layout thrashing inside `Header.tsx` by replacing the scroll listener's `getBoundingClientRect()` queries with GSAP ScrollTriggers bound to `#philosophy` and `#video-hero`, achieving jank-free performance.
+- **Concierge Form Visual Balancing:** Resolved the asymmetrical blank cell in the 2-column form grid by applying `col-span-2` to the `Project Budget` select dropdown container, creating a balanced visual alignment of fields.

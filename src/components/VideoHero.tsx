@@ -10,9 +10,9 @@ type Scene = {
   video?: string;
 };
 
-const SceneMedia = ({ scene }: { scene: Scene }) => {
+const SceneMedia = ({ scene, autoPlay }: { scene: Scene; autoPlay?: boolean }) => {
   if (scene.video) {
-    return <video id={`video-${scene.id}`} src={scene.video} loop muted playsInline className="absolute inset-0 w-full h-full object-cover" />;
+    return <video id={`video-${scene.id}`} src={scene.video} loop muted playsInline autoPlay={autoPlay} className="absolute inset-0 w-full h-full object-cover" />;
   }
   return <img id={`img-${scene.id}`} src={scene.image} alt={scene.title} className="absolute inset-0 w-full h-full object-cover" />;
 };
@@ -33,6 +33,7 @@ gsap.registerPlugin(ScrollTrigger);
 const VideoHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
+  const vidsRef = useRef<(HTMLVideoElement | null)[]>([]);
 
   const proj1Ref = useRef<HTMLDivElement>(null);
   const proj2Ref = useRef<HTMLDivElement>(null);
@@ -57,11 +58,32 @@ const VideoHero = () => {
         gsap.set(node, { autoAlpha: 0, y: 50 }); 
       });
 
+      // Cache the video elements once on mount
+      vidsRef.current = [
+        document.getElementById('video-scene-1') as HTMLVideoElement,
+        document.getElementById('video-scene-2') as HTMLVideoElement,
+        document.getElementById('video-scene-3') as HTMLVideoElement,
+        document.getElementById('video-scene-4') as HTMLVideoElement,
+        document.getElementById('video-scene-5') as HTMLVideoElement
+      ];
+
       // 1. Initial Load Animation (Runs immediately, not part of scrub timeline)
       gsap.fromTo(
         proj1Ref.current,
         { scale: 1.1, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 2, ease: "power3.out" }
+        { 
+          scale: 1, 
+          opacity: 1, 
+          duration: 2, 
+          ease: "power3.out",
+          onComplete: () => {
+            // Programmatically safeguard playback for the first scene video
+            const v1 = vidsRef.current[0];
+            if (v1 && v1.paused) {
+              v1.play().catch(() => {});
+            }
+          }
+        }
       );
 
       if (textNodes[0]) {
@@ -86,11 +108,20 @@ const VideoHero = () => {
           anticipatePin: 1,
           onUpdate: (self) => {
             const progress = self.progress;
-            const v1 = document.getElementById('video-scene-1') as HTMLVideoElement;
-            const v2 = document.getElementById('video-scene-2') as HTMLVideoElement;
-            const v3 = document.getElementById('video-scene-3') as HTMLVideoElement;
-            const v4 = document.getElementById('video-scene-4') as HTMLVideoElement;
-            const v5 = document.getElementById('video-scene-5') as HTMLVideoElement;
+            
+            // Fast lookup helper using ref caching to prevent DOM querying in render loop
+            const getVid = (idx: number, id: string): HTMLVideoElement | null => {
+              if (vidsRef.current[idx]) return vidsRef.current[idx];
+              const el = document.getElementById(id) as HTMLVideoElement;
+              if (el) vidsRef.current[idx] = el;
+              return el;
+            };
+
+            const v1 = getVid(0, 'video-scene-1');
+            const v2 = getVid(1, 'video-scene-2');
+            const v3 = getVid(2, 'video-scene-3');
+            const v4 = getVid(3, 'video-scene-4');
+            const v5 = getVid(4, 'video-scene-5');
 
             const safePlay = (vid: HTMLVideoElement | null) => { if (vid && vid.paused) { vid.play().catch(() => {}); } };
             const safePause = (vid: HTMLVideoElement | null) => { if (vid && !vid.paused) { vid.pause(); } };
@@ -198,7 +229,7 @@ const VideoHero = () => {
     <section ref={containerRef} id="video-hero" className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-xbd-bg z-20">
       <div ref={mediaContainerRef} className="absolute inset-0 z-0">
         <div ref={proj1Ref} className="absolute inset-0 z-10 w-full h-full overflow-hidden">
-          <SceneMedia scene={SCENES[0]} />
+          <SceneMedia scene={SCENES[0]} autoPlay={true} />
         </div>
         <div ref={proj2Ref} className="absolute inset-0 z-20 w-full h-full overflow-hidden" style={stripsMaskStyle}>
           <SceneMedia scene={SCENES[1]} />
