@@ -22,3 +22,10 @@
 - **Decision:** Pivoted the overarching color scheme from Dark (Espresso Plaster #181615) to Light (Limestone #F7F5F2 & Espresso typography #2C2621). This better matches the luxury, airy aesthetic the brand desires.
 - **Decision:** Removed the bottom fade gradient from the VideoHero for a hard cut into the PhilosophyBridge per user instruction.
 - **Decision:** Confirmed 3 disciplines (Masterplan, Architecture, Interiors) using an asymmetric scrolling layout.
+
+## [2026-07-03] Footer & Concierge Form Refinements
+- **Layout Compression:** Switched the Concierge Form structure from lex-col md:flex-row 4-row layout to a lex-col lg:flex-row with a 2-column input grid (grid-cols-2) to dramatically compress vertical height and prevent vertical scrolling on narrower viewports.
+- **Form Typography:** Darkened placeholders to 	ext-xbd-text/40 for better contrast on cream backgrounds. Increased form labels to 	ext-[10px] md:text-xs for legibility.
+- **GSAP Animation Fix:** Fixed the text clipping animation by setting starting opacity: 0 in GSAP .fromTo() so it doesn't leak out of the clipping mask before the scroll trigger fires.
+- **Sub-Footer Layout:** Refactored the sub-footer to remove the redundant "Connect" column and bound the social icons to the floor using mt-auto.
+- **Trigger Stability:** Removed play reverse play reverse from the footer scroll trigger because it caused the footer to actively vanish when scrolling to the absolute bottom.

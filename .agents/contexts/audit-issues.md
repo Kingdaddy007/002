@@ -1,0 +1,7 @@
+[P1] Issue: Brittle header visibility logic (relies on raw VH math) | Location: src/components/Header.tsx | Fix: Refactor to use IntersectionObserver or GSAP ScrollTrigger for light/dark detection.
+[P1] Issue: Semantic hierarchy violation (H1 in Footer, H2 in Hero) | Location: src/components/ConciergeSection.tsx & src/components/VideoHero.tsx | Fix: Change Hero title to H1, change Footer XBD to an SVG or div.
+[P1] Issue: Contrast failure (WCAG AA) on muted text | Location: src/app/globals.css | Fix: Darken --color-xbd-muted (#8C857B) to improve contrast against Limestone background.
+[P1] Issue: Mobile performance bottleneck (5 simultaneous videos) | Location: src/components/VideoHero.tsx | Fix: Pause/unmount videos that are not actively visible or use image fallbacks on mobile.
+[P2] Issue: Hard-coded colors bypassing theme tokens | Location: src/components/DisciplinesSection.tsx, src/components/ConciergeSection.tsx | Fix: Extract #EAE5DF and #1A1A1A into Tailwind config tokens.
+[P3] Issue: Proof Section typography lacks cinematic entrance | Location: src/components/ProofSection.tsx | Fix: Apply the same staggered reveal animation used in Philosophy/Disciplines to the Proof Section caption.
+[P3] Issue: Inquiry button copy feels slightly standard | Location: src/components/ConciergeSection.tsx | Fix: Elevate "Request Consultation" to "Initiate a Project" or "Commission a Space" to match expert positioning.

@@ -54,15 +54,15 @@ export default function ConciergeSection() {
     <div ref={containerRef} className="relative w-full bg-xbd-bg-alt flex flex-col z-10">
       
       {/* 1. The Concierge Form Section */}
-      <section className="relative w-full bg-xbd-bg-alt text-xbd-text flex flex-col justify-center py-10 md:py-16 px-6 md:px-12 z-20 shadow-[0_20px_40px_rgba(0,0,0,0.05)]" id="concierge">
-        <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-16 md:gap-24">
+      <section className="relative w-full bg-xbd-bg-alt text-xbd-text flex flex-col justify-center py-6 md:py-12 px-6 md:px-12 z-20 shadow-[0_20px_40px_rgba(0,0,0,0.05)]" id="concierge">
+        <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-8 md:gap-12 lg:gap-16 items-center">
           
           {/* Left Column: Typography */}
-          <div className="w-full md:w-5/12 flex flex-col">
-            <span className="concierge-tag font-sans text-[9px] md:text-[10px] font-medium text-xbd-gold tracking-[0.25em] block mb-4 uppercase">
+          <div className="w-full lg:w-5/12 flex flex-col justify-center">
+            <span className="concierge-tag font-sans text-[9px] md:text-[10px] font-medium text-xbd-gold tracking-[0.25em] block mb-3 uppercase">
               Selective Inquiry
             </span>
-            <h2 className="concierge-title font-display text-4xl md:text-5xl lg:text-6xl font-light tracking-wide leading-tight text-xbd-text mb-8 flex flex-wrap">
+            <h2 className="concierge-title font-display text-4xl md:text-5xl lg:text-6xl font-light tracking-wide leading-tight text-xbd-text mb-4 flex flex-wrap">
               {"Your next space begins here.".split(" ").map((word, i) => (
                 <span key={i} className="overflow-hidden inline-block mr-[0.25em]">
                   <span className="split-word inline-block transform-gpu">{word}</span>
@@ -75,33 +75,36 @@ export default function ConciergeSection() {
           </div>
           
           {/* Right Column: The Form */}
-          <div className="w-full md:w-6/12">
-            <form className="w-full flex flex-col gap-8 md:gap-10" id="inquiry-form" onSubmit={(e) => e.preventDefault()}>
-              <div className="form-group relative flex flex-col group">
-                <label htmlFor="project-location" className="font-sans text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-2 uppercase">Project Location</label>
-                <input type="text" id="project-location" placeholder="e.g. Dubai, London, Riyadh" required className="bg-transparent border-none outline-none py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-lg md:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
-                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
+          <div className="w-full lg:w-6/12 flex flex-col justify-center mt-4 lg:mt-0">
+            <form className="w-full flex flex-col gap-6" id="inquiry-form" onSubmit={(e) => e.preventDefault()}>
+              
+              <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:gap-x-8 md:gap-y-8 w-full">
+                <div className="form-group relative flex flex-col group">
+                  <label htmlFor="project-location" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Project Location</label>
+                  <input type="text" id="project-location" placeholder="e.g. Dubai, London" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
+                </div>
+                
+                <div className="form-group relative flex flex-col group">
+                  <label htmlFor="project-scale" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Project Scale</label>
+                  <input type="text" id="project-scale" placeholder="e.g. Private Villa" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
+                </div>
+                
+                <div className="form-group relative flex flex-col group">
+                  <label htmlFor="client-name" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Your Name</label>
+                  <input type="text" id="client-name" placeholder="John Doe" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
+                </div>
+                
+                <div className="form-group relative flex flex-col group">
+                  <label htmlFor="client-contact" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Your Email</label>
+                  <input type="email" id="client-contact" placeholder="john@example.com" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
+                </div>
               </div>
               
-              <div className="form-group relative flex flex-col group">
-                <label htmlFor="project-scale" className="font-sans text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-2 uppercase">Project Scale</label>
-                <input type="text" id="project-scale" placeholder="e.g. Private Villa, Commercial Tower" required className="bg-transparent border-none outline-none py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-lg md:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
-                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
-              </div>
-              
-              <div className="form-group relative flex flex-col group">
-                <label htmlFor="client-name" className="font-sans text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-2 uppercase">Your Name</label>
-                <input type="text" id="client-name" placeholder="John Doe" required className="bg-transparent border-none outline-none py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-lg md:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
-                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
-              </div>
-              
-              <div className="form-group relative flex flex-col group">
-                <label htmlFor="client-contact" className="font-sans text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-2 uppercase">Your Email</label>
-                <input type="email" id="client-contact" placeholder="john@example.com" required className="bg-transparent border-none outline-none py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-lg md:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
-                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
-              </div>
-              
-              <button type="submit" aria-label="Submit Inquiry" className="concierge-btn self-start mt-2 bg-transparent border border-xbd-gold text-xbd-gold font-sans text-[9px] font-medium tracking-[0.25em] py-3 px-8 uppercase flex items-center gap-4 transition-all duration-500 hover:bg-xbd-gold hover:text-xbd-bg hover:-translate-y-1 group">
+              <button type="submit" aria-label="Submit Inquiry" className="concierge-btn self-start mt-2 bg-transparent border border-xbd-gold text-xbd-gold font-sans text-[9px] md:text-[10px] font-medium tracking-[0.25em] py-3 px-8 uppercase flex items-center gap-4 transition-all duration-500 hover:bg-xbd-gold hover:text-xbd-bg hover:-translate-y-1 group">
                 <span className="btn-text">Request Consultation</span>
                 <span className="btn-arrow transition-transform duration-500 group-hover:translate-x-1">➔</span>
               </button>

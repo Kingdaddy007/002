@@ -1,8 +1,8 @@
 {
   "workflow": "XBD Collective - Cinematic Concept Pitch",
-  "current_phase": "Phase 8 - Colorize & Optimize Pivot",
-  "completion_pct": 55,
-  "last_updated": "2026-07-02T18:25:00+01:00",
+  "current_phase": "Phase 8 - Final Review & Polish",
+  "completion_pct": 92,
+  "last_updated": "2026-07-03T04:36:00+01:00",
   "target_client": {
     "studio_name": "XBD Collective",
     "founder": "Ellen Sohoel",
@@ -20,23 +20,21 @@
     "DONE: Section 2 - The Hero (Update Scene 1 text, hard cut gradient)",
     "DONE: Section 3 - Philosophy Bridge (Deck Transition, 3D text roll)",
     "DONE: Section 4 - The Disciplines (3 Macro-to-Micro disciplines layout)",
-    "PENDING: Section 5 - The Team (Waiting on transcripts and layout approach)",
-    "PENDING: Section 6 - The Concierge (Update CTA text)"
+    "DONE: Section 5 - The Team (Populated with transparent PNGs, refined layout)",
+    "DONE: Section 6 - The Concierge (2-column compact form, animated typography, unified cream background)",
+    "DONE: Footer (Compact Sub-footer, optimized spacing, correct GSAP triggers)",
+    "DONE: Section 7 - Proof Moment (Middle Path: Inline Video between Disciplines and Team)"
   ],
-  "phase_6_summary": {
-    "status": "DISCARDED/OVERWRITTEN",
-    "notes": "Component-driven development without a master scroll storyboard led to disjointed pacing. User brought in a complete structural Master Design Director critique."
-  },
-  "notes": "CONTEXT HYGIENE APPLIED. Sections 1-4 are complete. The overarching color palette was successfully pivoted to a Light Theme (Limestone & Espresso) using the workflow-impeccable-colorize system. Images were optimized and accessibility contrast was hardened. The next session MUST focus exclusively on Section 5: The Team, driven by the AI transcripts the user will provide.",
+  "notes": "DECISION MADE: Phase 7 'Middle Path' implemented with the solar house inline video moment. Now moving to Phase 8 Final Review & Polish.",
   "key_decisions": [
     "Adopted a new 6-section emotional arc architecture (xbd_homepage_architecture.md) as the absolute source of truth.",
-    "Transition format changed to a fixed WebGL simplex shader overlay that unmounts completely after an event-triggered GSAP dissolve timeline.",
-    "Pivoted entirely to a Light Theme (Limestone #F7F5F2 & Espresso #2C2621) due to Tailwind v4 fallback accident, proving superior to the previous dark theme.",
-    "Removed bottom gradient on Hero video to force a hard, organic cut into the Philosophy Bridge."
+    "Pivoted entirely to a Light Theme (Limestone #F7F5F2 & Espresso #2C2621).",
+    "Used unconditional `grid grid-cols-2` for the Concierge form to guarantee short vertical height across all viewport sizes, solving user frustration with 'two screenshot' mobile flex stacking.",
+    "Tied the Concierge background to the Philosophy background (`bg-xbd-bg-alt`) for brand cohesion.",
+    "Phase 7 Decision: Opted for the 'Middle Path' — one inline silent video moment instead of a full gallery, preserving the scalpel-like focus of the pitch."
   ],
   "blockers": [
-    "Awaiting AI transcripts of reference websites from the user for The Team section animation mechanics.",
-    "Awaiting project photographs for Team portraits."
+    "Need to design the entrance/exit transitions and layout for the Phase 7 inline video."
   ],
   "skill_chain": [
     "brand-strategy ACTIVE",

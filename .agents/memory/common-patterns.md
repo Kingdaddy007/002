@@ -13,3 +13,7 @@
 ## [Session 2026-07-02] GSAP & Next.js Image Optimization
 - **Pattern:** When applying object-cover scale-[1.15] to images for GSAP parallax effects, avoid complex Next.js <Image layout='fill'> wrappers if they break the scaling math. Instead, use standard HTML <img> or Next <Image fill> combined with loading='lazy' to safely optimize without breaking the pin logic.
 - **Pattern:** Preloader WebGL Canvas fallback RGB array must match the --color-xbd-bg hex exactly (e.g., new Uint8Array([247, 245, 242, 255]) for Limestone) so the preloader doesnt jar the user before fading out.
+
+## [2026-07-03] UI Layout Patterns
+- **Compact Forms:** When creating form sections that must be visually compact to avoid scrolling, group inputs using grid grid-cols-2 rather than lex-col gap-X, which drastically cuts vertical height.
+- **Floor Pinning:** Use mt-auto on a bottom flex container inside a min-h or fixed h-vh block to dynamically push the final row (like logos and social links) to the exact floor of the container without absolute positioning.

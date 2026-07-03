@@ -23,3 +23,11 @@
 ## [Session 2026-07-02] Tailwind v4 Variables Failure
 - **Mistake:** Attempting to use var(--background) in the Tailwind @theme block when migrating colors via a script, which caused the variables to not resolve properly in production and fallback to pure white.
 - **Fix/Avoidance:** In Tailwind v4, hardcode the hex values directly into the @theme block (e.g., --color-xbd-bg: #F7F5F2;) to ensure stable compilation and prevent visual failure during color migrations.
+
+## [2026-07-03] Layout Stacking & GSAP Trigger Errors
+- **Mistake**: Assuming md:flex-row would solve stacking on the user's desktop screen. 
+  **Correction**: If the user's viewport triggers mobile breakpoints (e.g. snapped window), flex stacking creates massive vertical height. Always use grid grid-cols-2 for form inputs if minimizing vertical scrolling is a strict requirement, ensuring side-by-side fields on narrower viewports.
+- **Mistake**: Setting GSAP scroll triggers with 	oggleActions: "play reverse play reverse" on sections that are at the absolute bottom of the page.
+  **Correction**: This causes the section to aggressively hide itself when the user hits the bottom limit. Use "play none none reverse" instead.
+- **Mistake**: Using pb-2 on overflow-hidden text masks.
+  **Correction**: It leaks the hidden text below the mask. Remove padding and ensure opacity: 0 is applied to the starting state of the animated elements.
