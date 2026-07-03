@@ -89,14 +89,8 @@ export default function ConciergeSection() {
         
         {/* Left Panel: The Interactive Imagery */}
         <div className="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-screen overflow-hidden bg-[#111]">
-          {/* Base Layer: The Marble Texture */}
-          <div className="absolute inset-0 w-full h-full">
-            <img 
-              src="/images/marble_brass_texture_1783053207583.jpg" 
-              alt="Luxury Marble Material" 
-              className="w-full h-full object-cover" 
-            />
-          </div>
+          {/* Base Layer: Dark Background */}
+          <div className="absolute inset-0 w-full h-full bg-[#111]"></div>
           
           {/* London Layer (Hidden by default) */}
           <div ref={londonImgRef} className="absolute inset-0 w-full h-full opacity-0 pointer-events-none">
