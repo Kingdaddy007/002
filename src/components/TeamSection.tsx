@@ -12,61 +12,61 @@ const teamMembers = [
   { 
     name: "Ellen Søhoel", 
     title: "Founder / Design Director", 
-    img: "/assets/Ellen-Sohoel_portrait-8_450x290_BW-02.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Ellen-Sohoel_portrait-8_450x290_BW-02%201.png",
     isCenter: true,
   },
   { 
     name: "Tareq Ayyad", 
     title: "General Manager", 
-    img: "/assets/Tareq-Ayyad_portrait_450x290_BW.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Tareq-Ayyad_portrait_450x290_BW%201.png",
     isCenter: false,
   },
   { 
     name: "Mostafa El Gizawi", 
     title: "Projects Director", 
-    img: "/assets/Mostafa-El-Gizawi_portrait_450x290_BW.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Mostafa-El-Gizawi_portrait_450x290_BW%201.png",
     isCenter: false,
   },
   { 
     name: "Noel Shannon", 
     title: "Finance Director", 
-    img: "/assets/Web-450-x-290_-BW_0007_Noel-Shannon.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Web-450-x-290_-BW_0007_Noel-Shannon%201.png",
     isCenter: false,
   },
   { 
     name: "Rohit Krishnan", 
     title: "Operations Manager", 
-    img: "/assets/Rohit-Krishnan_Operations-Manager_450x290.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Rohit-Krishnan_Operations-Manager_450x290%201.png",
     isCenter: false,
   },
   { 
     name: "Farah Istieteih", 
     title: "Design Manager", 
-    img: "/assets/Farah-Istieteih.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Farah-Istieteih%201.png",
     isCenter: false,
   },
   { 
     name: "Lee Johnston", 
     title: "Project Director", 
-    img: "/assets/Lee-Johnston.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Lee-Johnston%201.png",
     isCenter: false,
   },
   { 
     name: "Olena Vasylieva", 
     title: "Design Manager", 
-    img: "/assets/Olena-Vasylieva.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Olena-Vasylieva%201.png",
     isCenter: false,
   },
   { 
     name: "Adegunwa Odulana", 
     title: "Project Architect", 
-    img: "/assets/Adegunwa-Odulana.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Adegunwa-Odulana%201.png",
     isCenter: false,
   },
   { 
     name: "Gbade Giwa", 
     title: "Project Architect", 
-    img: "/assets/Gbade-Giwa.jpg",
+    img: "/assets/XBD%20COLLECTIVE%20(1)/Gbade-Giwa%201.png",
     isCenter: false,
   }
 ];
@@ -119,11 +119,36 @@ export default function TeamSection() {
       0
     );
 
-    // Fade in the structural scale statements in the corners (0.5s to 1.5s)
-    tl.fromTo(".corner-statement",
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-      0.5
+    // Independent, non-scrubbed trigger for the corner statements
+    const cornerWords = sectionRef.current ? gsap.utils.toArray(".corner-word") : [];
+    gsap.fromTo(cornerWords,
+      { opacity: 0, yPercent: 100 },
+      { 
+        opacity: 1, 
+        yPercent: 0, 
+        stagger: 0.03, 
+        duration: 1, 
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 40%",
+          toggleActions: "play reverse play reverse"
+        }
+      }
+    );
+
+    gsap.fromTo(".corner-divider",
+      { scaleX: 0 },
+      { 
+        scaleX: 1, 
+        duration: 1, 
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 40%",
+          toggleActions: "play reverse play reverse"
+        }
+      }
     );
 
     // Phase 2: Fade in Names (1.5s to 2.0s)
@@ -179,32 +204,33 @@ export default function TeamSection() {
         </div>
 
         {/* The Structural Corner Statements (Replaces the bottom center text) */}
-        <div className="corner-statement absolute top-12 left-6 md:top-16 md:left-12 z-50 pointer-events-none text-left max-w-[200px] md:max-w-[280px] opacity-0">
-          <p className="font-sans text-[10px] md:text-xs tracking-[0.15em] uppercase text-black font-medium leading-relaxed drop-shadow-sm">
-            Guided by a<br/>
-            unified leadership orbit.
+        <div className="corner-statement absolute top-12 left-6 md:top-16 md:left-12 z-50 pointer-events-none text-left max-w-[200px] md:max-w-[280px]">
+          <p className="font-sans text-[10px] md:text-xs tracking-[0.15em] uppercase text-black font-medium leading-relaxed drop-shadow-sm flex flex-wrap">
+            {"Guided by a unified leadership orbit.".split(" ").map((word, i) => (
+              <span key={`p1-${i}`} className="overflow-hidden inline-block mr-[0.25em] mb-[0.2em]">
+                <span className="corner-word inline-block transform-gpu">{word}</span>
+              </span>
+            ))}
           </p>
-          <div className="w-12 h-[1px] bg-black opacity-40 mt-4 mb-4"></div>
-          <p className="font-sans text-[9px] md:text-[11px] tracking-[0.15em] uppercase text-xbd-text leading-relaxed drop-shadow-sm">
-            Executed by a studio of<br/>
-            60+ professionals.
+          <div className="corner-divider w-12 h-[1px] bg-black opacity-40 mt-3 mb-3 origin-left"></div>
+          <p className="font-sans text-[9px] md:text-[11px] tracking-[0.15em] uppercase text-xbd-text leading-relaxed drop-shadow-sm flex flex-wrap">
+            {"Executed by a studio of 60+ professionals.".split(" ").map((word, i) => (
+              <span key={`p2-${i}`} className="overflow-hidden inline-block mr-[0.25em] mb-[0.2em]">
+                <span className="corner-word inline-block transform-gpu">{word}</span>
+              </span>
+            ))}
           </p>
         </div>
 
         {/* Render Founder (Top Z-Index, Absolute Center) */}
         {centerPerson && (
           <div className="founder-portrait absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-50 w-32 md:w-48">
-            <div className="relative w-full aspect-[3/4] bg-[#EAE5DF] overflow-hidden shadow-2xl">
-              <Image 
-                src={centerPerson.img} 
-                alt={centerPerson.name}
-                fill
-                className="object-cover grayscale"
-                sizes="(max-width: 768px) 40vw, 25vw"
-                quality={100}
-                unoptimized={true}
-              />
-            </div>
+            <img 
+              src={centerPerson.img} 
+              alt={centerPerson.name}
+              className="w-full h-auto object-bottom grayscale" 
+              style={{ filter: "contrast(1.05)" }}
+            />
             <div className="team-text absolute top-full mt-4 flex flex-col items-center text-center w-[200%] opacity-0">
               <h3 className="font-display text-xl md:text-3xl text-black font-semibold tracking-tight leading-tight drop-shadow-md">
                 {centerPerson.name}
@@ -258,17 +284,12 @@ export default function TeamSection() {
                 data-top={targetTop}
                 style={{ left: "50%", top: "50%" }} 
               >
-                <div className="relative w-full aspect-[3/4] bg-[#EAE5DF] overflow-hidden shadow-xl">
-                  <Image 
-                    src={member.img} 
-                    alt={member.name}
-                    fill
-                    className="object-cover grayscale"
-                    sizes="(max-width: 768px) 25vw, 15vw"
-                    quality={90}
-                    unoptimized={true}
-                  />
-                </div>
+                <img 
+                  src={member.img} 
+                  alt={member.name}
+                  className="w-full h-auto object-bottom grayscale"
+                  style={{ filter: "contrast(1.05)" }}
+                />
                 
                 {/* Dynamically Positioned Text */}
                 <div className={`team-text absolute flex w-[250%] opacity-0 pointer-events-none ${textPositionClass}`}>

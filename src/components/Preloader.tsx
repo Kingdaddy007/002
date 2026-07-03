@@ -463,34 +463,35 @@ export default function Preloader() {
             alt="XBD Monogram"
             width={75}
             height={75}
-            className="opacity-95 mb-4"
+            className="opacity-100 mb-4 invert"
+            style={{ filter: "brightness(0) invert(1)" }}
             priority
           />
-          <div className="flex flex-col items-center text-xbd-text">
-            <span className="font-display text-[2.2rem] tracking-[0.4em] ml-[0.4em] leading-none">
+          <div className="flex flex-col items-center text-white">
+            <span className="font-display text-[2.2rem] tracking-[0.4em] ml-[0.4em] leading-none drop-shadow-md">
               XBD
             </span>
-            <span className="font-space text-[10px] tracking-[0.5em] uppercase mt-4 font-bold ml-[0.5em] opacity-80">
+            <span className="font-space text-[10px] tracking-[0.5em] uppercase mt-4 font-bold ml-[0.5em] opacity-90">
               Collective
             </span>
-            <div className="w-[140%] h-[1px] bg-xbd-text opacity-30 mt-5" />
+            <div className="w-[140%] h-[1px] bg-white opacity-40 mt-5" />
           </div>
         </div>
       </div>
 
       {/* 
         Scroll Cue 
-        Pinned to the bottom. We replaced the unicode arrow with a bespoke, razor-thin SVG line.
+        Pinned to the bottom. White vertical tracking line for maximum premium contrast.
       */}
       <div
         ref={scrollCueRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center text-xbd-text"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center text-white"
       >
-        <span className="font-space text-[9px] tracking-[0.4em] uppercase opacity-60 mb-4 ml-[0.4em]">
+        <span className="font-space text-[9px] tracking-[0.4em] uppercase opacity-80 mb-6 ml-[0.4em] drop-shadow-md">
           Scroll
         </span>
-        <div className="w-[1px] h-10 bg-gradient-to-b from-xbd-text/60 to-transparent relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-xbd-text animate-[scrollLine_2s_ease-in-out_infinite]" />
+        <div className="w-[1px] h-16 bg-white/20 relative overflow-hidden rounded-full">
+          <div className="absolute top-0 left-0 w-full h-full bg-white animate-[scrollLine_2.5s_ease-in-out_infinite]" />
         </div>
       </div>
 

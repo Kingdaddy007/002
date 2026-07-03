@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 const FullLogo = ({ isLightText }: { isLightText: boolean }) => (
-  <div className="flex flex-col items-center justify-center text-current">
+  <div className="flex flex-col items-center justify-center text-current transform scale-75 md:scale-100 origin-left md:origin-center transition-transform">
     {/* 
       We apply brightness-0 and invert to turn the original black logo 
       into pure white when over the dark video background.
@@ -94,8 +94,8 @@ export default function Header() {
         </nav>
 
         {/* Right: Hamburger / Menu */}
-        <button aria-label="Open Navigation Menu" className="hidden md:flex items-center gap-3 hover:opacity-70 transition-opacity">
-          <span className="font-body text-xs tracking-widest uppercase">Menu</span>
+        <button aria-label="Open Navigation Menu" className="flex items-center gap-3 hover:opacity-70 transition-opacity">
+          <span className="hidden md:inline-block font-body text-xs tracking-widest uppercase">Menu</span>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M4 8H20M4 16H20" strokeLinecap="round"/>
           </svg>

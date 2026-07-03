@@ -142,7 +142,7 @@ export default function DisciplinesSection() {
         
         {/* Main Section Heading */}
         <div className="mb-24 md:mb-40 flex justify-center md:justify-start">
-          <h2 className="section-heading font-sans text-xs md:text-sm tracking-[0.3em] uppercase text-xbd-muted flex overflow-hidden">
+          <h2 className="section-heading font-sans text-sm md:text-base tracking-[0.4em] uppercase text-xbd-muted flex overflow-hidden">
             {"EXPERTISE".split("").map((char, i) => (
               <div key={i} className="overflow-hidden">
                 <div className="reveal-char transform-gpu inline-block">
