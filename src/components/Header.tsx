@@ -38,9 +38,9 @@ export default function Header() {
     const handleScroll = () => {
       const scrollY = window.scrollY;
 
-      // Hide header when scrolling down, show when scrolling up
+      // Only show header at the very top of the page
       if (scrollY > 50) {
-        setIsVisible(scrollY < lastScrollY.current);
+        setIsVisible(false);
       } else {
         setIsVisible(true);
       }
