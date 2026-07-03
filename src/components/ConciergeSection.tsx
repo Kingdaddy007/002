@@ -149,8 +149,8 @@ export default function ConciergeSection() {
       </section>
 
       {/* 2. The Grounded Footer (Parallax Reveal) */}
-      <div ref={footerWrapperRef} className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden z-10 bg-[#1A1A1A]">
-        <footer ref={footerRef} className="absolute top-0 left-0 w-full h-full flex flex-col justify-between pt-16 pb-12 px-6 md:px-12 text-white">
+      <div ref={footerWrapperRef} className="relative w-full h-[85vh] md:h-[100vh] overflow-hidden z-10 bg-[#1A1A1A]">
+        <footer ref={footerRef} className="absolute top-0 left-0 w-full h-full flex flex-col justify-between pt-16 pb-8 px-6 md:px-12 text-white">
           
           {/* Background Image (Interactive) */}
           <div className="absolute inset-0 w-full h-full z-0 bg-[#1A1A1A]">
@@ -183,7 +183,7 @@ export default function ConciergeSection() {
           </div>
 
           {/* Footer Content */}
-          <div className="relative z-10 w-full h-full flex flex-col justify-between pt-8">
+          <div className="relative z-10 w-full flex-1 flex flex-col justify-between pt-8">
             {/* Top Row: Links & Info */}
             <div className="w-full flex flex-col md:flex-row gap-12 md:gap-32">
               <div 
