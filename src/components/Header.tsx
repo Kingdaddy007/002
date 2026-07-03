@@ -26,43 +26,49 @@ export default function Header() {
   const [isLightText, setIsLightText] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
 
+  const lastScrollY = React.useRef(0);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const vh = window.innerHeight;
 
-      // Hide header when scrolling down past the top of the hero
+      // Hide header when scrolling down, show when scrolling up
       if (scrollY > 50) {
-        setIsVisible(false);
+        setIsVisible(scrollY < lastScrollY.current);
       } else {
         setIsVisible(true);
       }
+      lastScrollY.current = scrollY;
 
-      // In Phase 2, VideoHero is pinned for 400vh.
-      // The timeline total duration is 6.5 units.
-      const timelineUnit = (4.0 * vh) / 6.5;
-      
-      // Scene 2 (white interior) and Scene 3 (masterplan) are active 
-      // roughly between timeline positions 0.5 and 3.3
-      const scene2and3Start = 0.5 * timelineUnit;
-      const scene2and3End = 3.3 * timelineUnit;
-      
-      // Philosophy now sits below VideoHero in normal flow.
-      // VideoHero is 100vh + 400vh pin = 500vh total height.
-      // Philosophy starts entering the screen at 400vh and is fully in at 500vh.
-      // We trigger the dark header exactly as the light background hits the top of the screen.
-      const philosophyStart = 4.9 * vh;
+      // Check if Philosophy section has reached the header
+      const philosophyEl = document.getElementById("philosophy");
+      if (philosophyEl) {
+        const rect = philosophyEl.getBoundingClientRect();
+        if (rect.top <= 100) {
+          setIsLightText(false); // Dark text for limestone sections
+          return;
+        }
+      }
 
-      if (scrollY >= scene2and3Start && scrollY <= scene2and3End) {
-        setIsLightText(false); // Dark text for bright slides
-      } else if (scrollY > philosophyStart) {
-        setIsLightText(false); // Dark text for limestone sections
+      // Check VideoHero internal scroll progress
+      const pinSpacer = document.querySelector(".pin-spacer") as HTMLElement;
+      if (pinSpacer) {
+        const rect = pinSpacer.getBoundingClientRect();
+        // Calculate how far we've scrolled through the pinned area
+        const progress = Math.max(0, -rect.top) / (rect.height - window.innerHeight || 1);
+        
+        // Scene 2 and 3 are light backgrounds (roughly 0.15 to 0.6 progress)
+        if (progress > 0.15 && progress < 0.6) {
+          setIsLightText(false);
+        } else {
+          setIsLightText(true);
+        }
       } else {
-        setIsLightText(true); // White text for everything else
+        setIsLightText(true);
       }
     };
     
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // initialize on mount
     
     return () => window.removeEventListener("scroll", handleScroll);

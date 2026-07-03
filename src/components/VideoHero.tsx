@@ -12,9 +12,9 @@ type Scene = {
 
 const SceneMedia = ({ scene }: { scene: Scene }) => {
   if (scene.video) {
-    return <video src={scene.video} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" />;
+    return <video id={`video-${scene.id}`} src={scene.video} loop muted playsInline className="absolute inset-0 w-full h-full object-cover" />;
   }
-  return <img src={scene.image} alt={scene.title} className="absolute inset-0 w-full h-full object-cover" />;
+  return <img id={`img-${scene.id}`} src={scene.image} alt={scene.title} className="absolute inset-0 w-full h-full object-cover" />;
 };
 
 const SCENES: Scene[] = [
@@ -83,7 +83,28 @@ const VideoHero = () => {
           end: "+=400%", // 400vh pin duration for 4 transitions
           scrub: 1,
           pin: true,
-          anticipatePin: 1
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const progress = self.progress;
+            const v1 = document.getElementById('video-scene-1') as HTMLVideoElement;
+            const v2 = document.getElementById('video-scene-2') as HTMLVideoElement;
+            const v3 = document.getElementById('video-scene-3') as HTMLVideoElement;
+            const v4 = document.getElementById('video-scene-4') as HTMLVideoElement;
+            const v5 = document.getElementById('video-scene-5') as HTMLVideoElement;
+
+            const safePlay = (vid: HTMLVideoElement | null) => { if (vid && vid.paused) { vid.play().catch(() => {}); } };
+            const safePause = (vid: HTMLVideoElement | null) => { if (vid && !vid.paused) { vid.pause(); } };
+
+            if (progress < 0.25) {
+              safePlay(v1); safePlay(v2); safePause(v3); safePause(v4); safePause(v5);
+            } else if (progress < 0.5) {
+              safePause(v1); safePlay(v2); safePlay(v3); safePause(v4); safePause(v5);
+            } else if (progress < 0.75) {
+              safePause(v1); safePause(v2); safePlay(v3); safePlay(v4); safePause(v5);
+            } else {
+              safePause(v1); safePause(v2); safePause(v3); safePlay(v4); safePlay(v5);
+            }
+          }
         }
       });
 

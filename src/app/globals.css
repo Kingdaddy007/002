@@ -3,7 +3,7 @@
 :root {
   --color-bg: #F7F5F2; /* Limestone */
   --color-text-primary: #2C2621; /* Espresso Brown */
-  --color-text-secondary: #8C857B; /* Muted Taupe */
+  --color-text-secondary: #706A60; /* Muted Taupe (Darkened for contrast) */
   --color-accent-gold: #9C7B4D; /* Darker Rich Gold for contrast */
   --color-glass-surface: rgba(255, 255, 255, 0.45);
   --color-glass-border: rgba(0, 0, 0, 0.04);
@@ -12,7 +12,7 @@
   /* XBD Light Museum Theme */
   --background: #F7F5F2;
   --foreground: #2C2621;
-  --text-secondary: #8C857B;
+  --text-secondary: #706A60;
   --accent-gold: #9C7B4D;
   
   /* Typography Variables */
@@ -25,7 +25,7 @@
   --color-xbd-bg: #F7F5F2;
   --color-xbd-bg-alt: #F0EBE3;
   --color-xbd-text: #2C2621;
-  --color-xbd-muted: #8C857B;
+  --color-xbd-muted: #706A60;
   --color-xbd-gold: #9C7B4D;
   
   --font-display: var(--font-display);

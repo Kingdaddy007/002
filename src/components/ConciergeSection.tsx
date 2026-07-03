@@ -81,31 +81,52 @@ export default function ConciergeSection() {
               <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:gap-x-8 md:gap-y-8 w-full">
                 <div className="form-group relative flex flex-col group">
                   <label htmlFor="project-location" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Project Location</label>
-                  <input type="text" id="project-location" placeholder="e.g. Dubai, London" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <input type="text" id="project-location" placeholder="e.g. Dubai, London" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/60 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
                   <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
                 </div>
                 
                 <div className="form-group relative flex flex-col group">
                   <label htmlFor="project-scale" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Project Scale</label>
-                  <input type="text" id="project-scale" placeholder="e.g. Private Villa" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <input type="text" id="project-scale" placeholder="e.g. Private Villa" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/60 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
                   <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
                 </div>
                 
                 <div className="form-group relative flex flex-col group">
                   <label htmlFor="client-name" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Your Name</label>
-                  <input type="text" id="client-name" placeholder="John Doe" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <input type="text" id="client-name" placeholder="John Doe" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/60 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
                   <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
                 </div>
                 
                 <div className="form-group relative flex flex-col group">
                   <label htmlFor="client-contact" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Your Email</label>
-                  <input type="email" id="client-contact" placeholder="john@example.com" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/40 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <input type="email" id="client-contact" placeholder="john@example.com" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/60 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
+                </div>
+                
+                <div className="form-group relative flex flex-col group">
+                  <label htmlFor="project-budget" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">Project Budget</label>
+                  <select id="project-budget" required className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2 appearance-none">
+                    <option value="" disabled selected hidden>Select Range</option>
+                    <option value="250k-500k" className="bg-[#F0EBE3]">$250k - $500k</option>
+                    <option value="500k-2m" className="bg-[#F0EBE3]">$500k - $2M</option>
+                    <option value="2m+" className="bg-[#F0EBE3]">$2M+</option>
+                  </select>
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
+                  {/* Custom dropdown arrow */}
+                  <div className="absolute right-0 bottom-2 md:bottom-3 pointer-events-none text-xbd-gold opacity-50">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </div>
+                </div>
+                
+                <div className="form-group relative flex flex-col group col-span-2">
+                  <label htmlFor="project-risk" className="font-sans text-[10px] md:text-xs font-semibold tracking-[0.2em] text-xbd-gold mb-1 uppercase">What primary execution risk must we resolve?</label>
+                  <input type="text" id="project-risk" placeholder="e.g. Tight timeline, structural limits..." className="bg-transparent border-none outline-none py-1 md:py-2 text-xbd-text placeholder:text-xbd-text/60 font-display text-base md:text-lg lg:text-xl font-light tracking-wide w-full transition-all duration-500 group-focus-within:pl-2" />
                   <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 transition-colors duration-500 group-focus-within:bg-xbd-gold"></span>
                 </div>
               </div>
               
               <button type="submit" aria-label="Submit Inquiry" className="concierge-btn self-start mt-2 bg-transparent border border-xbd-gold text-xbd-gold font-sans text-[9px] md:text-[10px] font-medium tracking-[0.25em] py-3 px-8 uppercase flex items-center gap-4 transition-all duration-500 hover:bg-xbd-gold hover:text-xbd-bg hover:-translate-y-1 group">
-                <span className="btn-text">Request Consultation</span>
+                <span className="btn-text">Submit Project For Studio Intake</span>
                 <span className="btn-arrow transition-transform duration-500 group-hover:translate-x-1">➔</span>
               </button>
             </form>
