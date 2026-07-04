@@ -31,6 +31,7 @@ const FullLogo = ({ isLightText }: { isLightText: boolean }) => (
 export default function Header() {
   const [isLightText, setIsLightText] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const lastScrollY = React.useRef(0);
 
@@ -38,9 +39,11 @@ export default function Header() {
     const handleScroll = () => {
       const scrollY = window.scrollY;
 
-      // Only show header at the very top of the page
+      setIsScrolled(scrollY > 50);
+
+      // Hide header when scrolling down, show when scrolling up
       if (scrollY > 50) {
-        setIsVisible(false);
+        setIsVisible(scrollY < lastScrollY.current);
       } else {
         setIsVisible(true);
       }
@@ -96,8 +99,20 @@ export default function Header() {
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isLightText ? "text-white" : "text-xbd-text"} ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}>
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 h-32 flex items-center justify-between">
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      isLightText ? "text-white" : "text-xbd-text"
+    } ${
+      isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
+    } ${
+      isScrolled 
+        ? isLightText 
+          ? "bg-[#1A1A1A]/85 backdrop-blur-md border-b border-white/5 shadow-lg" 
+          : "bg-[#F7F5F2]/85 backdrop-blur-md border-b border-[#2C2621]/5 shadow-sm"
+        : "bg-transparent"
+    }`}>
+      <div className={`max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between transition-all duration-500 ${
+        isScrolled ? "h-20 md:h-24" : "h-28 md:h-32"
+      }`}>
         
         {/* Left: Full Logo */}
         <div className="hover:opacity-80 transition-opacity cursor-pointer" onClick={(e) => handleScrollTo(e as any, 'body')}>
