@@ -50,7 +50,7 @@ function GalleryScene({ images }: { images: string[] }) {
   // By calculating the radius based on N, the room scales dynamically
   // so the curvature always feels appropriate whether there are 4 or 11 images.
   const panelWidth = 12; 
-  const gap = 0.5; 
+  const gap = 0.15; // Extremely tight, hairline gap so it feels like architectural screens, not floating cards
   const effectivePanelWidth = panelWidth - gap;
   
   const circumference = panelWidth * N;
@@ -121,11 +121,11 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
       ref={containerRef}
       className="fixed inset-0 z-[100] bg-black text-white touch-none"
     >
-      {/* Cinematic Ambient Background (visible through the gaps) */}
+      {/* Cinematic Ambient Background - Deep Warm Taupe instead of pure black */}
       <div 
-        className="pointer-events-none absolute inset-0 opacity-70 z-0"
+        className="pointer-events-none absolute inset-0 z-0"
         style={{
-          background: "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.09), transparent 30%), radial-gradient(circle at 50% 100%, rgba(255,255,255,0.06), transparent 40%), #030303",
+          background: "radial-gradient(circle at 50% 50%, #1c1a18 0%, #11100f 60%, #080807 100%)",
         }}
       />
 
@@ -139,6 +139,9 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
       {/* The WebGL Canvas */}
       <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing">
         <Canvas camera={{ position: [0, 0, 0.001], fov: 60 }}>
+          {/* Add fog to make the far edges of the cylinder fade smoothly into the background color */}
+          <fog attach="fog" args={['#1c1a18', 5, 25]} />
+          
           <Suspense fallback={null}>
             <GalleryScene images={images} />
           </Suspense>
