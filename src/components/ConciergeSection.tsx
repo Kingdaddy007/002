@@ -19,13 +19,9 @@ export default function ConciergeSection() {
 
   const handleHover = (city: 'london' | 'dubai' | null) => {
     if (city === 'london') {
-      gsap.to(londonImgRef.current, { opacity: 1, duration: 0.6, ease: "power2.out" });
-      gsap.to(dubaiImgRef.current, { opacity: 0, duration: 0.6, ease: "power2.out" });
-    } else if (city === 'dubai') {
-      gsap.to(dubaiImgRef.current, { opacity: 1, duration: 0.6, ease: "power2.out" });
-      gsap.to(londonImgRef.current, { opacity: 0, duration: 0.6, ease: "power2.out" });
+      gsap.to(londonImgRef.current, { opacity: 1, duration: 0.8, ease: "power2.out" });
     } else {
-      gsap.to([londonImgRef.current, dubaiImgRef.current], { opacity: 0, duration: 0.6, ease: "power2.out" });
+      gsap.to(londonImgRef.current, { opacity: 0, duration: 0.8, ease: "power2.out" });
     }
   };
 
@@ -154,20 +150,20 @@ export default function ConciergeSection() {
           
           {/* Background Image (Interactive) */}
           <div className="absolute inset-0 w-full h-full z-0 bg-[#1A1A1A]">
-            {/* London Hover Image */}
-            <div ref={londonImgRef} className="absolute inset-0 w-full h-full opacity-0">
+            {/* Dubai Hover Image (Default Base) */}
+            <div ref={dubaiImgRef} className="absolute inset-0 w-full h-full opacity-100">
               <img 
-                src="/images/london_mayfair_facade_1783053217126.jpg" 
-                alt="London Location" 
+                src="/images/dubai_d3_facade_1783053226216.jpg" 
+                alt="Dubai Location" 
                 className="w-full h-full object-cover brightness-[0.35]" 
               />
             </div>
 
-            {/* Dubai Hover Image */}
-            <div ref={dubaiImgRef} className="absolute inset-0 w-full h-full opacity-0">
+            {/* London Hover Image (Overlay on top of Dubai) */}
+            <div ref={londonImgRef} className="absolute inset-0 w-full h-full opacity-0 z-10">
               <img 
-                src="/images/dubai_d3_facade_1783053226216.jpg" 
-                alt="Dubai Location" 
+                src="/images/london_mayfair_facade_1783053217126.jpg" 
+                alt="London Location" 
                 className="w-full h-full object-cover brightness-[0.35]" 
               />
             </div>
