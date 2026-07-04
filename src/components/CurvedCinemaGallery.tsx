@@ -56,21 +56,13 @@ function GalleryScene({ images }: { images: string[] }) {
   // Height for a 16:9 ratio
   const height = effectivePanelWidth * (9 / 16);
 
-  const groupRef = useRef<THREE.Group>(null);
-
-  useEffect(() => {
-    if (groupRef.current) {
-      gsap.fromTo(groupRef.current.rotation, 
-        { y: Math.PI / 8 }, 
-        { y: 0, duration: 1.2, ease: "power3.out" }
-      );
-    }
-  }, []);
+  // Removed the GSAP rotation animation here to prevent fighting with OrbitControls
+  // and to provide a clean, soft entry without "rambling".
 
   return (
     <>
       <fog attach="fog" args={['#1c1a18', radius * 0.8, radius * 1.5]} />
-      <group ref={groupRef}>
+      <group>
       {images.map((url, i) => {
         const thetaStart = i * (2 * Math.PI / N);
         const thetaLength = effectivePanelWidth / radius;
@@ -126,7 +118,7 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
     
     gsap.fromTo(containerRef.current, 
       { opacity: 0 }, 
-      { opacity: 1, duration: 0.3, ease: "power2.out" } // Sped up to feel instantaneous
+      { opacity: 1, duration: 0.6, ease: "power2.out" } // Soft, slick fade-in
     );
 
     return () => {
@@ -168,7 +160,8 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
 
       {/* The WebGL Canvas */}
       <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing">
-        <Canvas camera={{ position: [0, 0, 0.001], fov: 60 }}>
+        {/* Reduced FOV from 60 to 40 acts as a zoom lens, bringing the images much closer to the user */}
+        <Canvas camera={{ position: [0, 0, 0.001], fov: 40 }}>
           <Suspense fallback={null}>
             <GalleryScene images={images} />
           </Suspense>
