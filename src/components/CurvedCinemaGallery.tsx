@@ -68,7 +68,9 @@ function GalleryScene({ images }: { images: string[] }) {
   }, []);
 
   return (
-    <group ref={groupRef}>
+    <>
+      <fog attach="fog" args={['#1c1a18', radius * 0.8, radius * 1.5]} />
+      <group ref={groupRef}>
       {images.map((url, i) => {
         const thetaStart = i * (2 * Math.PI / N);
         const thetaLength = effectivePanelWidth / radius;
@@ -112,6 +114,7 @@ function GalleryScene({ images }: { images: string[] }) {
         />
       </mesh>
     </group>
+    </>
   );
 }
 
@@ -166,9 +169,6 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
       {/* The WebGL Canvas */}
       <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing">
         <Canvas camera={{ position: [0, 0, 0.001], fov: 60 }}>
-          {/* Fog start and end are now relative to radius so large rooms don't get darkened! */}
-          <fog attach="fog" args={['#1c1a18', radius * 0.8, radius * 1.5]} />
-          
           <Suspense fallback={null}>
             <GalleryScene images={images} />
           </Suspense>
