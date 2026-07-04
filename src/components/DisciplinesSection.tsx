@@ -153,41 +153,34 @@ export default function DisciplinesSection() {
           </h2>
         </div>
 
-        <div className="flex flex-col gap-32 md:gap-48">
+        <div className="flex flex-col gap-32 md:gap-40">
           {disciplines.map((disc, index) => {
-            // Index 0 (Masterplan): Text Left, Image Right -> flex-row
-            // Index 1 (Architecture): Text Right, Image Left -> flex-row-reverse
-            // Index 2 (Interiors): Text Left, Image Right -> flex-row
-            const isTextLeft = index % 2 === 0;
-
             return (
               <div 
                 key={index} 
-                className={`discipline-block flex flex-col ${isTextLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-24`}
+                className="discipline-block flex flex-col items-start gap-12 md:gap-16 w-full"
               >
-                {/* Text Side */}
-                <div className={`w-full md:w-1/2 flex flex-col ${!isTextLeft ? 'md:items-start md:text-left' : 'md:items-start md:text-left'}`}>
-                  {/* Notice: we keep text left-aligned inside its column for reading comfort, 
-                      but we place it on the correct side of the screen using the flex direction above */}
-                  <div className="text-wrap flex flex-col max-w-xl">
-                    <h3 className="font-display text-5xl md:text-6xl lg:text-7xl mb-8 tracking-tight text-xbd-text flex flex-wrap leading-[1.1]">
+                {/* Text Side (Now full width, stacked above) */}
+                <div className="w-full flex flex-col items-start text-left">
+                  <div className="text-wrap flex flex-col max-w-3xl">
+                    <h3 className="font-display text-5xl md:text-6xl lg:text-7xl mb-6 md:mb-8 tracking-tight text-xbd-text flex flex-wrap leading-[1.1]">
                       {splitIntoWords(disc.title)}
                     </h3>
-                    <p className="desc-text font-body text-base md:text-lg leading-relaxed text-xbd-muted">
+                    <p className="desc-text font-body text-base md:text-lg leading-relaxed text-xbd-muted max-w-2xl">
                       {disc.text}
                     </p>
                   </div>
                 </div>
 
-                {/* Image Side */}
-                <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                  <div className={`img-frame relative w-full md:w-[35vw] h-[60vh] md:h-[75vh] overflow-hidden bg-[#EAE5DF] ${isTextLeft ? 'md:ml-auto' : 'md:mr-auto'}`}>
+                {/* Image Side (Now full width 16:9 ratio below text) */}
+                <div className="w-full flex justify-center">
+                  <div className="img-frame relative w-full aspect-[4/3] md:aspect-video overflow-hidden bg-[#EAE5DF]">
                     <Image 
                       src={disc.img} 
                       alt={disc.title}
                       fill
                       className="parallax-img object-cover origin-center"
-                      sizes="(max-width: 768px) 100vw, 35vw"
+                      sizes="100vw"
                       priority={index === 0}
                       quality={100}
                       unoptimized={true}
