@@ -154,15 +154,6 @@ export default function ConciergeSection() {
           
           {/* Background Image (Interactive) */}
           <div className="absolute inset-0 w-full h-full z-0 bg-[#1A1A1A]">
-            {/* Default Footer Image */}
-            <div className="absolute inset-0 w-full h-full">
-              <img 
-                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070" 
-                alt="Luxury Interior Space" 
-                className="w-full h-full object-cover brightness-[0.35]" 
-              />
-            </div>
-            
             {/* London Hover Image */}
             <div ref={londonImgRef} className="absolute inset-0 w-full h-full opacity-0">
               <img 
