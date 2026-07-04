@@ -4,7 +4,7 @@ import React, { Suspense, useRef, useLayoutEffect, useEffect } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useTexture } from "@react-three/drei";
-import { EffectComposer, DepthOfField, Vignette } from "@react-three/postprocessing";
+import { EffectComposer, Vignette, Bloom } from "@react-three/postprocessing";
 import gsap from "gsap";
 
 interface CurvedCinemaGalleryProps {
@@ -86,7 +86,12 @@ function GalleryScene({ images }: { images: string[] }) {
   const effectivePanelWidth = panelWidth - gap;
   
   const circumference = panelWidth * N;
-  const radius = circumference / (2 * Math.PI);
+  const rawRadius = circumference / (2 * Math.PI);
+  // Ensure the room never shrinks below a radius of 18.
+  // This means 11 images will form a full 360 circle (radius ~21),
+  // but 4 images will form a beautiful 150-degree panoramic arc in a large room,
+  // preventing the images from looking giant and distorted.
+  const radius = Math.max(rawRadius, 18);
   
   // Height for a 16:9 ratio
   const height = effectivePanelWidth * (9 / 16);
@@ -108,7 +113,8 @@ function GalleryScene({ images }: { images: string[] }) {
       <group ref={groupRef}>
         {/* The Sharp Foreground Cylinder */}
         {images.map((url, i) => {
-          const thetaStart = i * (2 * Math.PI / N);
+          // We use arc length formula (s = r * theta) to get the exact angle
+          const thetaStart = i * (panelWidth / radius);
           const thetaLength = effectivePanelWidth / radius;
           return (
             <GalleryPanel 
@@ -122,17 +128,18 @@ function GalleryScene({ images }: { images: string[] }) {
           );
         })}
 
-        {/* The Massive Background Cylinder (For the ambient blur effect) */}
+        {/* The Ambient Background Glow (Pushed far back) */}
         {images.map((url, i) => {
-          const thetaStart = i * (2 * Math.PI / N);
-          // We use the full 2PI/N so there are no gaps in the glowing background
-          const thetaLength = (2 * Math.PI / N); 
+          // If radius was artificially expanded (like for N=4), we want to space the background glow 
+          // evenly behind the actual panels, not stretch them across the empty void.
+          const thetaStart = i * (panelWidth / radius);
+          const thetaLength = (panelWidth / radius); 
           return (
             <GalleryBackgroundPanel 
               key={`bg-${url}`} 
               url={url} 
-              radius={radius * 1.8} // Push it far back
-              height={height * 3} // Make it massive so it covers the whole screen height
+              radius={radius * 1.8} 
+              height={height * 3} 
               thetaStart={thetaStart} 
               thetaLength={thetaLength} 
             />
@@ -141,14 +148,9 @@ function GalleryScene({ images }: { images: string[] }) {
       </group>
 
       <EffectComposer multisampling={0}>
-        {/* Focus exactly on the inner cylinder wall. Everything further away (the bg cylinder) gets massively blurred. */}
-        <DepthOfField 
-          target={new THREE.Vector3(0, 0, -radius)} 
-          focalLength={0.2} 
-          bokehScale={15} 
-          height={480} 
-        />
-        {/* Add cinematic darkening at the corners */}
+        {/* Soft bloom makes the background glow organically without swallowing the foreground */}
+        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={300} opacity={0.5} />
+        {/* Cinematic darkening at the corners */}
         <Vignette eskil={false} offset={0.1} darkness={1.2} />
       </EffectComposer>
     </>
