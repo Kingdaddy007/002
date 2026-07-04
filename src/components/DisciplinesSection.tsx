@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import CurvedCinemaGallery from "./CurvedCinemaGallery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,17 +13,43 @@ const disciplines = [
   {
     title: "Masterplan & Landscape",
     text: "We shape the environments that shape the architecture. True luxury begins long before the foundation is poured—it starts with how a structure breathes within its geography.",
-    img: "/assets/Masterplan%20&%20Landscape.jpg"
+    images: [
+      "/assets/Masterplan%20&%20Landscape.jpg",
+      "/landscape/02-1-scaled.jpg",
+      "/landscape/6.-The-Jungalows-1.jpg",
+      "/landscape/NORVISKA_-XBD-Collective_Thuraya-Island-Masterplan_View05_a09-scaled.jpg",
+      "/landscape/NORVISKA_XBD-COLLECTIVE_THURAYA-ISLAND-MASTERPLAN_View02_05-scaled.jpg"
+    ]
   },
   {
     title: "Architecture",
     text: "Silhouettes that command the skyline while honoring their context. We design structures that are engineered not just for visual impact, but for enduring permanence.",
-    img: "/assets/Architecture.jpg"
+    images: [
+      "/assets/Architecture.jpg",
+      "/architecture/1.-Ariant-Residence-1568x882.jpg",
+      "/architecture/19-1920x1080_Riviera_Arch_XBD-Palm-Jumeirah-F91-76.jpg",
+      "/architecture/3.-Golf-Views-1.jpg",
+      "/architecture/Front-view_01-1-scaled.jpg",
+      "/architecture/Villa_02-Rear-view-Night-scaled.jpg"
+    ]
   },
   {
     title: "Interiors",
     text: "The spaces where life is actually lived. We choreograph light, material, and volume to create private sanctuaries defined by uncompromising tactile execution.",
-    img: "/assets/Interiors.jpg"
+    images: [
+      "/assets/Interiors.jpg",
+      "/interior/03-A-Interior-Design_P55-Villa_287-Pinto_7.-Family-Living_1920x1080.jpg",
+      "/interior/20231130-Penthouse-bedroom-_2000-scaled.jpg",
+      "/interior/2_Edit-copy-1.jpg",
+      "/interior/Basement-Entertainment-opt-1_Post-scaled.jpg",
+      "/interior/D-01.1-GF-Lobby-scaled.jpg",
+      "/interior/Duplex-Terrace_2000-scaled.jpg",
+      "/interior/Master-Ensuite-5k-scaled.jpg",
+      "/interior/Type-4-Entrance-option-2-scaled.jpg",
+      "/interior/Villa_04-Front-view-scaled.jpg",
+      "/interior/XBD-Emirates-Hills-E157-Finals-HD-73.jpg",
+      "/interior/duplex-final-_2000-scaled.jpg"
+    ]
   }
 ];
 
@@ -37,6 +64,7 @@ const splitIntoWords = (text: string) => {
 
 export default function DisciplinesSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [activeGallery, setActiveGallery] = useState<string[] | null>(null);
 
   useGSAP(() => {
     // Section Heading Animation
@@ -174,17 +202,25 @@ export default function DisciplinesSection() {
 
                 {/* Image Side (Now full width 16:9 ratio below text) */}
                 <div className="w-full flex justify-center">
-                  <div className="img-frame relative w-full aspect-[4/3] md:aspect-video overflow-hidden bg-[#EAE5DF]">
+                  <div 
+                    className="img-frame relative w-full aspect-[4/3] md:aspect-video overflow-hidden bg-[#EAE5DF] cursor-pointer group"
+                    onClick={() => setActiveGallery(disc.images)}
+                  >
                     <Image 
-                      src={disc.img} 
+                      src={disc.images[0]} 
                       alt={disc.title}
                       fill
-                      className="parallax-img object-cover origin-center"
+                      className="parallax-img object-cover origin-center transition-transform duration-700 group-hover:scale-105"
                       sizes="100vw"
                       priority={index === 0}
                       quality={100}
                       unoptimized={true}
                     />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center z-10 pointer-events-none">
+                       <span className="opacity-0 group-hover:opacity-100 text-white font-sans text-xs tracking-[0.2em] uppercase transition-opacity duration-500 bg-black/40 px-6 py-3 rounded-full backdrop-blur-md">
+                         Click to Explore
+                       </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -192,6 +228,13 @@ export default function DisciplinesSection() {
           })}
         </div>
       </div>
+
+      {activeGallery && (
+        <CurvedCinemaGallery 
+          images={activeGallery} 
+          onClose={() => setActiveGallery(null)} 
+        />
+      )}
     </section>
   );
 }
