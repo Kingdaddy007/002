@@ -3,7 +3,7 @@
 import React, { Suspense, useRef, useLayoutEffect, useEffect } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useTexture } from "@react-three/drei";
+import { OrbitControls, useTexture, Sparkles, MeshReflectorMaterial } from "@react-three/drei";
 import gsap from "gsap";
 
 interface CurvedCinemaGalleryProps {
@@ -83,6 +83,34 @@ function GalleryScene({ images }: { images: string[] }) {
           />
         );
       })}
+      
+      {/* Floating dust particles to give parallax depth as the user drags */}
+      <Sparkles 
+        count={600} 
+        scale={[radius * 2, height * 2, radius * 2]} 
+        size={3} 
+        speed={0.2} 
+        opacity={0.15} 
+        color="#d4c5b0" 
+      />
+
+      {/* Dark reflective floor to ground the room and reflect the images */}
+      <mesh position={[0, -height / 2 - 1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[radius * 4, radius * 4]} />
+        <MeshReflectorMaterial
+          blur={[300, 100]}
+          resolution={1024}
+          mixBlur={1}
+          mixStrength={2}
+          roughness={0.8}
+          depthScale={1.2}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.4}
+          color="#0a0a09"
+          metalness={0.5}
+          mirror={0.5}
+        />
+      </mesh>
     </group>
   );
 }
