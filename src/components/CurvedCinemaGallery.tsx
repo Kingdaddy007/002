@@ -4,6 +4,7 @@ import React, { Suspense, useRef, useLayoutEffect, useEffect } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useTexture } from "@react-three/drei";
+import { EffectComposer, DepthOfField, Vignette } from "@react-three/postprocessing";
 import gsap from "gsap";
 
 interface CurvedCinemaGalleryProps {
@@ -42,6 +43,37 @@ function GalleryPanel({
   );
 }
 
+function GalleryBackgroundPanel({ 
+  url, 
+  radius, 
+  height, 
+  thetaStart, 
+  thetaLength 
+}: { 
+  url: string;
+  radius: number;
+  height: number;
+  thetaStart: number;
+  thetaLength: number;
+}) {
+  const texture = useTexture(url);
+  
+  useLayoutEffect(() => {
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.repeat.x = -1;
+    texture.needsUpdate = true;
+  }, [texture]);
+
+  return (
+    <mesh>
+      {/* We use fewer segments here because it will be heavily blurred anyway */}
+      <cylinderGeometry args={[radius, radius, height, 32, 1, true, thetaStart, thetaLength]} />
+      {/* Lower opacity so it blends with the dark HTML background, creating a moody glow */}
+      <meshBasicMaterial map={texture} side={THREE.BackSide} transparent opacity={0.35} depthWrite={false} toneMapped={false} />
+    </mesh>
+  );
+}
+
 function GalleryScene({ images }: { images: string[] }) {
   const N = images.length;
   
@@ -72,22 +104,54 @@ function GalleryScene({ images }: { images: string[] }) {
   }, []);
 
   return (
-    <group ref={groupRef}>
-      {images.map((url, i) => {
-        const thetaStart = i * (2 * Math.PI / N);
-        const thetaLength = effectivePanelWidth / radius;
-        return (
-          <GalleryPanel 
-            key={url} 
-            url={url} 
-            radius={radius} 
-            height={height} 
-            thetaStart={thetaStart} 
-            thetaLength={thetaLength} 
-          />
-        );
-      })}
-    </group>
+    <>
+      <group ref={groupRef}>
+        {/* The Sharp Foreground Cylinder */}
+        {images.map((url, i) => {
+          const thetaStart = i * (2 * Math.PI / N);
+          const thetaLength = effectivePanelWidth / radius;
+          return (
+            <GalleryPanel 
+              key={`fg-${url}`} 
+              url={url} 
+              radius={radius} 
+              height={height} 
+              thetaStart={thetaStart} 
+              thetaLength={thetaLength} 
+            />
+          );
+        })}
+
+        {/* The Massive Background Cylinder (For the ambient blur effect) */}
+        {images.map((url, i) => {
+          const thetaStart = i * (2 * Math.PI / N);
+          // We use the full 2PI/N so there are no gaps in the glowing background
+          const thetaLength = (2 * Math.PI / N); 
+          return (
+            <GalleryBackgroundPanel 
+              key={`bg-${url}`} 
+              url={url} 
+              radius={radius * 1.8} // Push it far back
+              height={height * 3} // Make it massive so it covers the whole screen height
+              thetaStart={thetaStart} 
+              thetaLength={thetaLength} 
+            />
+          );
+        })}
+      </group>
+
+      <EffectComposer multisampling={0}>
+        {/* Focus exactly on the inner cylinder wall. Everything further away (the bg cylinder) gets massively blurred. */}
+        <DepthOfField 
+          target={new THREE.Vector3(0, 0, -radius)} 
+          focalLength={0.2} 
+          bokehScale={15} 
+          height={480} 
+        />
+        {/* Add cinematic darkening at the corners */}
+        <Vignette eskil={false} offset={0.1} darkness={1.2} />
+      </EffectComposer>
+    </>
   );
 }
 
