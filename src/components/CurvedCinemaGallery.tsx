@@ -62,7 +62,7 @@ function GalleryScene({ images }: { images: string[] }) {
     if (groupRef.current) {
       gsap.fromTo(groupRef.current.rotation, 
         { y: Math.PI / 8 }, 
-        { y: 0, duration: 2, ease: "power3.out" }
+        { y: 0, duration: 1.2, ease: "power3.out" }
       );
     }
   }, []);
@@ -84,14 +84,14 @@ function GalleryScene({ images }: { images: string[] }) {
         );
       })}
       
-      {/* Floating dust particles to give parallax depth as the user drags */}
+      {/* Floating dust particles made brighter and larger */}
       <Sparkles 
-        count={600} 
+        count={800} 
         scale={[radius * 2, height * 2, radius * 2]} 
-        size={3} 
-        speed={0.2} 
-        opacity={0.15} 
-        color="#d4c5b0" 
+        size={6} 
+        speed={0.3} 
+        opacity={0.6} 
+        color="#e8dcc8" 
       />
 
       {/* Dark reflective floor to ground the room and reflect the images */}
@@ -123,7 +123,7 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
     
     gsap.fromTo(containerRef.current, 
       { opacity: 0 }, 
-      { opacity: 1, duration: 0.8, ease: "power2.out" }
+      { opacity: 1, duration: 0.3, ease: "power2.out" } // Sped up to feel instantaneous
     );
 
     return () => {
@@ -152,7 +152,7 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
       <div 
         className="pointer-events-none absolute inset-0 z-0"
         style={{
-          background: "radial-gradient(circle at 50% 50%, #1c1a18 0%, #11100f 60%, #080807 100%)",
+          background: "radial-gradient(circle at 50% 50%, #2a2622 0%, #151311 50%, #080807 100%)",
         }}
       />
 
@@ -166,8 +166,8 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
       {/* The WebGL Canvas */}
       <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing">
         <Canvas camera={{ position: [0, 0, 0.001], fov: 60 }}>
-          {/* Subtle 3D fog matching the CSS background color so the cylinder fades gracefully */}
-          <fog attach="fog" args={['#1c1a18', 5, 30]} />
+          {/* Fog start and end are now relative to radius so large rooms don't get darkened! */}
+          <fog attach="fog" args={['#1c1a18', radius * 0.8, radius * 1.5]} />
           
           <Suspense fallback={null}>
             <GalleryScene images={images} />
