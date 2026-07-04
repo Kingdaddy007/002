@@ -113,6 +113,16 @@ function GalleryScene({ images }: { images: string[] }) {
 export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // DYNAMIC ZOOM: We want all galleries (whether N=4 or N=11) to look exactly the same size.
+  // The user identified N=6 as the perfect size, but wanted it a "tiny bit closer".
+  // So we use baseN = 6 and baseFov = 35 (slightly closer than 40).
+  const N = images.length;
+  const baseN = 6;
+  const baseFov = 35; 
+  const baseTan = Math.tan((baseFov / 2) * (Math.PI / 180));
+  const targetTan = (baseN / N) * baseTan;
+  const dynamicFov = 2 * Math.atan(targetTan) * (180 / Math.PI);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     
@@ -160,8 +170,8 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
 
       {/* The WebGL Canvas */}
       <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing">
-        {/* Reduced FOV from 60 to 40 acts as a zoom lens, bringing the images much closer to the user */}
-        <Canvas camera={{ position: [0, 0, 0.001], fov: 40 }}>
+        {/* Dynamic FOV normalizes the scale so every gallery looks perfectly consistent! */}
+        <Canvas camera={{ position: [0, 0, 0.001], fov: dynamicFov }}>
           <Suspense fallback={null}>
             <GalleryScene images={images} />
           </Suspense>
