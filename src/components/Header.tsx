@@ -119,8 +119,8 @@ export default function Header() {
           <FullLogo isLightText={isLightText} />
         </div>
         
-        {/* Center: Navigation */}
-        <nav className="hidden md:flex items-center gap-12 text-xs tracking-widest font-body uppercase">
+        {/* Right: Navigation */}
+        <nav className="hidden md:flex items-center gap-12 text-[10px] tracking-widest font-body uppercase">
           <a href="#philosophy" onClick={(e) => handleScrollTo(e, '#philosophy')} className="hover:opacity-60 transition-opacity cursor-pointer">
             Philosophy
           </a>
@@ -134,9 +134,6 @@ export default function Header() {
             Inquire
           </a>
         </nav>
-
-        {/* Right: Invisible Spacer (to keep center nav perfectly balanced) */}
-        <div className="hidden md:block w-[80px]"></div>
 
       </div>
     </header>
