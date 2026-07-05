@@ -108,7 +108,7 @@ export default function Header() {
         ? isLightText 
           ? "bg-[#1A1A1A]/85 backdrop-blur-md border-b border-white/5 shadow-lg" 
           : "bg-[#F7F5F2]/85 backdrop-blur-md border-b border-[#2C2621]/5 shadow-sm"
-        : "bg-transparent"
+        : "bg-transparent border-b border-transparent shadow-none"
     }`}>
       <div className={`max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between transition-all duration-500 ${
         isScrolled ? "h-20 md:h-24" : "h-28 md:h-32"
