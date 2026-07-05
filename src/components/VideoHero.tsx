@@ -73,36 +73,42 @@ const VideoHero = () => {
         document.getElementById('video-scene-5') as HTMLVideoElement
       ];
 
-      // 1. Initial Load Animation (Runs immediately, not part of scrub timeline)
-      gsap.fromTo(
-        proj1Ref.current,
-        { scale: 1.1, opacity: 0 },
-        { 
+      // 1. Initial Load Animation (Now synchronized with Preloader)
+      gsap.set(proj1Ref.current, { scale: 1.1, opacity: 0 });
+
+      const playHeroSequence = () => {
+        gsap.to(proj1Ref.current, { 
           scale: 1, 
           opacity: 1, 
           duration: 2, 
-          ease: "power3.out",
-          onComplete: () => {
-            // Programmatically safeguard playback for the first scene video
-            const v1 = vidsRef.current[0];
-            if (v1 && v1.paused) {
-              v1.play().catch(() => {});
-            }
-          }
-        }
-      );
-
-      // Let the text emerge from "under the ground" AFTER the video has faded in
-      // Scene 1 uses staggered words for a monumental entrance
-      if (heroWords.length > 0) {
-        gsap.to(heroWords, {
-          y: 0,
-          yPercent: 0, // Clears the inline translateY(110%)
-          duration: 1.5,
-          delay: 1.5, // 1.5s delay to let the user see the video first
-          stagger: 0.15,
-          ease: "power4.out",
+          ease: "power3.out"
         });
+
+        if (heroWords.length > 0) {
+          gsap.to(heroWords, {
+            y: 0,
+            yPercent: 0, // Clears the inline translateY(110%)
+            duration: 1.5,
+            delay: 1.5, // 1.5s delay to let the user see the video first
+            stagger: 0.15,
+            ease: "power4.out",
+          });
+        }
+      };
+
+      const handlePreloaderComplete = () => {
+        const v1 = vidsRef.current[0];
+        if (v1) {
+          v1.currentTime = 0;
+          if (v1.paused) v1.play().catch(() => {});
+        }
+        playHeroSequence();
+      };
+
+      if ((window as any).hasPreloaderCompleted) {
+        handlePreloaderComplete();
+      } else {
+        window.addEventListener("preloaderComplete", handlePreloaderComplete);
       }
 
       const hiddenVars = { "--s1": "0%", "--s2": "0%", "--s3": "0%", "--s4": "0%", "--s5": "0%" };
@@ -208,6 +214,10 @@ const VideoHero = () => {
       if (sidebarRef.current) tl.to(sidebarRef.current, { autoAlpha: 0, duration: 0.5, ease: "power2.inOut" }, 6.0);
       
       // Removed Phase 5 squeeze and brightness changes as VideoHero now completes naturally.
+      
+      return () => {
+        window.removeEventListener("preloaderComplete", handlePreloaderComplete);
+      };
   }, { scope: containerRef });
 
   const stripsMaskStyle = {
@@ -263,13 +273,9 @@ const VideoHero = () => {
                 className="scene-text-wrapper absolute inset-0 flex flex-col justify-center items-center text-center px-4"
               >
                 <div className="max-w-4xl pt-4 pb-4 -mt-4 -mb-4">
-                  <h2 className="text-white font-display text-[2.5rem] md:text-[4rem] lg:text-[5rem] xl:text-[6rem] drop-shadow-2xl leading-[1.05] tracking-tight">
-                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>THE</span></span>
-                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>REALITY</span></span>
-                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>OF</span></span>
-                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>THE</span></span>
-                    <br className="hidden md:block" />
-                    <span className="overflow-hidden inline-block pb-2"><span className="hero-word inline-block transform-gpu text-xbd-gold italic" style={{ transform: "translateY(110%)" }}>EXTRAORDINARY.</span></span>
+                  <h2 className="text-white font-display text-[3.5rem] md:text-[5.5rem] lg:text-[7rem] xl:text-[8rem] drop-shadow-2xl leading-[1.05] tracking-tight">
+                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>SPATIAL</span></span>
+                    <span className="overflow-hidden inline-block pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>MASTERY.</span></span>
                   </h2>
                 </div>
               </div>

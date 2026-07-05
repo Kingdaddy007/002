@@ -367,6 +367,10 @@ export default function Preloader() {
           // ONLY unlock the body once the preloader is fully gone
           document.body.style.overflow = "";
           if (lenisRef.current) lenisRef.current.start();
+          
+          // Signal to the rest of the application that the preloader is fully gone
+          (window as any).hasPreloaderCompleted = true;
+          window.dispatchEvent(new Event("preloaderComplete"));
         }
       });
 
