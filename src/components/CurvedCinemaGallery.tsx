@@ -40,7 +40,7 @@ function GalleryPanel({
   );
 }
 
-function GalleryScene({ images }: { images: string[] }) {
+function GalleryScene({ images, onReady }: { images: string[], onReady: () => void }) {
   const N = images.length;
   
   // By calculating the radius based exactly on N * panelWidth, 
@@ -58,6 +58,11 @@ function GalleryScene({ images }: { images: string[] }) {
 
   // Removed the GSAP rotation animation here to prevent fighting with OrbitControls
   // and to provide a clean, soft entry without "rambling".
+
+  // Notify parent when textures are loaded and component is mounted
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
 
   return (
     <>
@@ -128,18 +133,35 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
   // This gives the user a tiny bit of nice vertical freedom without letting the images drift off-screen.
   const polarLimit = (dynamicFov * (Math.PI / 180)) * 0.08;
 
+  const [isReady, setIsReady] = useState(false);
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     
+    // Fade in the background immediately to give user feedback
     gsap.fromTo(containerRef.current, 
       { opacity: 0 }, 
-      { opacity: 1, duration: 0.6, ease: "power2.out" } // Soft, slick fade-in
+      { opacity: 1, duration: 0.4, ease: "power2.out" }
     );
 
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      // Fade out loader
+      gsap.to(loaderRef.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" });
+      // Cinematic fade and scale in for the 3D scene
+      gsap.fromTo(canvasRef.current, 
+        { opacity: 0, scale: 1.05 }, 
+        { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out", delay: 0.2 }
+      );
+    }
+  }, [isReady]);
 
   const handleClose = () => {
     gsap.to(containerRef.current, {
@@ -168,31 +190,49 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
 
       <button 
         onClick={handleClose}
-        className="absolute top-8 right-8 z-50 text-white font-sans text-xs tracking-[0.2em] uppercase hover:opacity-70 transition-opacity cursor-pointer"
+        className="absolute top-8 right-8 md:top-12 md:right-12 z-50 flex items-center justify-center w-12 h-12 rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer"
+        title="Close Viewer"
       >
-        Close ✕
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transform group-hover:rotate-90 transition-transform duration-300">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
       </button>
 
+      {/* Loading State */}
+      <div 
+        ref={loaderRef} 
+        className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white/50 pointer-events-none"
+      >
+        <div className="w-12 h-12 border border-white/20 border-t-white/80 rounded-full animate-spin mb-6"></div>
+        <span className="font-sans text-[10px] tracking-[0.3em] uppercase">INITIALIZING SPATIAL VIEW</span>
+      </div>
+
       {/* The WebGL Canvas */}
-      <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing">
+      <div ref={canvasRef} className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing opacity-0">
         {/* Dynamic FOV normalizes the scale so every gallery looks perfectly consistent! */}
         <Canvas camera={{ position: [0, 0, 0.001], fov: dynamicFov }}>
           <Suspense fallback={null}>
-            <GalleryScene images={images} />
+            <GalleryScene images={images} onReady={() => setIsReady(true)} />
           </Suspense>
           <OrbitControls 
             enableZoom={false} 
             enablePan={false} 
             enableDamping={true}
             dampingFactor={0.05}
+            autoRotate={true}
+            autoRotateSpeed={0.5}
             minPolarAngle={Math.PI / 2 - polarLimit} 
             maxPolarAngle={Math.PI / 2 + polarLimit}
           />
         </Canvas>
       </div>
       
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/40 font-sans text-xs tracking-[0.3em] uppercase pointer-events-none z-20">
-        Drag to Explore
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/40 pointer-events-none z-30 transition-opacity duration-1000" style={{ opacity: isReady ? 1 : 0 }}>
+        <svg width="32" height="12" viewBox="0 0 32 12" fill="none" stroke="currentColor" strokeWidth="1" className="opacity-70">
+          <path d="M1 6h30M1 6l5-5M1 6l5 5M31 6l-5-5M31 6l-5 5" />
+        </svg>
+        <span className="font-sans text-[10px] tracking-[0.3em] uppercase">Pan to Explore</span>
       </div>
     </div>
   );
