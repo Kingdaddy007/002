@@ -61,8 +61,9 @@ const VideoHero = () => {
       const innerTextNodes = getInnerTextNodes();
       const heroWords = getHeroWords();
       
-      // Text is initially pushed down via inline style `transform: translateY(110%)`
-      // so it is perfectly hidden during server-side render and before GSAP runs.
+      // Setup initial hidden states using purely GSAP so no CSS pixel values get locked in
+      gsap.set(heroWords, { yPercent: 110, opacity: 1 });
+      gsap.set(innerTextNodes, { yPercent: 110, opacity: 1 });
 
       // Cache the video elements once on mount
       vidsRef.current = [
@@ -88,7 +89,6 @@ const VideoHero = () => {
 
         if (heroWords.length > 0) {
           gsap.to(heroWords, {
-            y: 0,
             yPercent: 0,
             duration: 1.5,
             delay: 0.2, // Drastically reduced since the preloader took 3.2s to dissolve
@@ -296,8 +296,8 @@ const VideoHero = () => {
               >
                 <div className="max-w-4xl pt-4 pb-4 -mt-4 -mb-4">
                   <h2 className="text-white font-display text-[3.5rem] md:text-[5.5rem] lg:text-[7rem] xl:text-[8rem] drop-shadow-2xl leading-[1.05] tracking-tight">
-                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>SPATIAL</span></span>
-                    <span className="overflow-hidden inline-block pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>MASTERY.</span></span>
+                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu opacity-0">SPATIAL</span></span>
+                    <span className="overflow-hidden inline-block pb-2"><span className="hero-word inline-block transform-gpu opacity-0">MASTERY.</span></span>
                   </h2>
                 </div>
               </div>
@@ -310,7 +310,7 @@ const VideoHero = () => {
               className="scene-text-wrapper absolute inset-0 flex flex-col justify-end items-start px-8 md:px-16 lg:px-24 pb-16 md:pb-24 lg:pb-32 text-left"
             >
               <div className="max-w-3xl overflow-hidden pt-4 pb-4 -mt-4 -mb-4">
-                <h2 className="scene-text-inner text-white font-display text-4xl md:text-5xl lg:text-[4rem] drop-shadow-2xl leading-[1.1] transform-gpu" style={{ transform: "translateY(110%)" }}>
+                <h2 className="scene-text-inner opacity-0 text-white font-display text-4xl md:text-5xl lg:text-[4rem] drop-shadow-2xl leading-[1.1] transform-gpu">
                   {scene.title}
                 </h2>
               </div>
