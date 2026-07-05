@@ -203,7 +203,7 @@ const VideoHero = () => {
         .to(proj4Ref.current, { "--s2": "100%", duration: 0.6, ease: "power2.inOut" }, 3.1)
         .to(proj4Ref.current, { "--s3": "100%", duration: 0.6, ease: "power2.inOut" }, 3.2)
         .to(proj4Ref.current, { "--s4": "100%", duration: 0.6, ease: "power2.inOut" }, 3.3)
-        .to(proj4Ref.current, { "--s4": "100%", duration: 0.6, ease: "power2.inOut" }, 3.4)
+        .to(proj4Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 3.4)
         .to(proj4Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 4.0);
 
       if (text3) tl.to(text3, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 3.0);
