@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useRef, useLayoutEffect, useEffect } from "react";
+import React, { Suspense, useRef, useLayoutEffect, useEffect, useState } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useTexture, Sparkles, MeshReflectorMaterial } from "@react-three/drei";
