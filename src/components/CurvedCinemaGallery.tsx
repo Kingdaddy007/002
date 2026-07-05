@@ -123,6 +123,11 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
   const targetTan = (baseN / N) * baseTan;
   const dynamicFov = 2 * Math.atan(targetTan) * (180 / Math.PI);
 
+  // DYNAMIC VERTICAL LIMIT: Prevent the camera from "sliding up" too much when heavily zoomed in.
+  // We limit the vertical look (polar angle) to exactly 8% of whatever the current FOV is.
+  // This gives the user a tiny bit of nice vertical freedom without letting the images drift off-screen.
+  const polarLimit = (dynamicFov * (Math.PI / 180)) * 0.08;
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     
@@ -180,8 +185,8 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
             enablePan={false} 
             enableDamping={true}
             dampingFactor={0.05}
-            minPolarAngle={Math.PI / 2 - 0.15} 
-            maxPolarAngle={Math.PI / 2 + 0.15}
+            minPolarAngle={Math.PI / 2 - polarLimit} 
+            maxPolarAngle={Math.PI / 2 + polarLimit}
           />
         </Canvas>
       </div>
