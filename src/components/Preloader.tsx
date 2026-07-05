@@ -361,6 +361,10 @@ export default function Preloader() {
 
       // Play the dissolve timeline
       const dissolveTl = gsap.timeline({
+        onStart: () => {
+          // Signal to the Hero to start playing the video now, so it plays while dissolving
+          window.dispatchEvent(new Event("preloaderDissolveStart"));
+        },
         onComplete: () => {
           setIsGone(true);
           destroyWebGL();

@@ -89,9 +89,9 @@ const VideoHero = () => {
         if (heroWords.length > 0) {
           gsap.to(heroWords, {
             y: 0,
-            yPercent: 0, // Clears the inline translateY(110%)
+            yPercent: 0,
             duration: 1.5,
-            delay: 1.5, // 1.5s delay to let the user see the video first
+            delay: 0.2, // Drastically reduced since the preloader took 3.2s to dissolve
             stagger: 0.15,
             ease: "power4.out",
           });
@@ -99,17 +99,22 @@ const VideoHero = () => {
       };
 
       const handlePreloaderComplete = () => {
-        const v1 = vidsRef.current[0];
-        if (v1) {
-          v1.currentTime = 0;
-          if (v1.paused) v1.play().catch(() => {});
-        }
+        // The video is already playing (started at dissolve).
+        // Do not reset currentTime. Just trigger the text sequence.
         playHeroSequence();
+      };
+
+      const handlePreloaderDissolveStart = () => {
+        const v1 = vidsRef.current[0];
+        if (v1 && v1.paused) {
+          v1.play().catch(() => {});
+        }
       };
 
       if ((window as any).hasPreloaderCompleted) {
         handlePreloaderComplete();
       } else {
+        window.addEventListener("preloaderDissolveStart", handlePreloaderDissolveStart);
         window.addEventListener("preloaderComplete", handlePreloaderComplete);
       }
 
@@ -232,6 +237,7 @@ const VideoHero = () => {
       // Removed Phase 5 squeeze and brightness changes as VideoHero now completes naturally.
       
       return () => {
+        window.removeEventListener("preloaderDissolveStart", handlePreloaderDissolveStart);
         window.removeEventListener("preloaderComplete", handlePreloaderComplete);
       };
   }, { scope: containerRef });
@@ -264,7 +270,7 @@ const VideoHero = () => {
     <section ref={containerRef} id="video-hero" className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-xbd-bg z-20">
       <div ref={mediaContainerRef} className="absolute inset-0 z-0">
         <div ref={proj1Ref} className="absolute inset-0 z-10 w-full h-full overflow-hidden">
-          <SceneMedia scene={SCENES[0]} autoPlay={true} />
+          <SceneMedia scene={SCENES[0]} />
         </div>
         <div ref={proj2Ref} className="absolute inset-0 z-20 w-full h-full overflow-hidden" style={stripsMaskStyle}>
           <SceneMedia scene={SCENES[1]} />
