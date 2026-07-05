@@ -50,9 +50,12 @@ const VideoHero = () => {
       const textContainer = textContainerRef.current;
       if (!textContainer || !containerRef.current) return;
 
+      const getTextNodes = (): HTMLElement[] =>
+        Array.from(textContainer.querySelectorAll<HTMLElement>(".scene-text-wrapper"));
       const getInnerTextNodes = (): HTMLElement[] =>
         Array.from(textContainer.querySelectorAll<HTMLElement>(".scene-text-inner"));
 
+      const textNodes = getTextNodes();
       const innerTextNodes = getInnerTextNodes();
       
       // Initially push all text down so they are hidden behind the overflow-hidden mask
@@ -151,7 +154,7 @@ const VideoHero = () => {
         .to(proj2Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 0.4)
         .to(proj2Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 1);
         
-      if (innerTextNodes[0]) tl.to(innerTextNodes[0], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 0);
+      if (textNodes[0]) tl.to(textNodes[0], { autoAlpha: 0, yPercent: -50, duration: 0.5, ease: "power2.inOut" }, 0);
       if (innerTextNodes[1]) tl.fromTo(innerTextNodes[1], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 0.5);
       tl.to(sidebarProgressRef.current, { yPercent: 100, duration: 0.2, ease: "power2.inOut" }, 0.5);
 
