@@ -128,12 +128,12 @@ const PhilosophyBridge = () => {
 
           <div className="flex flex-col gap-10 lg:gap-14">
             <div>
-              <p className="reveal-eyebrow text-xs lg:text-sm tracking-[0.25em] text-xbd-text/60 mb-8 uppercase font-medium">
+              <p className="reveal-eyebrow text-xs tracking-[0.25em] text-xbd-text/80 mb-6 uppercase font-bold">
                 THE XBD STANDARD
               </p>
               
               {/* Staggered Word Reveal */}
-              <p className="font-body text-lg lg:text-xl xl:text-2xl leading-[1.6] text-xbd-text/75 max-w-[540px] flex flex-wrap">
+              <p className="font-body text-base lg:text-[1.1rem] xl:text-[1.25rem] leading-relaxed text-xbd-text/70 max-w-[440px] flex flex-wrap">
                 {philosophyWords.map((word, i) => (
                   <span key={i} className="overflow-hidden inline-block mr-[0.25em] mb-[0.2em]">
                     <span className="split-word inline-block transform-gpu">{word}</span>
@@ -141,16 +141,16 @@ const PhilosophyBridge = () => {
                 ))}
               </p>
 
-              <div className="reveal-signature mt-10">
-                <strong className="text-xbd-text font-display font-normal text-xl lg:text-2xl xl:text-3xl tracking-tight">
+              <div className="reveal-signature mt-6">
+                <strong className="text-xbd-text font-normal text-base lg:text-[1.1rem] xl:text-[1.25rem]">
                   What we design is exactly what we build.
                 </strong>
               </div>
             </div>
             
             <div className="reveal-signature">
-              <p className="font-display text-3xl lg:text-4xl tracking-tight text-xbd-text mb-2">ELLEN SØHOEL</p>
-              <p className="text-xs lg:text-sm tracking-[0.2em] text-xbd-text/60 uppercase">FOUNDER / DESIGN DIRECTOR</p>
+              <p className="font-display text-2xl lg:text-[1.75rem] tracking-tight text-xbd-text mb-1">ELLEN SØHOEL</p>
+              <p className="text-[10px] tracking-[0.2em] text-xbd-text/60">FOUNDER / DESIGN DIRECTOR</p>
             </div>
           </div>
         </div>
