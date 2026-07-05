@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useRef, useLayoutEffect, useEffect, useState } from "react";
+import React, { Suspense, useRef, useMemo, useEffect, useState, useCallback } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useTexture, Sparkles, MeshReflectorMaterial } from "@react-three/drei";
@@ -25,22 +25,30 @@ function GalleryPanel({
   thetaLength: number;
 }) {
   const texture = useTexture(url);
-  
-  useLayoutEffect(() => {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.repeat.x = -1;
-    texture.needsUpdate = true;
+
+  const panelTexture = useMemo(() => {
+    const clonedTexture = texture.clone();
+    clonedTexture.wrapS = THREE.RepeatWrapping;
+    clonedTexture.repeat.x = -1;
+    clonedTexture.needsUpdate = true;
+    return clonedTexture;
   }, [texture]);
+
+  useEffect(() => {
+    return () => {
+      panelTexture.dispose();
+    };
+  }, [panelTexture]);
 
   return (
     <mesh>
       <cylinderGeometry args={[radius, radius, height, 64, 1, true, thetaStart, thetaLength]} />
-      <meshBasicMaterial map={texture} side={THREE.BackSide} toneMapped={false} />
+      <meshBasicMaterial map={panelTexture} side={THREE.BackSide} toneMapped={false} />
     </mesh>
   );
 }
 
-function GalleryScene({ images, onReady }: { images: string[], onReady: () => void }) {
+function GalleryScene({ images, onReady, sparkleCount, reflectorResolution }: { images: string[], onReady: () => void; sparkleCount: number; reflectorResolution: number }) {
   const N = images.length;
   
   // By calculating the radius based exactly on N * panelWidth, 
@@ -85,7 +93,7 @@ function GalleryScene({ images, onReady }: { images: string[], onReady: () => vo
       
       {/* Floating dust particles made brighter and larger */}
       <Sparkles 
-        count={800} 
+        count={sparkleCount} 
         scale={[radius * 2, height * 2, radius * 2]} 
         size={6} 
         speed={0.3} 
@@ -98,7 +106,7 @@ function GalleryScene({ images, onReady }: { images: string[], onReady: () => vo
         <planeGeometry args={[radius * 4, radius * 4]} />
         <MeshReflectorMaterial
           blur={[300, 100]}
-          resolution={1024}
+          resolution={reflectorResolution}
           mixBlur={1}
           mixStrength={2}
           roughness={0.8}
@@ -117,11 +125,12 @@ function GalleryScene({ images, onReady }: { images: string[], onReady: () => vo
 
 export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isClosingRef = useRef(false);
 
   // DYNAMIC ZOOM: We want all galleries (whether N=4 or N=11) to look exactly the same size.
   // The user identified N=6 as the perfect size, but wanted it a "tiny bit closer".
   // So we use baseN = 6 and baseFov = 35 (slightly closer than 40).
-  const N = images.length;
+  const N = Math.max(images.length, 1);
   const baseN = 6;
   const baseFov = 35; 
   const baseTan = Math.tan((baseFov / 2) * (Math.PI / 180));
@@ -134,43 +143,76 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
   const polarLimit = (dynamicFov * (Math.PI / 180)) * 0.08;
 
   const [isReady, setIsReady] = useState(false);
+  const [isMobileGpu, setIsMobileGpu] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
+  );
   const canvasRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
+  const sparkleCount = isMobileGpu ? 250 : 800;
+  const reflectorResolution = isMobileGpu ? 256 : 1024;
+
+  const handleReady = useCallback(() => {
+    setIsReady(true);
+  }, []);
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
+    const updateGpuBudget = () => {
+      setIsMobileGpu(window.matchMedia("(max-width: 767px)").matches);
+    };
+    window.addEventListener("resize", updateGpuBudget);
     
     // Fade in the background immediately to give user feedback
     gsap.fromTo(containerRef.current, 
       { opacity: 0 }, 
-      { opacity: 1, duration: 0.4, ease: "power2.out" }
+      { opacity: 1, duration: 0.2, ease: "power2.out" }
     );
 
     return () => {
-      document.body.style.overflow = "";
+      window.removeEventListener("resize", updateGpuBudget);
+      document.body.style.overflow = previousOverflow;
     };
   }, []);
 
-  useEffect(() => {
-    if (isReady) {
-      // Fade out loader
-      gsap.to(loaderRef.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" });
-      // Cinematic fade and scale in for the 3D scene
-      gsap.fromTo(canvasRef.current, 
-        { opacity: 0, scale: 1.05 }, 
-        { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out", delay: 0.2 }
-      );
-    }
-  }, [isReady]);
+  const handleClose = useCallback(() => {
+    if (isClosingRef.current) return;
+    isClosingRef.current = true;
 
-  const handleClose = () => {
     gsap.to(containerRef.current, {
       opacity: 0,
       duration: 0.6,
       ease: "power2.inOut",
       onComplete: onClose
     });
-  };
+  }, [onClose]);
+
+  useEffect(() => {
+    if (isReady) {
+      // Fade out loader
+      gsap.to(loaderRef.current, { opacity: 0, duration: 0.2, ease: "power2.inOut" });
+      // Cinematic fade and scale in for the 3D scene
+      gsap.fromTo(canvasRef.current, 
+        { opacity: 0, scale: 1.02 }, 
+        { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" }
+      );
+    }
+  }, [isReady]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleClose]);
 
   return (
     <div 
@@ -190,6 +232,7 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
 
       <button 
         onClick={handleClose}
+        aria-label="Close spatial gallery"
         className="absolute top-8 right-8 md:top-12 md:right-12 z-50 flex items-center justify-center w-12 h-12 rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer"
         title="Close Viewer"
       >
@@ -213,7 +256,7 @@ export default function CurvedCinemaGallery({ images, onClose }: CurvedCinemaGal
         {/* Dynamic FOV normalizes the scale so every gallery looks perfectly consistent! */}
         <Canvas camera={{ position: [0, 0, 0.001], fov: dynamicFov }}>
           <Suspense fallback={null}>
-            <GalleryScene images={images} onReady={() => setIsReady(true)} />
+            <GalleryScene images={images} onReady={handleReady} sparkleCount={sparkleCount} reflectorResolution={reflectorResolution} />
           </Suspense>
           <OrbitControls 
             enableZoom={false} 

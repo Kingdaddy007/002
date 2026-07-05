@@ -11,10 +11,19 @@ if (typeof window !== "undefined") {
 
 export default function GsapProvider({ children }: { children: React.ReactNode }) {
   useLayoutEffect(() => {
-    // We let Lenis handle smooth scrolling instead of normalizeScroll
-    setTimeout(() => {
+    const refreshScrollTriggers = () => {
       ScrollTrigger.refresh();
-    }, 100);
+    };
+
+    if (window.hasPreloaderCompleted) {
+      refreshScrollTriggers();
+    }
+
+    window.addEventListener("preloaderComplete", refreshScrollTriggers);
+
+    return () => {
+      window.removeEventListener("preloaderComplete", refreshScrollTriggers);
+    };
   }, []);
 
   return <>{children}</>;

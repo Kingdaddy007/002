@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useRef, forwardRef, useImperativeHandle } from "react";
+import React, { useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type Scene = {
   id: string;
@@ -10,11 +13,12 @@ type Scene = {
   video?: string;
 };
 
-const SceneMedia = ({ scene, autoPlay }: { scene: Scene; autoPlay?: boolean }) => {
+const SceneMedia = ({ scene, autoPlay, preload = "none" }: { scene: Scene; autoPlay?: boolean; preload?: "auto" | "metadata" | "none" }) => {
   if (scene.video) {
-    return <video id={`video-${scene.id}`} src={scene.video} loop muted playsInline autoPlay={autoPlay} className="absolute inset-0 w-full h-full object-cover" />;
+    return <video id={`video-${scene.id}`} src={scene.video} loop muted playsInline autoPlay={autoPlay} preload={preload} className="absolute inset-0 w-full h-full object-cover" />;
   }
-  return <img id={`img-${scene.id}`} src={scene.image} alt={scene.title} className="absolute inset-0 w-full h-full object-cover" />;
+  if (!scene.image) return null;
+  return <Image id={`img-${scene.id}`} src={scene.image} alt={scene.title} fill className="absolute inset-0 object-cover" sizes="100vw" />;
 };
 
 const SCENES: Scene[] = [
@@ -25,15 +29,13 @@ const SCENES: Scene[] = [
   { id: "scene-5", title: "Commanding the skyline.", video: "/videos/scene5.mp4" }
 ];
 
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 gsap.registerPlugin(ScrollTrigger);
 
 const VideoHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
   const vidsRef = useRef<(HTMLVideoElement | null)[]>([]);
+  const activeVideoSegmentRef = useRef<number | null>(null);
 
   const proj1Ref = useRef<HTMLDivElement>(null);
   const proj2Ref = useRef<HTMLDivElement>(null);
@@ -44,9 +46,8 @@ const VideoHero = () => {
 
   const sidebarProgressRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const bottomGradientRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
+  
+  useGSAP((_, contextSafe) => {
       const textContainer = textContainerRef.current;
       if (!textContainer || !containerRef.current) return;
 
@@ -79,7 +80,7 @@ const VideoHero = () => {
       // preventing any white background flash.
       gsap.set(proj1Ref.current, { scale: 1.1, opacity: 1 });
 
-      const playHeroSequence = () => {
+      const runHeroSequence = () => {
         // Z-axis entrance feel (scaling from 1.1 to 1)
         gsap.to(proj1Ref.current, { 
           scale: 1, 
@@ -98,6 +99,8 @@ const VideoHero = () => {
         }
       };
 
+      const playHeroSequence = contextSafe ? contextSafe(runHeroSequence) : runHeroSequence;
+
       const handlePreloaderComplete = () => {
         // The video is already playing (started at dissolve).
         // Do not reset currentTime. Just trigger the text sequence.
@@ -111,7 +114,11 @@ const VideoHero = () => {
         }
       };
 
-      if ((window as any).hasPreloaderCompleted) {
+      if (window.hasPreloaderDissolveStarted) {
+        handlePreloaderDissolveStart();
+      }
+
+      if (window.hasPreloaderCompleted) {
         handlePreloaderComplete();
       } else {
         window.addEventListener("preloaderDissolveStart", handlePreloaderDissolveStart);
@@ -148,11 +155,15 @@ const VideoHero = () => {
             const safePlay = (vid: HTMLVideoElement | null) => { if (vid && vid.paused) { vid.play().catch(() => {}); } };
             const safePause = (vid: HTMLVideoElement | null) => { if (vid && !vid.paused) { vid.pause(); } };
 
-            if (progress < 0.25) {
+            const nextSegment = progress < 0.25 ? 0 : progress < 0.5 ? 1 : progress < 0.75 ? 2 : 3;
+            if (activeVideoSegmentRef.current === nextSegment) return;
+            activeVideoSegmentRef.current = nextSegment;
+
+            if (nextSegment === 0) {
               safePlay(v1); safePlay(v2); safePause(v3); safePause(v4); safePause(v5);
-            } else if (progress < 0.5) {
+            } else if (nextSegment === 1) {
               safePause(v1); safePlay(v2); safePlay(v3); safePause(v4); safePause(v5);
-            } else if (progress < 0.75) {
+            } else if (nextSegment === 2) {
               safePause(v1); safePause(v2); safePlay(v3); safePlay(v4); safePause(v5);
             } else {
               safePause(v1); safePause(v2); safePause(v3); safePlay(v4); safePlay(v5);
@@ -175,7 +186,7 @@ const VideoHero = () => {
       if (textNodes[0]) tl.to(textNodes[0], { autoAlpha: 0, yPercent: -50, duration: 0.5, ease: "power2.inOut" }, 0);
       
       const text2 = textNodes[1]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text2) tl.fromTo(text2, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 0.5);
+      if (text2) tl.fromTo(text2, { yPercent: 110, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 0.5);
       
       tl.to(sidebarProgressRef.current, { yPercent: 100, duration: 0.2, ease: "power2.inOut" }, 0.5);
 
@@ -189,10 +200,10 @@ const VideoHero = () => {
         .to(proj3Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 1.9)
         .to(proj3Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 2.5);
 
-      if (text2) tl.to(text2, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 1.5);
+      if (text2) tl.to(text2, { yPercent: -150, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 1.5);
       
       const text3 = textNodes[2]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text3) tl.fromTo(text3, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 2.0);
+      if (text3) tl.fromTo(text3, { yPercent: 110, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 2.0);
       
       tl.to(sidebarProgressRef.current, { yPercent: 200, duration: 0.2, ease: "power2.inOut" }, 2.0);
 
@@ -206,10 +217,10 @@ const VideoHero = () => {
         .to(proj4Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 3.4)
         .to(proj4Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 4.0);
 
-      if (text3) tl.to(text3, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 3.0);
+      if (text3) tl.to(text3, { yPercent: -150, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 3.0);
       
       const text4 = textNodes[3]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text4) tl.fromTo(text4, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 3.5);
+      if (text4) tl.fromTo(text4, { yPercent: 110, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 3.5);
       
       tl.to(sidebarProgressRef.current, { yPercent: 300, duration: 0.2, ease: "power2.inOut" }, 3.5);
 
@@ -223,18 +234,16 @@ const VideoHero = () => {
         .to(proj5Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 4.9)
         .to(proj5Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 5.5);
 
-      if (text4) tl.to(text4, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 4.5);
+      if (text4) tl.to(text4, { yPercent: -150, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 4.5);
       
       const text5 = textNodes[4]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text5) tl.fromTo(text5, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 5.0);
+      if (text5) tl.fromTo(text5, { yPercent: 110, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 5.0);
       
       tl.to(sidebarProgressRef.current, { yPercent: 400, duration: 0.2, ease: "power2.inOut" }, 5.0);
 
       // Final Exit
-      if (text5) tl.to(text5, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 6.0);
+      if (text5) tl.to(text5, { yPercent: -150, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 6.0);
       if (sidebarRef.current) tl.to(sidebarRef.current, { autoAlpha: 0, duration: 0.5, ease: "power2.inOut" }, 6.0);
-      
-      // Removed Phase 5 squeeze and brightness changes as VideoHero now completes naturally.
       
       return () => {
         window.removeEventListener("preloaderDissolveStart", handlePreloaderDissolveStart);
@@ -270,19 +279,19 @@ const VideoHero = () => {
     <section ref={containerRef} id="video-hero" className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-xbd-bg z-20">
       <div ref={mediaContainerRef} className="absolute inset-0 z-0">
         <div ref={proj1Ref} className="absolute inset-0 z-10 w-full h-full overflow-hidden">
-          <SceneMedia scene={SCENES[0]} />
+          <SceneMedia scene={SCENES[0]} preload="auto" />
         </div>
         <div ref={proj2Ref} className="absolute inset-0 z-20 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[1]} />
+          <SceneMedia scene={SCENES[1]} preload="none" />
         </div>
         <div ref={proj3Ref} className="absolute inset-0 z-30 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[2]} />
+          <SceneMedia scene={SCENES[2]} preload="none" />
         </div>
         <div ref={proj4Ref} className="absolute inset-0 z-40 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[3]} />
+          <SceneMedia scene={SCENES[3]} preload="none" />
         </div>
         <div ref={proj5Ref} className="absolute inset-0 z-50 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[4]} />
+          <SceneMedia scene={SCENES[4]} preload="none" />
         </div>
       </div>
 

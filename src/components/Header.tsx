@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -15,9 +15,11 @@ const FullLogo = ({ isLightText }: { isLightText: boolean }) => (
       We apply brightness-0 and invert to turn the original black logo 
       into pure white when over the dark video background.
     */}
-    <img 
+    <Image
       src="/xbd-logo.png" 
       alt="XBD Logo Mark" 
+      width={48}
+      height={48}
       className={`w-12 h-12 mb-0.5 object-contain transition-all duration-300 ${isLightText ? "filter brightness-0 invert" : ""}`} 
     />
     <span className="font-display text-[22px] tracking-[0.25em] leading-none mb-1.5 ml-1">X B D</span>
@@ -98,6 +100,10 @@ export default function Header() {
     }
   };
 
+  const handleLogoClick = () => {
+    document.body.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
       isLightText ? "text-white" : "text-xbd-text"
@@ -115,7 +121,7 @@ export default function Header() {
       }`}>
         
         {/* Left: Full Logo */}
-        <div className="hover:opacity-80 transition-opacity cursor-pointer" onClick={(e) => handleScrollTo(e as any, 'body')}>
+        <div className="hover:opacity-80 transition-opacity cursor-pointer" onClick={handleLogoClick}>
           <FullLogo isLightText={isLightText} />
         </div>
         

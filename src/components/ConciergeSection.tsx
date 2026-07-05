@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -14,8 +15,8 @@ export default function ConciergeSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const footerWrapperRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
-  const londonImgRef = useRef<HTMLImageElement>(null);
-  const dubaiImgRef = useRef<HTMLImageElement>(null);
+  const londonImgRef = useRef<HTMLDivElement>(null);
+  const dubaiImgRef = useRef<HTMLDivElement>(null);
 
   const handleHover = (city: 'london' | 'dubai' | null) => {
     if (city === 'london') {
@@ -152,19 +153,23 @@ export default function ConciergeSection() {
           <div className="absolute inset-0 w-full h-full z-0 bg-[#1A1A1A]">
             {/* Dubai Hover Image (Default Base) */}
             <div ref={dubaiImgRef} className="absolute inset-0 w-full h-full opacity-100">
-              <img 
+              <Image
                 src="/images/dubai_d3_facade_1783053226216.jpg" 
                 alt="Dubai Location" 
-                className="w-full h-full object-cover brightness-[0.35]" 
+                fill
+                className="object-cover brightness-[0.35]"
+                sizes="100vw"
               />
             </div>
 
             {/* London Hover Image (Overlay on top of Dubai) */}
             <div ref={londonImgRef} className="absolute inset-0 w-full h-full opacity-0 z-10">
-              <img 
+              <Image
                 src="/images/london_mayfair_facade_1783053217126.jpg" 
                 alt="London Location" 
-                className="w-full h-full object-cover brightness-[0.35]" 
+                fill
+                className="object-cover brightness-[0.35]"
+                sizes="100vw"
               />
             </div>
           </div>

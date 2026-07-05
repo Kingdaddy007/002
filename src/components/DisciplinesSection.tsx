@@ -2,12 +2,16 @@
 
 import React, { useRef, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CurvedCinemaGallery from "./CurvedCinemaGallery";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const CurvedCinemaGallery = dynamic(() => import("./CurvedCinemaGallery"), {
+  ssr: false,
+});
 
 const disciplines = [
   {
@@ -205,6 +209,13 @@ export default function DisciplinesSection() {
                   <div 
                     className="img-frame relative w-full aspect-[4/3] md:aspect-video overflow-hidden bg-[#EAE5DF] cursor-pointer group"
                     onClick={() => setActiveGallery(disc.images)}
+                    onMouseEnter={() => {
+                      import("./CurvedCinemaGallery");
+                      disc.images.forEach(url => {
+                        const img = new window.Image();
+                        img.src = url;
+                      });
+                    }}
                   >
                     <Image 
                       src={disc.images[0]} 
@@ -213,8 +224,6 @@ export default function DisciplinesSection() {
                       className="parallax-img object-cover origin-center transition-transform duration-700 group-hover:scale-105"
                       sizes="100vw"
                       priority={index === 0}
-                      quality={100}
-                      unoptimized={true}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center z-10 pointer-events-none">
                        <span className="opacity-0 group-hover:opacity-100 text-white font-sans text-xs tracking-[0.2em] uppercase transition-opacity duration-500 bg-black/40 px-6 py-3 rounded-full backdrop-blur-md">

@@ -121,12 +121,19 @@ export default function Preloader() {
   const [isGone, setIsGone] = useState(false);
   const dissolveTriggered = useRef(false);
   const isUnlockedRef = useRef(false);
+  const dissolveTlRef = useRef<gsap.core.Timeline | null>(null);
+  const previousBodyOverflowRef = useRef("");
   const lenis = useLenis();
   const lenisRef = useRef(lenis);
 
   useEffect(() => {
     lenisRef.current = lenis;
   }, [lenis]);
+
+  useEffect(() => {
+    window.hasPreloaderCompleted = false;
+    window.hasPreloaderDissolveStarted = false;
+  }, []);
 
   // WebGL state stored in refs to persist across renders
   const glRef = useRef<WebGLRenderingContext | null>(null);
@@ -276,6 +283,7 @@ export default function Preloader() {
     }
     
     // Hard lock native scrolling
+    previousBodyOverflowRef.current = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     
     // Hard lock Lenis smooth scrolling (preventing ScrollTrigger bleed)
@@ -284,7 +292,7 @@ export default function Preloader() {
     }
     
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousBodyOverflowRef.current;
       if (lenis) lenis.start();
     };
   }, [lenis]);
@@ -363,20 +371,23 @@ export default function Preloader() {
       const dissolveTl = gsap.timeline({
         onStart: () => {
           // Signal to the Hero to start playing the video now, so it plays while dissolving
+          window.hasPreloaderDissolveStarted = true;
           window.dispatchEvent(new Event("preloaderDissolveStart"));
         },
         onComplete: () => {
           setIsGone(true);
           destroyWebGL();
           // ONLY unlock the body once the preloader is fully gone
-          document.body.style.overflow = "";
+          document.body.style.overflow = previousBodyOverflowRef.current;
           if (lenisRef.current) lenisRef.current.start();
           
           // Signal to the rest of the application that the preloader is fully gone
-          (window as any).hasPreloaderCompleted = true;
+          dissolveTlRef.current = null;
+          window.hasPreloaderCompleted = true;
           window.dispatchEvent(new Event("preloaderComplete"));
         }
       });
+      dissolveTlRef.current = dissolveTl;
 
       // Fade out logo and cue quickly
       dissolveTl.to([logoRef.current, scrollCueRef.current], {
@@ -427,6 +438,8 @@ export default function Preloader() {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchmove", handleTouch);
       window.removeEventListener("keydown", handleKeyDown);
+      dissolveTlRef.current?.kill();
+      dissolveTlRef.current = null;
     };
   }, [destroyWebGL]);
 
