@@ -18,10 +18,10 @@ const SceneMedia = ({ scene, autoPlay }: { scene: Scene; autoPlay?: boolean }) =
 };
 
 const SCENES: Scene[] = [
-  { id: "scene-1", title: "THE REALITY OF THE EXTRAORDINARY", video: "/videos/scene1.mp4" },
-  { id: "scene-2", title: "Sanctuaries of uncompromising private luxury.", video: "/videos/scene2.mp4" },
-  { id: "scene-3", title: "From singular estates to visionary coastal masterplans.", video: "/videos/scene3.mp4" },
-  { id: "scene-4", title: "Curating mood, texture, and light.", video: "/videos/scene4.mp4" },
+  { id: "scene-1", title: "SPATIAL MASTERY.", video: "/videos/scene1.mp4" },
+  { id: "scene-2", title: "Private sanctuaries engineered for absolute discretion.", video: "/videos/scene2.mp4" },
+  { id: "scene-3", title: "Singular estates. Coastal masterplans.", video: "/videos/scene3.mp4" },
+  { id: "scene-4", title: "Material logic. Atmospheric control.", video: "/videos/scene4.mp4" },
   { id: "scene-5", title: "Commanding the skyline.", video: "/videos/scene5.mp4" }
 ];
 
@@ -74,14 +74,16 @@ const VideoHero = () => {
       ];
 
       // 1. Initial Load Animation (Now synchronized with Preloader)
-      gsap.set(proj1Ref.current, { scale: 1.1, opacity: 0 });
+      // Set to opacity 1 so it's fully visible underneath the preloader, 
+      // preventing any white background flash.
+      gsap.set(proj1Ref.current, { scale: 1.1, opacity: 1 });
 
       const playHeroSequence = () => {
+        // Z-axis entrance feel (scaling from 1.1 to 1)
         gsap.to(proj1Ref.current, { 
           scale: 1, 
-          opacity: 1, 
-          duration: 2, 
-          ease: "power3.out"
+          duration: 3.5, 
+          ease: "power2.out"
         });
 
         if (heroWords.length > 0) {
@@ -164,11 +166,15 @@ const VideoHero = () => {
         .to(proj2Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 0.4)
         .to(proj2Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 1);
         
+      // Phase 1 (Scroll 0 -> 1)
       if (textNodes[0]) tl.to(textNodes[0], { autoAlpha: 0, yPercent: -50, duration: 0.5, ease: "power2.inOut" }, 0);
-      if (innerTextNodes[0]) tl.fromTo(innerTextNodes[0], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 0.5);
+      
+      const text2 = textNodes[1]?.querySelector('.scene-text-inner') as HTMLElement;
+      if (text2) tl.fromTo(text2, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 0.5);
+      
       tl.to(sidebarProgressRef.current, { yPercent: 100, duration: 0.2, ease: "power2.inOut" }, 0.5);
 
-      // Phase 2
+      // Phase 2 (Scroll 1.5 -> 2.5)
       tl.to(proj2Ref.current, { scale: 1.15, duration: 1, ease: "none" }, 1.5)
         .fromTo(proj3Ref.current, { scale: 1.1 }, { scale: 1, duration: 1, ease: "none" }, 1.5)
         .fromTo(proj3Ref.current, { ...hiddenVars }, { "--s1": "100%", duration: 0.6, ease: "power2.inOut" }, 1.5)
@@ -178,11 +184,14 @@ const VideoHero = () => {
         .to(proj3Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 1.9)
         .to(proj3Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 2.5);
 
-      if (innerTextNodes[0]) tl.to(innerTextNodes[0], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 1.5);
-      if (innerTextNodes[1]) tl.fromTo(innerTextNodes[1], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 2.0);
+      if (text2) tl.to(text2, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 1.5);
+      
+      const text3 = textNodes[2]?.querySelector('.scene-text-inner') as HTMLElement;
+      if (text3) tl.fromTo(text3, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 2.0);
+      
       tl.to(sidebarProgressRef.current, { yPercent: 200, duration: 0.2, ease: "power2.inOut" }, 2.0);
 
-      // Phase 3
+      // Phase 3 (Scroll 3.0 -> 4.0)
       tl.to(proj3Ref.current, { scale: 1.15, duration: 1, ease: "none" }, 3.0)
         .fromTo(proj4Ref.current, { scale: 1.1 }, { scale: 1, duration: 1, ease: "none" }, 3.0)
         .fromTo(proj4Ref.current, { ...hiddenVars }, { "--s1": "100%", duration: 0.6, ease: "power2.inOut" }, 3.0)
@@ -192,11 +201,14 @@ const VideoHero = () => {
         .to(proj4Ref.current, { "--s4": "100%", duration: 0.6, ease: "power2.inOut" }, 3.4)
         .to(proj4Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 4.0);
 
-      if (innerTextNodes[1]) tl.to(innerTextNodes[1], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 3.0);
-      if (innerTextNodes[2]) tl.fromTo(innerTextNodes[2], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 3.5);
+      if (text3) tl.to(text3, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 3.0);
+      
+      const text4 = textNodes[3]?.querySelector('.scene-text-inner') as HTMLElement;
+      if (text4) tl.fromTo(text4, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 3.5);
+      
       tl.to(sidebarProgressRef.current, { yPercent: 300, duration: 0.2, ease: "power2.inOut" }, 3.5);
 
-      // Phase 4
+      // Phase 4 (Scroll 4.5 -> 5.5)
       tl.to(proj4Ref.current, { scale: 1.15, duration: 1, ease: "none" }, 4.5)
         .fromTo(proj5Ref.current, { scale: 1.1 }, { scale: 1, duration: 1, ease: "none" }, 4.5)
         .fromTo(proj5Ref.current, { ...hiddenVars }, { "--s1": "100%", duration: 0.6, ease: "power2.inOut" }, 4.5)
@@ -206,11 +218,15 @@ const VideoHero = () => {
         .to(proj5Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 4.9)
         .to(proj5Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 5.5);
 
-      if (innerTextNodes[2]) tl.to(innerTextNodes[2], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 4.5);
-      if (innerTextNodes[3]) tl.fromTo(innerTextNodes[3], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 5.0);
+      if (text4) tl.to(text4, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 4.5);
+      
+      const text5 = textNodes[4]?.querySelector('.scene-text-inner') as HTMLElement;
+      if (text5) tl.fromTo(text5, { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 5.0);
+      
       tl.to(sidebarProgressRef.current, { yPercent: 400, duration: 0.2, ease: "power2.inOut" }, 5.0);
 
-      if (innerTextNodes[3]) tl.to(innerTextNodes[3], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 6.0);
+      // Final Exit
+      if (text5) tl.to(text5, { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 6.0);
       if (sidebarRef.current) tl.to(sidebarRef.current, { autoAlpha: 0, duration: 0.5, ease: "power2.inOut" }, 6.0);
       
       // Removed Phase 5 squeeze and brightness changes as VideoHero now completes naturally.
