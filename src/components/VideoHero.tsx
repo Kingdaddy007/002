@@ -54,14 +54,15 @@ const VideoHero = () => {
         Array.from(textContainer.querySelectorAll<HTMLElement>(".scene-text-wrapper"));
       const getInnerTextNodes = (): HTMLElement[] =>
         Array.from(textContainer.querySelectorAll<HTMLElement>(".scene-text-inner"));
+      const getHeroWords = (): HTMLElement[] =>
+        Array.from(textContainer.querySelectorAll<HTMLElement>(".hero-word"));
 
       const textNodes = getTextNodes();
       const innerTextNodes = getInnerTextNodes();
+      const heroWords = getHeroWords();
       
-      // Initially push all text down so they are hidden behind the overflow-hidden mask
-      innerTextNodes.forEach((node) => {
-        gsap.set(node, { yPercent: 110 }); 
-      });
+      // Text is initially pushed down via inline style `transform: translateY(110%)`
+      // so it is perfectly hidden during server-side render and before GSAP runs.
 
       // Cache the video elements once on mount
       vidsRef.current = [
@@ -92,11 +93,14 @@ const VideoHero = () => {
       );
 
       // Let the text emerge from "under the ground" AFTER the video has faded in
-      if (innerTextNodes[0]) {
-        gsap.to(innerTextNodes[0], {
-          yPercent: 0,
+      // Scene 1 uses staggered words for a monumental entrance
+      if (heroWords.length > 0) {
+        gsap.to(heroWords, {
+          y: 0,
+          yPercent: 0, // Clears the inline translateY(110%)
           duration: 1.5,
           delay: 1.5, // 1.5s delay to let the user see the video first
+          stagger: 0.15,
           ease: "power4.out",
         });
       }
@@ -155,7 +159,7 @@ const VideoHero = () => {
         .to(proj2Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 1);
         
       if (textNodes[0]) tl.to(textNodes[0], { autoAlpha: 0, yPercent: -50, duration: 0.5, ease: "power2.inOut" }, 0);
-      if (innerTextNodes[1]) tl.fromTo(innerTextNodes[1], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 0.5);
+      if (innerTextNodes[0]) tl.fromTo(innerTextNodes[0], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 0.5);
       tl.to(sidebarProgressRef.current, { yPercent: 100, duration: 0.2, ease: "power2.inOut" }, 0.5);
 
       // Phase 2
@@ -168,8 +172,8 @@ const VideoHero = () => {
         .to(proj3Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 1.9)
         .to(proj3Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 2.5);
 
-      if (innerTextNodes[1]) tl.to(innerTextNodes[1], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 1.5);
-      if (innerTextNodes[2]) tl.fromTo(innerTextNodes[2], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 2.0);
+      if (innerTextNodes[0]) tl.to(innerTextNodes[0], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 1.5);
+      if (innerTextNodes[1]) tl.fromTo(innerTextNodes[1], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 2.0);
       tl.to(sidebarProgressRef.current, { yPercent: 200, duration: 0.2, ease: "power2.inOut" }, 2.0);
 
       // Phase 3
@@ -179,11 +183,11 @@ const VideoHero = () => {
         .to(proj4Ref.current, { "--s2": "100%", duration: 0.6, ease: "power2.inOut" }, 3.1)
         .to(proj4Ref.current, { "--s3": "100%", duration: 0.6, ease: "power2.inOut" }, 3.2)
         .to(proj4Ref.current, { "--s4": "100%", duration: 0.6, ease: "power2.inOut" }, 3.3)
-        .to(proj4Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 3.4)
+        .to(proj4Ref.current, { "--s4": "100%", duration: 0.6, ease: "power2.inOut" }, 3.4)
         .to(proj4Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 4.0);
 
-      if (innerTextNodes[2]) tl.to(innerTextNodes[2], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 3.0);
-      if (innerTextNodes[3]) tl.fromTo(innerTextNodes[3], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 3.5);
+      if (innerTextNodes[1]) tl.to(innerTextNodes[1], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 3.0);
+      if (innerTextNodes[2]) tl.fromTo(innerTextNodes[2], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 3.5);
       tl.to(sidebarProgressRef.current, { yPercent: 300, duration: 0.2, ease: "power2.inOut" }, 3.5);
 
       // Phase 4
@@ -196,11 +200,11 @@ const VideoHero = () => {
         .to(proj5Ref.current, { "--s5": "100%", duration: 0.6, ease: "power2.inOut" }, 4.9)
         .to(proj5Ref.current, { scale: 1.05, duration: 0.5, ease: "none" }, 5.5);
 
-      if (innerTextNodes[3]) tl.to(innerTextNodes[3], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 4.5);
-      if (innerTextNodes[4]) tl.fromTo(innerTextNodes[4], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 5.0);
+      if (innerTextNodes[2]) tl.to(innerTextNodes[2], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 4.5);
+      if (innerTextNodes[3]) tl.fromTo(innerTextNodes[3], { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 5.0);
       tl.to(sidebarProgressRef.current, { yPercent: 400, duration: 0.2, ease: "power2.inOut" }, 5.0);
 
-      if (innerTextNodes[4]) tl.to(innerTextNodes[4], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 6.0);
+      if (innerTextNodes[3]) tl.to(innerTextNodes[3], { yPercent: -110, duration: 0.5, ease: "power2.inOut" }, 6.0);
       if (sidebarRef.current) tl.to(sidebarRef.current, { autoAlpha: 0, duration: 0.5, ease: "power2.inOut" }, 6.0);
       
       // Removed Phase 5 squeeze and brightness changes as VideoHero now completes naturally.
@@ -251,18 +255,40 @@ const VideoHero = () => {
       </div>
 
       <div ref={textContainerRef} className="absolute inset-0 z-[100] pointer-events-none">
-        {SCENES.map((scene) => (
-          <div
-            key={scene.id}
-            className="scene-text-wrapper absolute inset-0 flex flex-col justify-end items-start px-8 md:px-16 lg:px-24 pb-16 md:pb-24 lg:pb-32 text-left"
-          >
-            <div className="max-w-3xl overflow-hidden pt-4 pb-4 -mt-4 -mb-4">
-              <h2 className="scene-text-inner text-white font-display text-4xl md:text-5xl lg:text-[4rem] drop-shadow-2xl leading-[1.1] transform-gpu">
-                {scene.title}
-              </h2>
+        {SCENES.map((scene, index) => {
+          if (index === 0) {
+            return (
+              <div
+                key={scene.id}
+                className="scene-text-wrapper absolute inset-0 flex flex-col justify-center items-center text-center px-4"
+              >
+                <div className="max-w-4xl pt-4 pb-4 -mt-4 -mb-4">
+                  <h2 className="text-white font-display text-[2.5rem] md:text-[4rem] lg:text-[5rem] xl:text-[6rem] drop-shadow-2xl leading-[1.05] tracking-tight">
+                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>THE</span></span>
+                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>REALITY</span></span>
+                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>OF</span></span>
+                    <span className="overflow-hidden inline-block mr-[0.2em] pb-2"><span className="hero-word inline-block transform-gpu" style={{ transform: "translateY(110%)" }}>THE</span></span>
+                    <br className="hidden md:block" />
+                    <span className="overflow-hidden inline-block pb-2"><span className="hero-word inline-block transform-gpu text-xbd-gold italic" style={{ transform: "translateY(110%)" }}>EXTRAORDINARY.</span></span>
+                  </h2>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div
+              key={scene.id}
+              className="scene-text-wrapper absolute inset-0 flex flex-col justify-end items-start px-8 md:px-16 lg:px-24 pb-16 md:pb-24 lg:pb-32 text-left"
+            >
+              <div className="max-w-3xl overflow-hidden pt-4 pb-4 -mt-4 -mb-4">
+                <h2 className="scene-text-inner text-white font-display text-4xl md:text-5xl lg:text-[4rem] drop-shadow-2xl leading-[1.1] transform-gpu" style={{ transform: "translateY(110%)" }}>
+                  {scene.title}
+                </h2>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div ref={sidebarRef} className="absolute right-8 md:right-12 top-1/2 -translate-y-1/2 z-[110] flex flex-col items-center justify-center mix-blend-difference text-white">
