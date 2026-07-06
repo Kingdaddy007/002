@@ -263,7 +263,7 @@ Don't rush past this. That line carries weight. You've given "it" an object — 
 
 This is the beat that was missing. This is your **human moment** — the transition from *noticing the gap* to *being moved enough to build something about it*. You're not making an argument. You're telling them what you felt.
 
-> *"We spend a lot of time studying architecture and design studios. Their built work. How they present themselves. And every once in a while, you come across a studio where the gap between the work they build and the way the world sees them is... it's loud. It's hard to ignore."*
+> *"Now, the reason I'm pointing this out... is because we spend a lot of time studying architecture and design studios. Their built work. How they present themselves. And every once in a while, you come across a studio where the gap between the work they build and the way the world sees them is... it's loud. It's hard to ignore."*
 
 Pause briefly. Then:
 
