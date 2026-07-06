@@ -39,3 +39,8 @@
 - **Concierge Form Visual Balancing:** Resolved the asymmetrical blank cell in the 2-column form grid by applying `col-span-2` to the `Project Budget` select dropdown container, creating a balanced visual alignment of fields.
 - **Header Scroll Overlap:** Modified Header.tsx to only show when `scrollY < 50`. It permanently hides on scroll down to prevent transparent header text and logo from clashing with the light-themed sections underneath when scrolling backwards.
 - **Navigation UX:** Replaced Next.js `<Link>` components in the single-page pitch with standard `<a>` tags and a smooth-scroll `handleScrollTo` function to ensure exact section targeting without route changes. Removed the broken hamburger menu to ensure the pitch is 100% functional and contains no "dead" interactive elements for the screen recording.
+
+## Date: 2026-07-06 (Context Refinement)
+
+- **Context Correction:** Created `contexts/actual_built_concept_context.md` to document the full scope of the completed Next.js/GSAP/Three.js homepage. This corrects the false impression from strategic outreach files that the build was only a single-project page for "Solar House." It details the exact interactions (WebGL shader preloader, 5-video masked hero, philosophy reveal, 3D cylindrical discipline gallery, team orbit, concierge form, and facade-switching footer).
+
