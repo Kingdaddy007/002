@@ -208,32 +208,101 @@ The video has three acts. The middle act — the longest — has **zero narratio
 
 | Act | Duration | Voice | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Act 1: The Reality** | 0:00 — 0:50 | You speak | Show the gap. Plant the question. |
-| **Act 2: The Experience** | 0:50 — 3:30 | **Music only. Zero words.** | Let them FEEL the answer. No explanation. Pure emotion. |
-| **Act 3: The Close** | 3:30 — 5:00 | You speak | Contextualize. Plant the seed. Walk away. |
+| **Act 1: The Reality** | 0:00 — 1:05 | You speak | Show the gap. Plant the question. |
+| **Act 2: The Experience** | 1:05 — 3:45 | **Music only. Zero words.** | Let them FEEL the answer. No explanation. Pure emotion. |
+| **Act 3: The Close** | 3:45 — 5:00 | You speak | Contextualize. Plant the seed. Walk away. |
 
 > [!IMPORTANT]
 > **Why no narrated walkthrough?** Because when you narrate, you tell people what to think. When you let it play in silence with music, they have their own experience. Their own emotional response. The conclusions they draw are *their* conclusions — and self-generated conclusions are 10x stronger than anything you could say. You don't explain a gut punch. You let it land.
 
 ---
 
-#### Act 1: The Reality (0:00 — 0:50)
+#### Act 1: The Reality (0:00 — 1:05)
 
 **Face cam on.** You're on screen. This is the only act where your face and voice carry the weight.
 
-- **Don't** start with "Hi, my name is..."
-- **Do** start with their current website on screen.
-- Say: *"This is xbdesign.com. XBD Collective — London, Dubai. Bvlgari Villa. Rixos tower. Solar House in Emirates Hills. Some of the most striking built work in the Gulf region."*
-- Pause. Let the carousel auto-play. Let the 9 dots show. Let the "Designed by E8" footer be visible.
-- Say: *"And this is how the world sees it."*
-- Beat of silence. Let it sit.
-- Say: *"We asked ourselves a different question. Not 'what if one project looked better on screen' — but 'what if the entire studio's digital presence carried the same weight as the built work?' What if scrolling through xbdesign.com felt like walking through one of their spaces?"*
-- Say: *"So we built it. The whole thing. Working entirely from what's publicly available — the portfolio, the photography, the team. No brand brief. No internal direction. Just the work as our guide."*
-- Brief pause.
-- Say: *"Let me show you."*
+This section is written as **talking points with key phrases**, not a teleprompter script. Know the beats, hit the phrases, but let the rest be you talking. If you add a word, skip a word, pause longer — that's fine. That's what makes it real.
+
+---
+
+**Beat 1: The Warm Open** *(2-3 seconds)*
+
+Don't introduce yourself. Don't say your name. But DO start with gratitude, and give the viewer a one-sentence reason to keep watching. Something that frames what this video IS — so they're oriented.
+
+> *"Thank you so much for making the time to look at this. I want to show you something we built."*
+
+That's it. Two sentences. Calm. Confident. Then transition to their website on screen.
+
+**Why this works:** It's respectful, but it's not "Hi, I'm..." — it's intrigue. The viewer immediately thinks: *"What did they build?"* You have their attention and have shown respect without introducing yourself.
+
+---
+
+**Beat 2: The Walkthrough of Their Current Site** *(15-20 seconds)*
+
+Their current website is now on screen. Don't just stare at it — **interact with it casually.** Hover over sections. Point things out. Be observational, like you're giving a friend a tour of something you've been studying.
+
+> *"This is xbdesign.com. XBD Collective — London, Dubai."*
+
+Move your cursor over some of their work. Hover over the navigation tabs. Let it feel like you've spent time here.
+
+> *"Bvlgari Villa... the Rixos tower... Solar House in Emirates Hills..."*
+
+Name the projects as you see them on screen. Let the carousel auto-play. Let the 9 dots show. Let the "Designed by E8" footer be visible.
+
+> *"Some of the most striking built work in the Gulf region."*
+
+Pause. Let it sit for a beat. Then:
+
+> *"And this is the digital experience the world sees when they search for XBD."*
+
+Don't rush past this. That line carries weight. You've given "it" an object — the digital experience. Let the silence after it do work.
+
+---
+
+**Beat 3: The Emotional Bridge — "Where Have You Come From?"** *(15-20 seconds)*
+
+This is the beat that was missing. This is your **human moment** — the transition from *noticing the gap* to *being moved enough to build something about it*. You're not making an argument. You're telling them what you felt.
+
+> *"We spend a lot of time studying architecture and design studios. Their built work. How they present themselves. And every once in a while, you come across a studio where the gap between the work they build and the way the world sees them is... it's loud. It's hard to ignore."*
+
+Pause briefly. Then:
+
+> *"XBD is one of those studios."*
+
+**Why this works:** You've just done three things:
+1. Established that you do this regularly — you're not a random person who stumbled onto their site. You study studios. This is what you do.
+2. Framed the gap without criticizing — "the way the world sees them" vs. "the work they build." You didn't say their website is bad. You said the gap exists.
+3. Made it personal — you noticed something. You felt something. The "it's hard to ignore" line is the emotional hook. It says: *this bothered us enough to do something about it.*
+
+This is the "where have you come from?" beat. You've told them your journey — you study studios, you noticed a gap, XBD stood out — and now the question flows naturally.
+
+---
+
+**Beat 4: The Question and the Answer** *(15-20 seconds)*
+
+NOW the "we asked ourselves" line has a foundation to stand on. It's no longer floating — it's the natural next thought.
+
+> *"So we asked ourselves — what if the digital experience actually matched the level of the built work? Interior design is intentional. It's sensory. What if scrolling through xbdesign.com felt less like browsing a flat website and more like walking through one of those highly intentional spaces?"*
+
+Pause briefly. Shift your energy — from observational to declarative.
+
+> *"So we built it. The whole thing. Working from what's publicly available — the portfolio, the photography, the team. No brand brief. No internal direction. Just the work as our guide."*
+
+One more beat. Then:
+
+> *"Let me show you."*
+
+**On "Let me show you":** This is the last thing you say before Idea 22 drops and your voice disappears for 2.5 minutes. Land it with calm confidence. Not excited. Not selling. Just: *I have something to show you, and it speaks for itself.*
+
+---
+
+**Act 1 Delivery Notes:**
 
 > [!IMPORTANT]
-> Your tone throughout Act 1 is observational. Like a documentarian. Calm. Factual. Almost sad — like you're witnessing something that deserves better. You are NOT criticizing. You're noticing.
+> **Tone:** Observational throughout. Like a documentarian. Calm. Factual. Almost reverent toward their built work — like you're witnessing something that deserves better treatment. You are NOT criticizing. You're noticing. The sadness isn't about their website being bad — it's about incredible work not getting the presentation it earned.
+
+> [!TIP]
+> **Don't memorize word-for-word.** Know the 4 beats: (1) warm open, (2) their current site with casual exploration, (3) the emotional bridge — why you cared, (4) the question and "let me show you." Hit the key phrases — *"some of the most striking built work," "this is how the world sees it," "the gap is loud," "XBD is one of those studios," "let me show you"* — and let everything else be natural. If you ad-lib a small observation while hovering over their site ("you can see here, the awards section, the work they've done..."), that's GOOD. That's real. The script is a skeleton. Your personality is the muscle.
 
 ---
 
@@ -282,10 +351,10 @@ The tone shifts. You're no longer a documentarian. You're a peer, speaking direc
 
 - Say: *"Everything you just saw was built from publicly available material. Your portfolio. Your photography. Your team. We didn't have a brand brief. We didn't have a conversation about where the studio is headed. Every creative decision — from the opening sequence to the inquiry form — was our interpretation, based on what we could study from the outside."*
 - Brief pause. Let that register.
-- Say: *"We say that because — honestly — we believe the result with direct collaboration would be on a completely different level. Not because this isn't strong. But because when you bring the actual brand direction, the identity, the future vision into the process — the gap between this and that would be significant. This is our craft applied to public information. The real version would be our craft applied to the truth of the brand."*
+- Say: *"We say that because — honestly — we believe the result with direct collaboration would be on a completely different level. Not because this isn't strong. But because when you bring the actual brand direction, the identity, and the future vision into the process — when we understand exactly who you are targeting, what sets XBD apart from competitors, and the specific emotional language you want people to feel the second they encounter your brand — the gap between this and that would be significant. This is our craft applied to public information. The real version would be our craft applied to the truth of the brand."*
 - Say: *"This was a creative exercise for us. We learned an enormous amount studying the portfolio. We're planning to publish it as a case study — but we wanted you to see it first. It's your brand, your work, your people. It felt right to show you before anyone else."*
-- Say: *"If this is something you'd ever want to explore — that would be an incredible conversation to have. But honestly, even if not, we're proud of what we built and we believe you should see it."*
-- End. Don't linger. Don't add a call to action. Don't say "let me know." Just stop.
+- Say: *"If this is something you'd ever want to explore — that would be an incredible conversation to have. But honestly, even if not, we're proud of what we built and we believe you should see it. Thank you again for your time."*
+- End. Don't linger. Don't add a call to action. Don't say "let me know." Let the gratitude be the final word.
 
 > [!TIP]
 > **The power of this structure:** After 2.5 minutes of emotionally charged silence, they've already sold themselves. They've had their own private experience with the work. Their brain has already been running the comparison between this and their current site. By the time you speak again, you're not convincing them of anything — you're just giving them the frame to act on what they already feel. And the frame you give is: *"imagine what happens when we actually work together."* That's the kill shot.
