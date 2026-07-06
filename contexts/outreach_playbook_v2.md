@@ -278,7 +278,17 @@ This is the "where have you come from?" beat. You've told them your journey — 
 
 ---
 
-**Beat 4: The Question and the Answer** *(15-20 seconds)*
+**Beat 4: The Selection — "Why You?"** *(10 seconds)*
+
+You need to answer the silent question in their head: *Okay, but why us?* You answer it by framing this as an exclusive, high-status creative exercise. You are not pitching; you are selecting them as a subject.
+
+> *"Each month, our studio selects one brand to use as a creative study. We look for a studio where the built work is undeniably world-class, but the digital footprint hasn't caught up. This month, we chose XBD."*
+
+**Why this works:** It removes all the desperation of a cold pitch. It positions you as an authority who runs internal creative exercises, and positions *them* as the lucky subject who was selected this month because their work was so good. 
+
+---
+
+**Beat 5: The Question and the Answer** *(15-20 seconds)*
 
 NOW the "we asked ourselves" line has a foundation to stand on. It's no longer floating — it's the natural next thought.
 
@@ -302,7 +312,7 @@ One more beat. Then:
 > **Tone:** Observational throughout. Like a documentarian. Calm. Factual. Almost reverent toward their built work — like you're witnessing something that deserves better treatment. You are NOT criticizing. You're noticing. The sadness isn't about their website being bad — it's about incredible work not getting the presentation it earned.
 
 > [!TIP]
-> **Don't memorize word-for-word.** Know the 4 beats: (1) warm open, (2) their current site with casual exploration, (3) the emotional bridge — why you cared, (4) the question and "let me show you." Hit the key phrases — *"some of the most striking built work," "this is how the world sees it," "the gap is loud," "XBD is one of those studios," "let me show you"* — and let everything else be natural. If you ad-lib a small observation while hovering over their site ("you can see here, the awards section, the work they've done..."), that's GOOD. That's real. The script is a skeleton. Your personality is the muscle.
+> **Don't memorize word-for-word.** Know the 5 beats: (1) warm open, (2) their current site with casual exploration, (3) the emotional bridge — why you cared, (4) the selection — why them, (5) the question and "let me show you." Hit the key phrases — *"some of the most striking built work," "this is how the world sees it," "the gap is loud," "XBD is one of those studios," "let me show you"* — and let everything else be natural. If you ad-lib a small observation while hovering over their site ("you can see here, the awards section, the work they've done..."), that's GOOD. That's real. The script is a skeleton. Your personality is the muscle.
 
 ---
 
