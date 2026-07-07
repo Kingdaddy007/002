@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import GsapProvider from "@/components/GsapProvider";
 import SmoothScroll from "@/components/SmoothScroll";
+import { AudioProvider } from "@/components/AudioProvider";
 import "./globals.css";
 import "../utils/transition.min.css";
 
@@ -23,12 +24,15 @@ export default function RootLayout({
         <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=gambetta@300,400,500&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-full flex flex-col font-body bg-xbd-bg text-[var(--foreground)]">
-        <SmoothScroll>
-          <GsapProvider>
-            {children}
-          </GsapProvider>
-        </SmoothScroll>
+        <AudioProvider>
+          <SmoothScroll>
+            <GsapProvider>
+              {children}
+            </GsapProvider>
+          </SmoothScroll>
+        </AudioProvider>
       </body>
     </html>
   );
 }
+

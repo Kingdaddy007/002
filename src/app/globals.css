@@ -70,4 +70,33 @@ body::-webkit-scrollbar {
   align-items: center;
 }
 
+/* ==========================================
+   AUDIO VISUALIZER ANIMATIONS
+   ========================================== */
+@keyframes bounce-bar-1 {
+  0%, 100% { height: 3px; }
+  50% { height: 14px; }
+}
+@keyframes bounce-bar-2 {
+  0%, 100% { height: 3px; }
+  50% { height: 16px; }
+}
+@keyframes bounce-bar-3 {
+  0%, 100% { height: 3px; }
+  50% { height: 11px; }
+}
+
+.animate-bounce-bar-1 {
+  animation: bounce-bar-1 0.8s ease-in-out infinite;
+}
+.animate-bounce-bar-2 {
+  animation: bounce-bar-2 0.6s ease-in-out infinite;
+  animation-delay: 0.15s;
+}
+.animate-bounce-bar-3 {
+  animation: bounce-bar-3 0.7s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
+
 

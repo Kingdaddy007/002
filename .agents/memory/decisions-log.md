@@ -44,3 +44,11 @@
 
 - **Context Correction:** Created `contexts/actual_built_concept_context.md` to document the full scope of the completed Next.js/GSAP/Three.js homepage. This corrects the false impression from strategic outreach files that the build was only a single-project page for "Solar House." It details the exact interactions (WebGL shader preloader, 5-video masked hero, philosophy reveal, 3D cylindrical discipline gallery, team orbit, concierge form, and facade-switching footer).
 
+## Date: 2026-07-07
+
+- **Decision:** Integrated Gibran Alcocer's Idea 22 (Slowed + Reverb) as a quiet, looping background song (volume 0.08).
+- **Decision:** Structured audio initialization to start upon first user interaction (scroll, click, touch, keydown) to bypass browser autoplay blocks.
+- **Decision:** Added a global `AudioProvider` and custom hook `useAudio` wrapping the App layout to preserve volume configuration (persisted to `localStorage`).
+- **Decision:** Designed and integrated a responsive sound toggle (`AudioToggle`) into the Header with a minimalist visualizer showing three animating soundwave bars when music is playing, which freezes when muted.
+
+

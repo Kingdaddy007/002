@@ -24,9 +24,10 @@
     "DONE: Section 6 - The Concierge (2-column compact form, animated typography, unified cream background)",
     "DONE: Footer (Compact Sub-footer, optimized spacing, correct GSAP triggers)",
     "DONE: Section 7 - Proof Moment (Middle Path: Inline Video between Disciplines and Team)",
-    "DONE: Phase 8 - Technical Audit & Code Refinements (Autoplay, Caching, ScrollTrigger menu, form alignment)"
+    "DONE: Phase 8 - Technical Audit & Code Refinements (Autoplay, Caching, ScrollTrigger menu, form alignment)",
+    "DONE: Add Background Ambient Track (Gibran Alcocer - Idea 22, looping, quiet volume, autoplaying on interaction with visual mute toggle)"
   ],
-  "notes": "Session complete. The codebase is fully finalized, cleaned, and committed. All UI and interaction bugs are resolved. The website has been successfully deployed to Vercel.",
+  "notes": "Session complete. The codebase is fully finalized, cleaned, and committed. All UI and interaction bugs are resolved. The website has been successfully deployed to Vercel, and a quiet background ambient music track with a header mute toggle has been integrated.",
   "vercel_deployment": {
     "url": "https://calm-brahmagupta.vercel.app",
     "preview_url": "https://calm-brahmagupta-qjxk2gjf2-beloved-godswills-projects.vercel.app"
@@ -39,7 +40,8 @@
     "Phase 7 Decision: Opted for the 'Middle Path' — one inline silent video moment instead of a full gallery, preserving the scalpel-like focus of the pitch.",
     "Phase 8 Decision: Optimized VideoHero to cache DOM elements and programmatically play only 2 concurrent videos based on scroll, reducing CPU/GPU overhead.",
     "Phase 8 Decision: Refactored Header.tsx to use ScrollTrigger for color toggles, preventing layout thrashing and scroll jank.",
-    "Phase 8 Decision: Redesigned the Concierge intake grid to col-span-2 for budget, aligning the fields cleanly."
+    "Phase 8 Decision: Redesigned the Concierge intake grid to col-span-2 for budget, aligning the fields cleanly.",
+    "Background Audio Decision: Added Gibran Alcocer - Idea 22 (Slowed + Reverb) as a looping background track (volume 0.08) triggered by first user interaction, with an elegant, animated soundwave mute toggle in the Header."
   ],
   "blockers": [],
   "skill_chain": [

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAudio } from "@/components/AudioProvider";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -29,6 +30,39 @@ const FullLogo = ({ isLightText }: { isLightText: boolean }) => (
     </div>
   </div>
 );
+
+const AudioToggle = () => {
+  const { isPlaying, isMuted, toggleMute } = useAudio();
+
+  return (
+    <button
+      onClick={toggleMute}
+      className="flex items-center gap-2 md:gap-3 cursor-pointer hover:opacity-75 transition-opacity py-2 focus:outline-none"
+      aria-label={isMuted ? "Unmute background music" : "Mute background music"}
+    >
+      <span className="font-body text-[8px] tracking-[0.2em] uppercase leading-none opacity-80 select-none">
+        {isMuted ? "Sound Off" : "Sound On"}
+      </span>
+      <div className="flex items-end gap-[2px] h-[16px] w-[14px]">
+        <div
+          className={`w-[2px] rounded-[1px] bg-current transition-all duration-300 ${
+            isPlaying ? "animate-bounce-bar-1" : "h-[3px]"
+          }`}
+        />
+        <div
+          className={`w-[2px] rounded-[1px] bg-current transition-all duration-300 ${
+            isPlaying ? "animate-bounce-bar-2" : "h-[3px]"
+          }`}
+        />
+        <div
+          className={`w-[2px] rounded-[1px] bg-current transition-all duration-300 ${
+            isPlaying ? "animate-bounce-bar-3" : "h-[3px]"
+          }`}
+        />
+      </div>
+    </button>
+  );
+};
 
 export default function Header() {
   const [isLightText, setIsLightText] = useState(true);
@@ -125,21 +159,25 @@ export default function Header() {
           <FullLogo isLightText={isLightText} />
         </div>
         
-        {/* Right: Navigation */}
-        <nav className="hidden md:flex items-center gap-12 text-[10px] tracking-widest font-body uppercase">
-          <a href="#philosophy" onClick={(e) => handleScrollTo(e, '#philosophy')} className="hover:opacity-60 transition-opacity cursor-pointer">
-            Philosophy
-          </a>
-          <a href="#disciplines" onClick={(e) => handleScrollTo(e, '#disciplines')} className="hover:opacity-60 transition-opacity cursor-pointer">
-            Expertise
-          </a>
-          <a href="#team" onClick={(e) => handleScrollTo(e, '#team')} className="hover:opacity-60 transition-opacity cursor-pointer">
-            People
-          </a>
-          <a href="#concierge" onClick={(e) => handleScrollTo(e, '#concierge')} className="hover:opacity-60 transition-opacity cursor-pointer">
-            Inquire
-          </a>
-        </nav>
+        {/* Right: Navigation & Mute Toggle */}
+        <div className="flex items-center gap-8 md:gap-12">
+          <nav className="hidden md:flex items-center gap-12 text-[10px] tracking-widest font-body uppercase">
+            <a href="#philosophy" onClick={(e) => handleScrollTo(e, '#philosophy')} className="hover:opacity-60 transition-opacity cursor-pointer">
+              Philosophy
+            </a>
+            <a href="#disciplines" onClick={(e) => handleScrollTo(e, '#disciplines')} className="hover:opacity-60 transition-opacity cursor-pointer">
+              Expertise
+            </a>
+            <a href="#team" onClick={(e) => handleScrollTo(e, '#team')} className="hover:opacity-60 transition-opacity cursor-pointer">
+              People
+            </a>
+            <a href="#concierge" onClick={(e) => handleScrollTo(e, '#concierge')} className="hover:opacity-60 transition-opacity cursor-pointer">
+              Inquire
+            </a>
+          </nav>
+          
+          <AudioToggle />
+        </div>
 
       </div>
     </header>
