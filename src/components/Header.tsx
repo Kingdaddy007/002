@@ -38,10 +38,10 @@ const AudioToggle = () => {
     <button
       onClick={toggleMute}
       className="flex items-center gap-2 md:gap-3 cursor-pointer hover:opacity-75 transition-opacity py-2 focus:outline-none"
-      aria-label={isMuted ? "Unmute background music" : "Mute background music"}
+      aria-label={isPlaying ? "Mute background music" : "Play background music"}
     >
       <span className="font-body text-[8px] tracking-[0.2em] uppercase leading-none opacity-80 select-none">
-        {isMuted ? "Sound Off" : "Sound On"}
+        {isPlaying ? "Sound On" : "Sound Off"}
       </span>
       <div className="flex items-end gap-[2px] h-[16px] w-[14px]">
         <div

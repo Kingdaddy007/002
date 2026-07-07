@@ -349,7 +349,7 @@ export default function Preloader() {
       scrollCue,
       { opacity: 0, y: -5 },
       {
-        opacity: 0.6,
+        opacity: 0.95,
         y: 0,
         duration: 1.2,
         ease: "power2.out",
@@ -430,14 +430,18 @@ export default function Preloader() {
       }
     };
 
+    const handleClick = () => triggerDissolve();
+
     window.addEventListener("wheel", handleWheel, { passive: true });
     window.addEventListener("touchmove", handleTouch, { passive: true });
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("click", handleClick, { passive: true });
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchmove", handleTouch);
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("click", handleClick);
       dissolveTlRef.current?.kill();
       dissolveTlRef.current = null;
     };
@@ -506,13 +510,14 @@ export default function Preloader() {
       */}
       <div
         ref={scrollCueRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center text-white"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center text-white cursor-pointer select-none"
+        style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.5))" }}
       >
-        <span className="font-space text-[9px] tracking-[0.4em] uppercase opacity-80 mb-6 ml-[0.4em] drop-shadow-md">
-          Scroll
+        <span className="font-space text-[10px] md:text-xs tracking-[0.45em] uppercase font-medium opacity-100 mb-6 ml-[0.45em]">
+          Scroll or Click to Enter
         </span>
-        <div className="w-[1px] h-16 bg-white/20 relative overflow-hidden rounded-full">
-          <div className="absolute top-0 left-0 w-full h-full bg-white animate-[scrollLine_2.5s_ease-in-out_infinite]" />
+        <div className="w-[2px] h-16 bg-white/30 relative overflow-hidden rounded-full shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+          <div className="absolute top-0 left-0 w-full h-full bg-white shadow-[0_0_4px_#fff] animate-[scrollLine_2.5s_ease-in-out_infinite]" />
         </div>
       </div>
 

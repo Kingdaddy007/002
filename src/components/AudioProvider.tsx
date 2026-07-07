@@ -37,6 +37,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
     const startAudio = () => {
       if (initializedRef.current || !audioRef.current) return;
+      // Do not auto-start if the user previously muted
+      if (localStorage.getItem("xbd-audio-muted") === "true") return;
       
       audioRef.current.play()
         .then(() => {
@@ -51,16 +53,23 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
     const cleanupListeners = () => {
       window.removeEventListener("click", startAudio);
-      window.removeEventListener("scroll", startAudio);
+      window.removeEventListener("mousedown", startAudio);
+      window.removeEventListener("pointerdown", startAudio);
       window.removeEventListener("touchstart", startAudio);
       window.removeEventListener("keydown", startAudio);
+      window.removeEventListener("scroll", startAudio);
     };
 
-    // Listen for the first user interaction to start playing (bypasses browser autoplay policy)
+    // 1. Attempt immediate autoplay (works if user has MEI index or browser allows it)
+    startAudio();
+
+    // 2. Listen for the first user interaction to start playing (bypasses browser autoplay policy)
     window.addEventListener("click", startAudio, { passive: true });
-    window.addEventListener("scroll", startAudio, { passive: true });
+    window.addEventListener("mousedown", startAudio, { passive: true });
+    window.addEventListener("pointerdown", startAudio, { passive: true });
     window.addEventListener("touchstart", startAudio, { passive: true });
     window.addEventListener("keydown", startAudio, { passive: true });
+    window.addEventListener("scroll", startAudio, { passive: true });
 
     return () => {
       cleanupListeners();
@@ -73,6 +82,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   const toggleMute = () => {
     if (!audioRef.current) return;
+
+    // If it hasn't initialized yet (due to autoplay blocks) and the user triggers toggle:
+    if (!initializedRef.current) {
+      // Force unmute and play since they explicitly interacted with the sound controller
+      audioRef.current.muted = false;
+      setIsMuted(false);
+      localStorage.setItem("xbd-audio-muted", "false");
+      
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+          initializedRef.current = true;
+        })
+        .catch(err => console.error("Error playing audio on initial toggle click:", err));
+      return;
+    }
 
     const newMuted = !isMuted;
     audioRef.current.muted = newMuted;
