@@ -132,7 +132,7 @@ const VideoHero = () => {
           trigger: containerRef.current,
           start: "top top",
           end: "+=400%", // 400vh pin duration for 4 transitions
-          scrub: typeof window !== "undefined" && window.innerWidth < 768 ? 0.3 : 1,
+          scrub: typeof window !== "undefined" && window.innerWidth < 768 ? true : 1,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,

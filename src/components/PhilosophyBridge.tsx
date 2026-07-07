@@ -25,7 +25,7 @@ const PhilosophyBridge = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 75%",
+          start: typeof window !== "undefined" && window.innerWidth < 768 ? "top 120%" : "top 75%",
           toggleActions: "play reverse play reverse"
         }
       });
