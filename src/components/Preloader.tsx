@@ -418,12 +418,6 @@ export default function Preloader() {
       }, 0.2);
     };
 
-    const handleWheel = (e: WheelEvent) => {
-      if (e.deltaY > 0) triggerDissolve();
-    };
-    
-    const handleTouch = () => triggerDissolve();
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (["ArrowDown", "PageDown", " ", "Spacebar"].includes(e.key)) {
         triggerDissolve();
@@ -432,14 +426,10 @@ export default function Preloader() {
 
     const handleClick = () => triggerDissolve();
 
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    window.addEventListener("touchmove", handleTouch, { passive: true });
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("click", handleClick, { passive: true });
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchmove", handleTouch);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("click", handleClick);
       dissolveTlRef.current?.kill();
@@ -514,7 +504,7 @@ export default function Preloader() {
         style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.5))" }}
       >
         <span className="font-space text-[10px] md:text-xs tracking-[0.45em] uppercase font-medium opacity-100 mb-6 ml-[0.45em]">
-          Scroll or Click to Enter
+          Click to Enter
         </span>
         <div className="w-[2px] h-16 bg-white/30 relative overflow-hidden rounded-full shadow-[0_0_8px_rgba(255,255,255,0.3)]">
           <div className="absolute top-0 left-0 w-full h-full bg-white shadow-[0_0_4px_#fff] animate-[scrollLine_2.5s_ease-in-out_infinite]" />
