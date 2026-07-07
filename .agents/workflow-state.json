@@ -26,7 +26,11 @@
     "DONE: Section 7 - Proof Moment (Middle Path: Inline Video between Disciplines and Team)",
     "DONE: Phase 8 - Technical Audit & Code Refinements (Autoplay, Caching, ScrollTrigger menu, form alignment)"
   ],
-  "notes": "Session complete. The codebase is fully finalized, cleaned, and committed. All UI and interaction bugs (header overlap, footer overflow, link targeting) are resolved. The workspace is secured. The next phase is entirely focused on the human element: recording the pitch Loom video, leveraging the Dream Car Strategy (contexts/pitch-angle.md).",
+  "notes": "Session complete. The codebase is fully finalized, cleaned, and committed. All UI and interaction bugs are resolved. The website has been successfully deployed to Vercel.",
+  "vercel_deployment": {
+    "url": "https://calm-brahmagupta.vercel.app",
+    "preview_url": "https://calm-brahmagupta-qjxk2gjf2-beloved-godswills-projects.vercel.app"
+  },
   "key_decisions": [
     "Adopted a new 6-section emotional arc architecture (xbd_homepage_architecture.md) as the absolute source of truth.",
     "Pivoted entirely to a Light Theme (Limestone #F7F5F2 & Espresso #2C2621).",

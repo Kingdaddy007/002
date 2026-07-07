@@ -35,3 +35,7 @@
   **Correction**: The header text and logo will clash violently with content underneath it if the user scrolls backwards. If building a tightly choreographed pitch without a solid header background, make the header disappear completely on scroll down and only reappear at `scrollY === 0`.
 - **Mistake**: Leaving broken or unimplemented UI elements (like a hamburger menu) in a concept pitch.
   **Correction**: The pitch must feel flawless. If an element doesn't work, remove it entirely. A dead click ruins the illusion of a finished product.
+
+- **Mistake**: Running Vercel CLI commands without setting Node system CA options on Windows systems with custom/corporate networks.
+  **Correction**: This results in `UNABLE_TO_VERIFY_LEAF_SIGNATURE` certificate errors. Fix by running the command with the environment variable `$env:NODE_OPTIONS="--use-system-ca"`.
+
