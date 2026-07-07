@@ -46,3 +46,6 @@
 - **Mistake**: Unmounting video elements during lazy-loading when they are referenced by GSAP timelines.
   **Correction**: This causes GSAP context registrations to skip those targets or fail. Instead, keep the video element mounted but dynamically set its `src` attribute via `IntersectionObserver` to trigger deferred downloading.
 
+- **Mistake**: Not preventing global interaction listeners (like `pointerdown`/`mousedown` on `window`) from executing when the user clicks explicitly on the sound mute toggle button itself.
+  **Correction**: A click on the toggle button triggers `pointerdown` which bubbles up to `window` and triggers the initialization play. A split-second later, the button's React `onClick` event fires, sees it's already initialized, and mistakenly toggles it to muted (off), causing a flicker. Fix by checking if the event target is inside the toggle button and returning early from the global listener, and checking the native `paused` state in the toggle function.
+

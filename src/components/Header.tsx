@@ -36,6 +36,7 @@ const AudioToggle = () => {
 
   return (
     <button
+      id="audio-toggle-button"
       onClick={toggleMute}
       className="flex items-center gap-2 md:gap-3 cursor-pointer hover:opacity-75 transition-opacity py-2 focus:outline-none"
       aria-label={isPlaying ? "Mute background music" : "Play background music"}

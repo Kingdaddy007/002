@@ -25,9 +25,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setIsMuted(true);
     }
 
-    const startAudio = () => {
+    const startAudio = (e?: Event) => {
       if (initializedRef.current) return;
       if (localStorage.getItem("xbd-audio-muted") === "true") return;
+
+      // Prevent race condition: if the user clicked directly on the sound toggle button, 
+      // do not initialize here. Let toggleMute handle it.
+      if (e?.target && (e.target as HTMLElement).closest("#audio-toggle-button")) {
+        return;
+      }
 
       // Create Audio element INSIDE the user gesture callstack.
       // This is required for iOS Safari to allow playback.
@@ -85,7 +91,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audioRef.current = audio;
     }
 
-    if (!initializedRef.current) {
+    // If the audio element is paused (never started or was paused), play it and unmute
+    if (audioRef.current.paused || !initializedRef.current) {
       audioRef.current.muted = false;
       setIsMuted(false);
       localStorage.setItem("xbd-audio-muted", "false");
@@ -95,11 +102,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           setIsPlaying(true);
           initializedRef.current = true;
         })
-        .catch(err => console.error("Error playing audio on initial toggle:", err));
+        .catch(err => console.error("Error playing audio on unmute:", err));
       return;
     }
 
-    const newMuted = !isMuted;
+    // Standard toggle for already-playing audio based on native muted state
+    const newMuted = !audioRef.current.muted;
     audioRef.current.muted = newMuted;
     setIsMuted(newMuted);
     localStorage.setItem("xbd-audio-muted", String(newMuted));
