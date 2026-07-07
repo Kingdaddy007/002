@@ -131,7 +131,7 @@ const VideoHero = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=400%", // 400vh pin duration for 4 transitions
+          end: "+=200%", // Reduced from 400vh to 200vh for faster scrolling
           scrub: typeof window !== "undefined" && window.innerWidth < 768 ? true : 1,
           pin: true,
           anticipatePin: 1,
