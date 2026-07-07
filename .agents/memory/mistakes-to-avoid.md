@@ -39,3 +39,10 @@
 - **Mistake**: Running Vercel CLI commands without setting Node system CA options on Windows systems with custom/corporate networks.
   **Correction**: This results in `UNABLE_TO_VERIFY_LEAF_SIGNATURE` certificate errors. Fix by running the command with the environment variable `$env:NODE_OPTIONS="--use-system-ca"`.
 
+- **Mistake**: Firing `ScrollTrigger.refresh()` synchronously in the same frame as preloader body unlock.
+  **Correction**: Lenis and the layout engine need 1-2 frames to settle. Wrap in double `requestAnimationFrame` to prevent stale measurements and broken pins on mobile.
+- **Mistake**: Instantiating a HTML `Audio` element in a `useEffect` on mount and trying to play it on click.
+  **Correction**: iOS Safari will reject playback because the element was not created in the direct synchronous callstack of a user gesture. Instantiate `Audio` lazily inside the interaction listener.
+- **Mistake**: Unmounting video elements during lazy-loading when they are referenced by GSAP timelines.
+  **Correction**: This causes GSAP context registrations to skip those targets or fail. Instead, keep the video element mounted but dynamically set its `src` attribute via `IntersectionObserver` to trigger deferred downloading.
+

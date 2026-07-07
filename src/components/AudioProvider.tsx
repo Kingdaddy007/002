@@ -17,29 +17,28 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const initializedRef = useRef(false);
 
   useEffect(() => {
-    // Server-side rendering safeguard
     if (typeof window === "undefined") return;
 
-    const audio = new Audio("/audio/idea-22-slowed.mp3");
-    audio.loop = true;
-    audio.volume = 0.08; // Silent, not loud
-    audioRef.current = audio;
-
-    // Load initial mute state from localStorage
+    // Load initial mute state
     const savedMuted = localStorage.getItem("xbd-audio-muted");
     if (savedMuted === "true") {
-      audio.muted = true;
       setIsMuted(true);
-    } else {
-      audio.muted = false;
-      setIsMuted(false);
     }
 
     const startAudio = () => {
-      if (initializedRef.current || !audioRef.current) return;
-      // Do not auto-start if the user previously muted
+      if (initializedRef.current) return;
       if (localStorage.getItem("xbd-audio-muted") === "true") return;
-      
+
+      // Create Audio element INSIDE the user gesture callstack.
+      // This is required for iOS Safari to allow playback.
+      if (!audioRef.current) {
+        const audio = new Audio("/audio/idea-22-slowed.mp3");
+        audio.loop = true;
+        audio.volume = 0.08;
+        audio.muted = false;
+        audioRef.current = audio;
+      }
+
       audioRef.current.play()
         .then(() => {
           setIsPlaying(true);
@@ -47,7 +46,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           cleanupListeners();
         })
         .catch((err) => {
-          console.warn("Autoplay blocked, waiting for user interaction.", err);
+          console.warn("Autoplay blocked, waiting for next interaction.", err);
         });
     };
 
@@ -60,10 +59,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       window.removeEventListener("scroll", startAudio);
     };
 
-    // 1. Attempt immediate autoplay (works if user has MEI index or browser allows it)
-    startAudio();
-
-    // 2. Listen for the first user interaction to start playing (bypasses browser autoplay policy)
+    // Listen for the first user interaction
     window.addEventListener("click", startAudio, { passive: true });
     window.addEventListener("mousedown", startAudio, { passive: true });
     window.addEventListener("pointerdown", startAudio, { passive: true });
@@ -81,21 +77,25 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleMute = () => {
-    if (!audioRef.current) return;
+    // If Audio hasn't been created yet, create it now (user is explicitly interacting)
+    if (!audioRef.current) {
+      const audio = new Audio("/audio/idea-22-slowed.mp3");
+      audio.loop = true;
+      audio.volume = 0.08;
+      audioRef.current = audio;
+    }
 
-    // If it hasn't initialized yet (due to autoplay blocks) and the user triggers toggle:
     if (!initializedRef.current) {
-      // Force unmute and play since they explicitly interacted with the sound controller
       audioRef.current.muted = false;
       setIsMuted(false);
       localStorage.setItem("xbd-audio-muted", "false");
-      
+
       audioRef.current.play()
         .then(() => {
           setIsPlaying(true);
           initializedRef.current = true;
         })
-        .catch(err => console.error("Error playing audio on initial toggle click:", err));
+        .catch(err => console.error("Error playing audio on initial toggle:", err));
       return;
     }
 
@@ -104,7 +104,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     setIsMuted(newMuted);
     localStorage.setItem("xbd-audio-muted", String(newMuted));
 
-    // If user unmutes and it wasn't playing, try to play it
     if (!newMuted) {
       audioRef.current.play()
         .then(() => setIsPlaying(true))

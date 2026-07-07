@@ -12,7 +12,14 @@ if (typeof window !== "undefined") {
 export default function GsapProvider({ children }: { children: React.ReactNode }) {
   useLayoutEffect(() => {
     const refreshScrollTriggers = () => {
-      ScrollTrigger.refresh();
+      // Delay refresh by 2 frames so Lenis and the DOM can settle
+      // after the preloader releases body overflow.
+      // Without this, pin positions are stale on mobile.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
+      });
     };
 
     if (window.hasPreloaderCompleted) {

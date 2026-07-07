@@ -93,7 +93,7 @@ const PhilosophyBridge = () => {
     <section 
       id="philosophy"
       ref={containerRef}
-      className="relative z-30 w-full h-screen bg-xbd-bg-alt text-xbd-text overflow-hidden flex items-center"
+      className="relative z-30 w-full min-h-[100dvh] bg-xbd-bg-alt text-xbd-text overflow-hidden flex items-center"
     >
       {/* 
         Using items-center to ensure vertical centering.

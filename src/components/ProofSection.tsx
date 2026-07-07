@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,9 +12,27 @@ export default function ProofSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const captionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current || !videoRef.current || !captionRef.current) return;
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" } // Start loading 200px before it enters viewport
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    // isVisible dependency ensures GSAP registers AFTER the lazy video src is set.
+    // Without this, the parallax fires on mount when videoRef has no src loaded.
+    if (!containerRef.current || !captionRef.current) return;
 
     const ctx = gsap.context(() => {
       // Subtle parallax effect on the video
@@ -48,7 +66,7 @@ export default function ProofSection() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isVisible]);
 
   return (
     <section 
@@ -57,7 +75,7 @@ export default function ProofSection() {
     >
       <video
         ref={videoRef}
-        src="/videos/solar-house-proof.mp4"
+        src={isVisible ? "/videos/solar-house-proof.mp4" : undefined}
         autoPlay
         loop
         muted

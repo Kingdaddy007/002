@@ -94,7 +94,8 @@ export default function TeamSection() {
         start: "top top",
         end: "+=300%", 
         pin: pinRef.current,
-        scrub: 1, 
+        scrub: typeof window !== "undefined" && window.innerWidth < 768 ? 0.3 : 1, 
+        invalidateOnRefresh: true,
       }
     });
 
@@ -198,7 +199,7 @@ export default function TeamSection() {
     >
       <div 
         ref={pinRef} 
-        className="w-full h-screen relative overflow-hidden flex items-center justify-center bg-xbd-bg"
+        className="w-full h-[100dvh] relative overflow-hidden flex items-center justify-center bg-xbd-bg"
       >
         
         {/* Massive Background Typography (Reverse Parallax) */}

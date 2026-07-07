@@ -132,9 +132,10 @@ const VideoHero = () => {
           trigger: containerRef.current,
           start: "top top",
           end: "+=400%", // 400vh pin duration for 4 transitions
-          scrub: 1,
+          scrub: typeof window !== "undefined" && window.innerWidth < 768 ? 0.3 : 1,
           pin: true,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
           onUpdate: (self) => {
             const progress = self.progress;
             
@@ -276,22 +277,22 @@ const VideoHero = () => {
   } as React.CSSProperties;
 
   return (
-    <section ref={containerRef} id="video-hero" className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-xbd-bg z-20">
+    <section ref={containerRef} id="video-hero" className="relative min-h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-xbd-bg z-20">
       <div ref={mediaContainerRef} className="absolute inset-0 z-0">
         <div ref={proj1Ref} className="absolute inset-0 z-10 w-full h-full overflow-hidden">
           <SceneMedia scene={SCENES[0]} preload="auto" />
         </div>
         <div ref={proj2Ref} className="absolute inset-0 z-20 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[1]} preload="none" />
+          <SceneMedia scene={SCENES[1]} preload="metadata" />
         </div>
         <div ref={proj3Ref} className="absolute inset-0 z-30 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[2]} preload="none" />
+          <SceneMedia scene={SCENES[2]} preload="metadata" />
         </div>
         <div ref={proj4Ref} className="absolute inset-0 z-40 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[3]} preload="none" />
+          <SceneMedia scene={SCENES[3]} preload="metadata" />
         </div>
         <div ref={proj5Ref} className="absolute inset-0 z-50 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[4]} preload="none" />
+          <SceneMedia scene={SCENES[4]} preload="metadata" />
         </div>
       </div>
 

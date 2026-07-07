@@ -10,3 +10,8 @@ Before attempting to fix a "missing" or "invisible" DOM element by guessing CSS 
 1. **Stop Guessing.**
 2. **Measure.** You MUST verify the element's actual computed dimensions. If browser DevTools are unavailable, write a short Puppeteer/Playwright script to dump the `offsetWidth`, `offsetHeight`, and `getComputedStyle` of the target element and its parents.
 3. If `offsetWidth` or `offsetHeight` is 0, the issue is layout/sizing, NOT visibility or stacking context.
+
+## 3. Dynamic Viewport Heights (`dvh`) and GSAP Pinning
+- **Context:** Mobile browsers dynamically size the viewport height (`100vh` or `100dvh`) when the address bar hides and shows on scroll.
+- **The Bug:** Using dynamic viewport units with min-height (`min-h-[100dvh]`) on containers pinned by GSAP ScrollTrigger (`pin: true`) causes layout bounds to jump or bounce during scroll updates.
+- **The Fix:** For pinned sections, use a fixed dynamic height (`h-[100dvh]`) rather than `min-h-[100dvh]` so dimensions remain absolute during ScrollTrigger wrapping. For non-pinned scrollable sections, `min-h-[100dvh]` is preferred to prevent content clipping on small screens.
