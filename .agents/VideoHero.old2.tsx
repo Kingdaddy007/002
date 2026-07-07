@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useRef } from "react";
 import Image from "next/image";
@@ -131,8 +131,8 @@ const VideoHero = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=200%", // Reduced from 400vh to 200vh for faster scrolling
-          scrub: typeof window !== "undefined" && window.innerWidth < 768 ? true : 1,
+          end: "+=400%", // 400vh pin duration for 4 transitions
+          scrub: typeof window !== "undefined" && window.innerWidth < 768 ? 0.3 : 1,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -187,7 +187,7 @@ const VideoHero = () => {
       if (textNodes[0]) tl.to(textNodes[0], { autoAlpha: 0, yPercent: -50, duration: 0.5, ease: "power2.inOut" }, 0);
       
       const text2 = textNodes[1]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text2) tl.to(text2, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut", immediateRender: false }, 0.5);
+      if (text2) tl.fromTo(text2, { yPercent: 150, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 0.5);
       
       tl.to(sidebarProgressRef.current, { yPercent: 100, duration: 0.2, ease: "power2.inOut" }, 0.5);
 
@@ -204,7 +204,7 @@ const VideoHero = () => {
       if (text2) tl.to(text2, { yPercent: -150, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 1.5);
       
       const text3 = textNodes[2]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text3) tl.to(text3, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut", immediateRender: false }, 2.0);
+      if (text3) tl.fromTo(text3, { yPercent: 150, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 2.0);
       
       tl.to(sidebarProgressRef.current, { yPercent: 200, duration: 0.2, ease: "power2.inOut" }, 2.0);
 
@@ -221,7 +221,7 @@ const VideoHero = () => {
       if (text3) tl.to(text3, { yPercent: -150, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 3.0);
       
       const text4 = textNodes[3]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text4) tl.to(text4, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut", immediateRender: false }, 3.5);
+      if (text4) tl.fromTo(text4, { yPercent: 150, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 3.5);
       
       tl.to(sidebarProgressRef.current, { yPercent: 300, duration: 0.2, ease: "power2.inOut" }, 3.5);
 
@@ -238,7 +238,7 @@ const VideoHero = () => {
       if (text4) tl.to(text4, { yPercent: -150, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 4.5);
       
       const text5 = textNodes[4]?.querySelector('.scene-text-inner') as HTMLElement;
-      if (text5) tl.to(text5, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut", immediateRender: false }, 5.0);
+      if (text5) tl.fromTo(text5, { yPercent: 150, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 5.0);
       
       tl.to(sidebarProgressRef.current, { yPercent: 400, duration: 0.2, ease: "power2.inOut" }, 5.0);
 

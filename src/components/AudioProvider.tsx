@@ -31,7 +31,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
       // Prevent race condition: if the user clicked directly on the sound toggle button, 
       // do not initialize here. Let toggleMute handle it.
-      if (e?.target && (e.target as HTMLElement).closest("#audio-toggle-button")) {
+      const target = e?.target as Element | null;
+      if (target?.closest?.("#audio-toggle-button")) {
         return;
       }
 

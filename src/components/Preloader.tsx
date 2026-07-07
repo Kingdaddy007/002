@@ -13,6 +13,7 @@ import { useLenis } from 'lenis/react';
 // ─────────────────────────────────────────────────────────────
 
 const VERTEX_SHADER = `
+  precision mediump float;
   attribute vec2 a_position;
   attribute vec2 a_texCoord;
   varying vec2 v_texCoord;
@@ -40,15 +41,13 @@ const FRAGMENT_SHADER = `
                        -0.577350269189626, 0.024390243902439);
     vec2 i  = floor(v + vec2(dot(v, C.yy)));
     vec2 x0 = v - i + vec2(dot(i, C.xx));
-    vec2 i1;
-    i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-    vec4 x12 = x0.xyxy + C.xxzz;
-    x12.xy -= i1;
+    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec4 x12 = vec4(x0 - i1 + vec2(C.x), x0 + vec2(C.z));
     i = mod289v2(i);
-    vec3 p = permute(permute(vec3(i.y) + vec3(0.0, i1.y, 1.0))
-                            + vec3(i.x) + vec3(0.0, i1.x, 1.0));
-    vec3 m = max(vec3(0.5) - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
-                            dot(x12.zw,x12.zw)), vec3(0.0));
+    vec3 p = permute(permute(vec3(i.y, i.y + i1.y, i.y + 1.0))
+                            + vec3(i.x, i.x + i1.x, i.x + 1.0));
+    vec3 m = max(vec3(0.5 - dot(x0,x0), 0.5 - dot(x12.xy,x12.xy),
+                            0.5 - dot(x12.zw,x12.zw)), 0.0);
     m = m * m;
     m = m * m;
     vec3 x_ = 2.0 * fract(p * C.www) - vec3(1.0);
@@ -56,9 +55,8 @@ const FRAGMENT_SHADER = `
     vec3 ox = floor(x_ + vec3(0.5));
     vec3 a0 = x_ - ox;
     m *= vec3(1.79284291400159) - 0.85373472095314 * (a0*a0 + h*h);
-    vec3 g = vec3(0.0);
-    g.x = a0.x * x0.x + h.x * x0.y;
-    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+    vec2 g_yz = a0.yz * x12.xz + h.yz * x12.yw;
+    vec3 g = vec3(a0.x * x0.x + h.x * x0.y, g_yz.x, g_yz.y);
     return 130.0 * dot(m, g);
   }
 
@@ -84,10 +82,11 @@ const FRAGMENT_SHADER = `
 function createShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null {
   const shader = gl.createShader(type);
   if (!shader) return null;
-  gl.shaderSource(shader, source);
+  gl.shaderSource(shader, source.trim());
   gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error("Shader compile error:", gl.getShaderInfoLog(shader));
+    const typeStr = type === gl.VERTEX_SHADER ? "VERTEX" : "FRAGMENT";
+    console.error(`Shader compile error (${typeStr}):`, gl.getShaderInfoLog(shader) || "no info log");
     gl.deleteShader(shader);
     return null;
   }
@@ -151,6 +150,7 @@ export default function Preloader() {
 
   // ─── WebGL Initialization ───
   const initWebGL = useCallback(() => {
+    isDestroyedRef.current = false;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -268,9 +268,6 @@ export default function Preloader() {
     if (gl && programRef.current) {
       gl.deleteProgram(programRef.current);
     }
-    // Lose context to free GPU memory
-    const ext = gl?.getExtension("WEBGL_lose_context");
-    if (ext) ext.loseContext();
     glRef.current = null;
     programRef.current = null;
   }, []);
