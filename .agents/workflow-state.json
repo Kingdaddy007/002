@@ -29,8 +29,8 @@
   ],
   "notes": "Session complete. The codebase is fully finalized, cleaned, and committed. All UI and interaction bugs are resolved. The website has been successfully deployed to Vercel, and a quiet background ambient music track with a header mute toggle has been integrated.",
   "vercel_deployment": {
-    "url": "https://calm-brahmagupta.vercel.app",
-    "preview_url": "https://calm-brahmagupta-qjxk2gjf2-beloved-godswills-projects.vercel.app"
+    "url": "https://greeting-message-initialization.vercel.app",
+    "preview_url": "https://greeting-message-initialization-mplwwdwt1.vercel.app"
   },
   "key_decisions": [
     "Adopted a new 6-section emotional arc architecture (xbd_homepage_architecture.md) as the absolute source of truth.",
