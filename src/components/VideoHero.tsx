@@ -286,13 +286,13 @@ const VideoHero = () => {
           <SceneMedia scene={SCENES[1]} preload="metadata" />
         </div>
         <div ref={proj3Ref} className="absolute inset-0 z-30 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[2]} preload="metadata" />
+          <SceneMedia scene={SCENES[2]} preload="none" />
         </div>
         <div ref={proj4Ref} className="absolute inset-0 z-40 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[3]} preload="metadata" />
+          <SceneMedia scene={SCENES[3]} preload="none" />
         </div>
         <div ref={proj5Ref} className="absolute inset-0 z-50 w-full h-full overflow-hidden" style={stripsMaskStyle}>
-          <SceneMedia scene={SCENES[4]} preload="metadata" />
+          <SceneMedia scene={SCENES[4]} preload="none" />
         </div>
       </div>
 

@@ -73,18 +73,24 @@ export default function Header() {
   const lastScrollY = React.useRef(0);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const scrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          setIsScrolled(scrollY > 50);
 
-      setIsScrolled(scrollY > 50);
-
-      // Hide header when scrolling down, show when scrolling up
-      if (scrollY > 50) {
-        setIsVisible(scrollY < lastScrollY.current);
-      } else {
-        setIsVisible(true);
+          // Hide header when scrolling down, show when scrolling up
+          if (scrollY > 50) {
+            setIsVisible(scrollY < lastScrollY.current);
+          } else {
+            setIsVisible(true);
+          }
+          lastScrollY.current = scrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
-      lastScrollY.current = scrollY;
     };
     
     window.addEventListener("scroll", handleScroll, { passive: true });

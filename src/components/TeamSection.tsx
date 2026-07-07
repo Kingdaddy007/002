@@ -88,6 +88,8 @@ export default function TeamSection() {
   useGSAP(() => {
     if (!mounted) return;
 
+    gsap.set(".director-portrait", { x: 0, y: 0, xPercent: -50, yPercent: -50 });
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
@@ -110,13 +112,15 @@ export default function TeamSection() {
 
     // Phase 1: Fly Out from Center (0s to 1.5s)
     tl.to(".director-portrait", {
-      left: function(i, target) { return target.getAttribute("data-left") || "50%"; },
-      top: function(i, target) { return target.getAttribute("data-top") || "50%"; },
+      x: function(i, target) { return target.getAttribute("data-x") || "0vw"; },
+      y: function(i, target) { return target.getAttribute("data-y") || "0vh"; },
+      xPercent: -50,
+      yPercent: -50,
       scale: 1,
       opacity: 1,
       duration: 1.5,
       ease: "power2.out",
-    }, 0); 
+    }, 0);
 
     // Ellen scales up (0s to 1.5s)
     tl.fromTo(".founder-portrait", 
@@ -260,8 +264,8 @@ export default function TeamSection() {
             const rx = typeof window !== 'undefined' && window.innerWidth < 768 ? 42 : 36; 
             const ry = typeof window !== 'undefined' && window.innerWidth < 768 ? 45 : 40; 
 
-            const targetLeft = `calc(50% + ${Math.cos(offsetAngle) * rx}vw)`;
-            const targetTop = `calc(50% + ${Math.sin(offsetAngle) * ry}vh)`;
+            const targetX = `${Math.cos(offsetAngle) * rx}vw`;
+            const targetY = `${Math.sin(offsetAngle) * ry}vh`;
 
             // Radial Text Positioning Logic
             const sin = Math.sin(offsetAngle);
@@ -286,8 +290,8 @@ export default function TeamSection() {
               <div 
                 key={index}
                 className="director-portrait absolute -translate-x-1/2 -translate-y-1/2 w-20 md:w-28 lg:w-32 opacity-0 scale-75 origin-center"
-                data-left={targetLeft}
-                data-top={targetTop}
+                data-x={targetX}
+                data-y={targetY}
                 style={{ left: "50%", top: "50%" }} 
               >
                 <img 
